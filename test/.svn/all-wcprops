@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/classes/!svn/ver/84/evolalg/gaqsort/test
+END
+testrandom.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/classes/!svn/ver/82/evolalg/gaqsort/test/testrandom.cpp
+END
+testsort.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/classes/!svn/ver/82/evolalg/gaqsort/test/testsort.cpp
+END
+testchromosome.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/classes/!svn/ver/82/evolalg/gaqsort/test/testchromosome.cpp
+END
