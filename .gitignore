@@ -1,0 +1,9 @@
+# Compiled source
+* .so
+*.out
+*.h.gch
+*.swp
+
+# Directories
+bin
+
