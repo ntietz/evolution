@@ -41,7 +41,9 @@ mergesort<T>::mergesort() {
 
 template<typename T>
 mergesort<T>::mergesort(std::vector<T> newData) {
-    setData(newData);
+    data = newData;
+    secondsort = null;
+    threshold = 0;
 }
 
 template<typename T>

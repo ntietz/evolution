@@ -7,7 +7,7 @@ SRC=src
 TEST=test
 BIN=bin
 
-all : init mergesort mergetest
+all : clean init mergesort mergetest bubblesort bubbletest
 	
 
 init :
@@ -20,7 +20,15 @@ mergetest :
 	g++ ${COMPILE_OPTS} ${TEST}/merge/mergetest.cpp -o ${BIN}/mergetest.out
 	./${BIN}/mergetest.out
 
+bubblesort: ${SRC}/common.h ${SRC}/bubble/*
+	g++ ${COMPILE_OPTS} ${SRC}/bubble/bubblesort.h
+
+bubbletest : 
+	g++ ${COMPILE_OPTS} ${TEST}/bubble/bubbletest.cpp -o ${BIN}/bubbletest.out
+	./${BIN}/bubbletest.out
+
+
 clean : 
 	rm -f */*/*.h.gch
-	rm -f bin
+	rm -rf bin
 
