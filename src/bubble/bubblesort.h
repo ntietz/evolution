@@ -58,13 +58,20 @@ void bubblesort<T>::setSecondary(sorter<T>* s) {
 template<typename T>
 std::vector<T> bubblesort<T>::sort() {
     
-    for (int index = 0; index < data.size() - 1; index++) {
-        for (int jndex = index; jndex < data.size(); jndex++) {
-            if (data[index] < data[jndex]) {
-                swap(data[index], data[jndex]);
+    bool swapped = true;
+
+    while (swapped) {
+        swapped = false;
+
+        for (int index = 0; index < data.size() - 1; index++) {
+            if (data[index] > data[index + 1]) {
+                swap(data[index], data[index + 1]);
+                swapped = true;
             }
         }
     }
+
+    return data;
 }
 
 #endif
