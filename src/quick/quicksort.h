@@ -90,11 +90,16 @@ std::vector<T> quicksort<T>::sort() {
     if (results.size() == 0)
         return results;
 
+    if ((long int)results.size() < (long int)threshold) {
+        secondsort->setData(data);
+        return secondsort->sort();
+    }
+
     std::vector<T> left, right;
 
     T pivot = results[0]; //TODO: put in a pivot selection method switcher
 
-    for (int index = 1; index < results.size(); index++) {
+    for (long int index = 1; index < (long int)results.size(); index++) {
         if (results[index] <= pivot) {
             left.push_back(results[index]);
         } else {
@@ -102,7 +107,15 @@ std::vector<T> quicksort<T>::sort() {
         }
     }
 
-    return concatenate(quicksort(left).sort(), pivot, quicksort(right).sort());
+    //create the objects for the next sorting level
+    quicksort leftSorter(left);
+        leftSorter.setThreshold(threshold);
+        leftSorter.setSecondary(secondsort);
+    quicksort rightSorter(right);
+        rightSorter.setThreshold(threshold);
+        rightSorter.setSecondary(secondsort);
+
+    return concatenate(leftSorter.sort(), pivot, rightSorter.sort());
 }
 
 template<typename T>
@@ -110,7 +123,7 @@ std::vector<T> quicksort<T>::concatenate(std::vector<T> left, T middle, std::vec
     std::vector<T> results = left;
     results.push_back(middle);
 
-    for (int index = 0; index < right.size(); index++) {
+    for (long int index = 0; index < (long int)right.size(); index++) {
         results.push_back(right[index]);
     }
 

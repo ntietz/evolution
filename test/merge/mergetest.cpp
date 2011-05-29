@@ -22,7 +22,7 @@ int main() {
 
     int success = true;
 
-    for (int index = 0; index < result.size() - 1; index++) {
+    for (long int index = 0; index < (long int)result.size() - 1; index++) {
         if (result[index+1] < result[index]) success = false;
     }
 
