@@ -7,6 +7,7 @@
 #define _CHROMOSOME_HPP_
 
 #include <vector>
+#include "../common.h"
 
 class chromosome {
 public:
@@ -25,7 +26,7 @@ public:
     
 
 private:
-    std::vector<bool> bits;
+    std::vector<bool>* bits;
 
 };
 
