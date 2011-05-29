@@ -70,7 +70,7 @@ void mergesort<T>::setSecondary(sorter<T>* newsort) {
 
 template<typename T>
 std::vector<T> mergesort<T>::sort() {
-    if (data.size() < threshold && secondsort != null) {
+    if ((long int)data.size() < (long int)threshold && secondsort != null) {
         secondsort->setData(data);
         return secondsort->sort();
     } else {
@@ -97,16 +97,16 @@ template<typename T>
 std::vector<T>* mergesort<T>::split() {
     std::vector<T>* halves = new std::vector<T>[2];
 
-    int leftSize = data.size() / 2;
-    int rightSize = data.size() - leftSize;
+    long int leftSize = data.size() / 2;
+    long int rightSize = data.size() - leftSize;
 
     halves[0].resize(leftSize);
-    for (int index = 0; index < leftSize; index++) {
+    for (long int index = 0; index < leftSize; index++) {
         halves[0][index] = data[index];
     }
 
     halves[1].resize(rightSize);
-    for (int index = 0; index < rightSize; index++) {
+    for (long int index = 0; index < rightSize; index++) {
         halves[1][index] = data[index + leftSize];
     }
 
@@ -117,8 +117,8 @@ template<typename T>
 std::vector<T> mergesort<T>::merge(std::vector<T> left, std::vector<T> right) {
     std::vector<T> result;
 
-    int leftIter = 0;   int leftSize = left.size();
-    int rightIter = 0;  int rightSize = right.size();
+    long int leftIter = 0;  long int leftSize = left.size();
+    long int rightIter = 0; long int rightSize = right.size();
 
     while (leftIter < leftSize && rightIter < rightSize) {
         if (left[leftIter] < right[rightIter]) {

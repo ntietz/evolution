@@ -68,7 +68,7 @@ std::vector<T> bubblesort<T>::sort() {
     while (swapped) {
         swapped = false;
 
-        for (int index = 0; index < data.size() - 1; index++) {
+        for (long int index = 0; index < (long int)data.size() - 1; index++) {
             if (data[index] > data[index + 1]) {
                 swap(data[index], data[index + 1]);
                 swapped = true;
