@@ -7,7 +7,7 @@ SRC=src
 TEST=test
 BIN=bin
 
-all : clean init mergesort mergetest bubblesort bubbletest quicksort quicktest run_tests
+all : clean init chromosome mergesort mergetest bubblesort bubbletest quicksort quicktest run_tests
 	
 
 init :
@@ -22,6 +22,8 @@ mergetest :
 bubblesort: ${SRC}/common.h ${SRC}/bubble/bubblesort.h
 	g++ ${COMPILE_OPTS} ${SRC}/bubble/bubblesort.h
 
+#TODO add dependencies to the following targets
+
 bubbletest : 
 	g++ ${COMPILE_OPTS} ${TEST}/bubble/bubbletest.cpp -o ${BIN}/bubbletest.out
 
@@ -31,6 +33,8 @@ quicksort :
 quicktest : 
 	g++ ${COMPILE_OPTS} ${TEST}/quick/quicktest.cpp -o ${BIN}/quicktest.out
 
+chromosome: ${SRC}/chromosome/chromosome.cpp ${SRC}/chromosome/chromosome.hpp
+	g++ ${COMPILE_OPTS} ${SRC}/chromosome/chromosome.cpp -c -o ${BIN}/chromosome.o
 
 run_tests : mergetest bubbletest
 	@echo "\nRunning unit tests...\n\n"
