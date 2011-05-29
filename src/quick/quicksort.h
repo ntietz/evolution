@@ -36,6 +36,9 @@ public:
     void setPivotMethod(pivotMethod);
     void setNumAverage(int); //number of points to use in finding the average
 
+    //quicksort-specific function
+    std::vector<T> concatenate(std::vector<T>, T, std::vector<T>);
+
 private:
     std::vector<T>* split();
 
@@ -82,7 +85,36 @@ void quicksort<T>::setSecondary(sorter<T>* newsort) {
 
 template<typename T>
 std::vector<T> quicksort<T>::sort() {
-    return std::vector<T>();
+    std::vector<T> results = std::vector<T>(data);
+
+    if (results.size() == 0)
+        return results;
+
+    std::vector<T> left, right;
+
+    T pivot = results[0]; //TODO: put in a pivot selection method switcher
+
+    for (int index = 1; index < results.size(); index++) {
+        if (results[index] <= pivot) {
+            left.push_back(results[index]);
+        } else {
+            right.push_back(results[index]);
+        }
+    }
+
+    return concatenate(quicksort(left).sort(), pivot, quicksort(right).sort());
+}
+
+template<typename T>
+std::vector<T> quicksort<T>::concatenate(std::vector<T> left, T middle, std::vector<T> right) {
+    std::vector<T> results = left;
+    results.push_back(middle);
+
+    for (int index = 0; index < right.size(); index++) {
+        results.push_back(right[index]);
+    }
+
+    return results;
 }
 
 #endif
