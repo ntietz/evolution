@@ -29,6 +29,7 @@ int main() {
         if (result[index+1] < result[index]) success = false;
     }
 
+
     if (success == true) std::cout << "Test passed.\n";
     else                 std::cout << "Test failed. Out of order.\n";
 
