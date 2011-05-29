@@ -13,6 +13,7 @@ class sorter {
 public:
     sorter() { }
     sorter(std::vector<T>) { }
+    ~sorter() { }
 
     virtual void setData(std::vector<T>) = 0;
     virtual void setThreshold(int) = 0;

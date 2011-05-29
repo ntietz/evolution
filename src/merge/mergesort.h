@@ -15,6 +15,7 @@ class mergesort : public sorter<T> {
 public:
     mergesort();
     mergesort(std::vector<T>);
+    ~mergesort();
 
     void setData(std::vector<T>);
     void setThreshold(int); //sets threshold to switch to a different sort
@@ -44,6 +45,12 @@ mergesort<T>::mergesort(std::vector<T> newData) {
     data = newData;
     secondsort = null;
     threshold = 0;
+}
+
+template<typename T>
+mergesort<T>::~mergesort() {
+    if (secondsort)
+        delete secondsort;
 }
 
 template<typename T>

@@ -7,7 +7,7 @@ SRC=src
 TEST=test
 BIN=bin
 
-all : clean init mergesort mergetest bubblesort bubbletest run_tests
+all : clean init mergesort mergetest bubblesort bubbletest quicksort run_tests
 	
 
 init :
@@ -24,6 +24,9 @@ bubblesort: ${SRC}/common.h ${SRC}/bubble/bubblesort.h
 
 bubbletest : 
 	g++ ${COMPILE_OPTS} ${TEST}/bubble/bubbletest.cpp -o ${BIN}/bubbletest.out
+
+quicksort :
+	g++ ${COMPILE_OPTS} ${SRC}/quick/quicksort.h
 
 run_tests : mergetest bubbletest
 	@echo "\nRunning unit tests...\n\n"

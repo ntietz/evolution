@@ -15,6 +15,7 @@ class bubblesort : public sorter<T> {
 public:
     bubblesort();
     bubblesort(std::vector<T>);
+    ~bubblesort();
 
     void setData(std::vector<T>);
     void setThreshold(int);
@@ -26,7 +27,6 @@ public:
 private:
 
     std::vector<T> data;
-    sorter<T>* secondsort;
 
 };
 
@@ -38,6 +38,11 @@ bubblesort<T>::bubblesort() {
 template<typename T>
 bubblesort<T>::bubblesort(std::vector<T> newData) {
     data = newData;
+}
+
+template<typename T>
+bubblesort<T>::~bubblesort() {
+    //nothing has to be done
 }
 
 template<typename T>

@@ -22,6 +22,7 @@ public:
     //constructors defined by interface
     quicksort();
     quicksort(std::vector<T>);
+    ~quicksort();
 
     //setters defined by interface
     void setData(std::vector<T>);
@@ -59,18 +60,29 @@ quicksort<T>::quicksort(std::vector<T> newData) {
 }
 
 template<typename T>
+quicksort<T>::~quicksort() {
+    if (secondsort)
+        delete secondsort;
+}
+
+template<typename T>
 void quicksort<T>::setData(std::vector<T> newData) {
     data = newData;
 }
 
 template<typename T>
-void setThreshold(int lowerBound) {
+void quicksort<T>::setThreshold(int lowerBound) {
     threshold = lowerBound;
 }
 
 template<typename T>
-void setSecondary(sorter<T>* newsort) {
+void quicksort<T>::setSecondary(sorter<T>* newsort) {
     secondsort = newsort;
+}
+
+template<typename T>
+std::vector<T> quicksort<T>::sort() {
+    return std::vector<T>();
 }
 
 #endif
