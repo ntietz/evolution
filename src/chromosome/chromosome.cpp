@@ -57,7 +57,7 @@ std::vector<chromosome> chromosome::split(int splitPoint) {
     return results;
 }
 
-static chromosome chromosome::merge(chromosome left, chromosome right) {
+chromosome chromosome::merge(chromosome left, chromosome right) const {
     std::vector<bool> bits;
 
     for (int index = 0; index < left.size(); index++) {
@@ -68,7 +68,7 @@ static chromosome chromosome::merge(chromosome left, chromosome right) {
         bits.push_back(right[index]);
     }
 
-    return result;
+    return chromosome(bits);
 }
 
 bool chromosome::operator[](int index) {
