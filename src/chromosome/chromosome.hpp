@@ -15,15 +15,18 @@ public:
     chromosome(std::vector<bool>);
 
     void setBits(std::vector<bool>);
+    std::vector<bool> getBits();
     void set(int, bool);
     bool get(int);
+    int size();
 
     void flip(int);
-    chromosome* split(int);
+    std::vector<chromosome> split(int);
+
+    static chromosome merge(chromosome, chromosome);
 
     //operators
     bool operator[](int);
-    
 
 private:
     std::vector<bool>* bits;
