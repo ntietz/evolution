@@ -40,17 +40,17 @@ void chromosome::flip(int index) {
 std::vector<chromosome> chromosome::split(int splitPoint) {
     std::vector<chromosome> results;
 
-    int leftSize = (splitPoint >= bits->size()) ? (bits->size() - 1) : splitPoint;
-    int rightSize = bits->size() - leftSize - 1;
+    long int leftSize = (splitPoint >= (int)bits->size()) ? (bits->size() - 1) : splitPoint;
+    long int rightSize = bits->size() - leftSize - 1;
 
     std::vector<bool> left(leftSize);
     std::vector<bool> right(rightSize);
 
-    for (int index = 0; index < leftSize; index++) {
+    for (int index = 0; index < (int)leftSize; index++) {
         left.push_back((*bits)[index]);
     }
 
-    for (int index = 0; index < rightSize; index++) {
+    for (int index = 0; index < (int)rightSize; index++) {
         right.push_back((*bits)[index + leftSize]);
     }
 
@@ -60,11 +60,11 @@ std::vector<chromosome> chromosome::split(int splitPoint) {
 chromosome chromosome::merge(chromosome left, chromosome right) const {
     std::vector<bool> bits;
 
-    for (int index = 0; index < left.size(); index++) {
+    for (int index = 0; index < (int)left.size(); index++) {
         bits.push_back(left[index]);
     }
 
-    for (int index = 0; index < right.size(); index++) {
+    for (int index = 0; index < (int)right.size(); index++) {
         bits.push_back(right[index]);
     }
 
