@@ -29,6 +29,8 @@ public:
     void setThreshold(int); //sets threshold to switch to a different sort
     void setSecondary(sorter<T>*);
 
+    int getThreshold() { return threshold; }
+
     //sort function defined by interface
     std::vector<T> sort();
 
