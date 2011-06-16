@@ -40,6 +40,11 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm, sortType type) {
         }
 
         //add secondary sort
+    } else {
+        
+        //add general case
+        //should probably throw an error since this can never be legitimately entered
+
     }
 
     return result;
