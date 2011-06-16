@@ -6,6 +6,8 @@
 #ifndef _CONVERTER_HPP_
 #define _CONVERTER_HPP_
 
+#include <climits>
+
 #include "../chromosome/chromosome.hpp"
 #include "../sort.h"
 #include "../all_sorts.h"
