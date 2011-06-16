@@ -7,34 +7,52 @@ SRC=src
 TEST=test
 BIN=bin
 
-all : clean init chromosome mergesort mergetest bubblesort bubbletest quicksort quicktest run_tests
+# META TARGETS
+
+all : clean init compile build_tests run_tests
 	
 
 init :
 	mkdir bin
 
+compile : chromosome mergesort mergetest bubblesort bubbletest quicksort converter
+	
+
+build_tests : bubbletest quicktest mergetest
+	
+
+# SOURCE TARGETS
+
 mergesort: ${SRC}/common.h ${SRC}/merge/mergesort.h
 	g++ ${COMPILE_OPTS} ${SRC}/merge/mergesort.h
-
-mergetest : 
-	g++ ${COMPILE_OPTS} ${TEST}/merge/mergetest.cpp -o ${BIN}/mergetest.out
 
 bubblesort: ${SRC}/common.h ${SRC}/bubble/bubblesort.h
 	g++ ${COMPILE_OPTS} ${SRC}/bubble/bubblesort.h
 
 #TODO add dependencies to the following targets
 
-bubbletest : 
-	g++ ${COMPILE_OPTS} ${TEST}/bubble/bubbletest.cpp -o ${BIN}/bubbletest.out
-
 quicksort :
 	g++ ${COMPILE_OPTS} ${SRC}/quick/quicksort.h
+
+chromosome : ${SRC}/chromosome/chromosome.cpp ${SRC}/chromosome/chromosome.hpp
+	g++ ${COMPILE_OPTS} ${SRC}/chromosome/chromosome.cpp -c -o ${BIN}/chromosome.o
+
+converter : ${SRC}/converter/converter.cpp ${SRC}/converter/converter.hpp
+	g++ ${COMPILE_OPTS} ${SRC}/converter/converter.cpp -c -o ${BIN}/converter.o
+
+
+# TEST TARGETS
+
+mergetest : 
+	g++ ${COMPILE_OPTS} ${TEST}/merge/mergetest.cpp -o ${BIN}/mergetest.out
+
+bubbletest : 
+	g++ ${COMPILE_OPTS} ${TEST}/bubble/bubbletest.cpp -o ${BIN}/bubbletest.out
 
 quicktest : 
 	g++ ${COMPILE_OPTS} ${TEST}/quick/quicktest.cpp -o ${BIN}/quicktest.out
 
-chromosome: ${SRC}/chromosome/chromosome.cpp ${SRC}/chromosome/chromosome.hpp
-	g++ ${COMPILE_OPTS} ${SRC}/chromosome/chromosome.cpp -c -o ${BIN}/chromosome.o
+
 
 run_tests : mergetest bubbletest
 	@echo "\nRunning unit tests...\n\n"
