@@ -9,6 +9,29 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm) {
     chromosome result;
     sortType type = algorithm.getType();
 
+    sorter<T> instance;
+    switch (type) {
+
+        case BUBBLE :
+            instance = (bubblesort<T>) algorithm;
+
+            break;
+
+        case MERGE : 
+            instance = (mergesort<T>) algorithm;
+
+            break;
+
+        case QUICK :
+            instance = (mergesort<T>) algorithm;
+
+            break;
+
+        default :
+
+            break;
+    };
+/*
     if (type == BUBBLE) {
          bubblesort<T> instance = (bubblesort<T>) algorithm;
          
@@ -47,7 +70,51 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm) {
         //should probably throw an error since this can never be legitimately entered
 
     }
-
+*/
     return result;
+}
+
+template<typename T>
+sorter<T> converter<T>::fromChromosome(chromosome dna) {
+    // TODO: implement function
+
+    //..................
+
+
+    return mergesort<T>();
+};
+
+template<typename T>
+std::vector<bool> converter<T>::toBits(int number) {
+    return appendBits(number, std::vector<bool>());
+}
+
+template<typename T>
+std::vector<bool> converter<T>::appendBits(int number, std::vector<bool> original) {
+    unsigned int max = UINT_MAX;
+
+    while (max > 0) {
+        original.push_back(number % 2);
+        max = max / 2;
+    }
+
+    return original;
+}
+
+template<typename T>
+int converter<T>::fromBits(std::vector<bool> bits, int start, int length) {
+
+    int number = 0;
+
+    for (int index = start + length - 1; index >= start; index++) {
+
+        if (bits[index] == true) {
+            number += 1;
+        }
+
+        number *= 2;
+    }
+
+    return number;
 }
 
