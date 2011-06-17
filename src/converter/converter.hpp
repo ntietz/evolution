@@ -16,10 +16,15 @@ template <typename T>
 class converter {
 public:
     
-    chromosome toChromosome(sorter<T>, sortType);
+    chromosome toChromosome(sorter<T>);
     sorter<T> fromChromosome(chromosome);
 
 private:
+
+    std::vector<bool> toBits(int);
+    std::vector<bool> appendBits(int, std::vector<bool>);
+
+    int fromBits(std::vector<bool>, int, int);
 
 };
 
