@@ -5,8 +5,9 @@
 #include "converter.hpp"
 
 template <typename T>
-chromosome converter<T>::toChromosome(sorter<T> algorithm, sortType type) {
+chromosome converter<T>::toChromosome(sorter<T> algorithm) {
     chromosome result;
+    sortType type = algorithm.getType();
 
     if (type == BUBBLE) {
          bubblesort<T> instance = (bubblesort<T>) algorithm;
