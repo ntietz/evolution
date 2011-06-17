@@ -30,6 +30,7 @@ public:
     void setSecondary(sorter<T>*);
 
     int getThreshold() { return threshold; }
+    sortType getType() { return QUICK; }
 
     //sort function defined by interface
     std::vector<T> sort();
