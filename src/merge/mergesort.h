@@ -22,6 +22,7 @@ public:
     void setSecondary(sorter<T>*);
 
     int getThreshold() { return threshold; }
+    sortType getType() { return MERGE; }
 
     std::vector<T> sort();
 

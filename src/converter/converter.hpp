@@ -15,9 +15,9 @@
 template <typename T>
 class converter {
 public:
-    enum sortType { BUBBLE, MERGE, QUICK };
-
+    
     chromosome toChromosome(sorter<T>, sortType);
+    sorter<T> fromChromosome(chromosome);
 
 private:
 

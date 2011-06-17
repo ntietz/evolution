@@ -8,6 +8,8 @@
 
 #include <vector>
 
+enum sortType { BUBBLE, MERGE, QUICK };
+
 template<typename T>
 class sorter {
 public:
@@ -20,6 +22,12 @@ public:
     virtual void setSecondary(sorter*) = 0;
 
     virtual std::vector<T> sort() = 0;
+
+    virtual sortType getType() = 0;
+
+private:
+    int threshold;
+    sorter<T>* secondsort;
 };
 
 #endif

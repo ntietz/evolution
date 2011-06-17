@@ -22,6 +22,8 @@ public:
     void setSecondary(sorter<T>*);
     //setThreshold() and setSecondary() are not used but are required to be defined
 
+    sortType getType() { return BUBBLE; }
+
     std::vector<T> sort();
 
 private:
