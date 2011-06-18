@@ -21,6 +21,10 @@ public:
     virtual void setThreshold(int) = 0;
     virtual void setSecondary(sorter*) = 0;
 
+    virtual std::vector<T> getData();
+    virtual int getThreshold();
+    virtual sorter* getSecondary();
+
     virtual std::vector<T> sort() = 0;
 
     virtual sortType getType() = 0;

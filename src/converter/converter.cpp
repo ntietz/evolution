@@ -7,30 +7,11 @@
 template <typename T>
 chromosome converter<T>::toChromosome(sorter<T> algorithm) {
     chromosome result;
-    sortType type = algorithm.getType();
 
-    sorter<T> instance;
-    switch (type) {
+    std::vector<bool> bits;
 
-        case BUBBLE :
-            instance = (bubblesort<T>) algorithm;
+    bits = toBits(algorithm.getType());
 
-            break;
-
-        case MERGE : 
-            instance = (mergesort<T>) algorithm;
-
-            break;
-
-        case QUICK :
-            instance = (mergesort<T>) algorithm;
-
-            break;
-
-        default :
-
-            break;
-    };
 /*
     if (type == BUBBLE) {
          bubblesort<T> instance = (bubblesort<T>) algorithm;
