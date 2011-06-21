@@ -21,9 +21,9 @@ public:
     virtual void setThreshold(int) = 0;
     virtual void setSecondary(sorter*) = 0;
 
-    std::vector<T> getData() { return data;}
-    int getThreshold() { return threshold; }
-    sorter* getSecondary() { return secondsort; }
+    std::vector<T> getData() const { return data;}
+    int getThreshold() const { return threshold; }
+    sorter* getSecondary() const { return secondsort; }
 
     virtual std::vector<T> sort() = 0;
 
