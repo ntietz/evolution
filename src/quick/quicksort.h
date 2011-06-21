@@ -29,7 +29,6 @@ public:
     void setThreshold(int); //sets threshold to switch to a different sort
     void setSecondary(sorter<T>*);
 
-    int getThreshold() { return threshold; }
     sortType getType() { return QUICK; }
 
     //sort function defined by interface
@@ -46,12 +45,12 @@ public:
     std::vector<T> concatenate(std::vector<T>, T, std::vector<T>);
 
 private:
+    //helper function
     std::vector<T>* split();
 
-    std::vector<T> data;
-    int threshold;
-    sorter<T>* secondsort;
-
+    using sorter<T>::data;
+    using sorter<T>::threshold;
+    using sorter<T>::secondsort;
 };
 
 template<typename T>
