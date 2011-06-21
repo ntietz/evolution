@@ -11,47 +11,30 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm) {
     std::vector<bool> bits;
 
     bits = toBits(algorithm.getType());
+    bits = appendBits(algorithm.getThreshold(), bits);
+    bits = appendBits(algorithm.getSecondary().getType(), bits); //make sure this is tested
 
-/*
-    if (type == BUBBLE) {
-         bubblesort<T> instance = (bubblesort<T>) algorithm;
-         
-        //no attributes to set
-
-    } else if (type == MERGE) {
-        mergesort<T> instance = (mergesort<T>) algorithm;
-
-        std::vector<bool> bits;
-        unsigned int max = UINT_MAX;
-        int threshold = instance.getThreshold();
-
-        while (max > 0) {
-            bits.push_back(threshold % 2); // get the last bit
-            max >>= 1;
-        }
-
-        //add secondary sort
-
-    } else if (type == QUICK) {
-        quicksort<T> instance = (quicksort<T>) algorithm;
-
-        std::vector<bool> bits;
-        unsigned int max = UINT_MAX;
-        int threshold = instance.getThreshold();
-
-        while (max > 0) {
-            bits.push_back(threshold % 2); // get the last bit
-            max >>= 1;
-        }
-
-        //add secondary sort
+    if (algorithm.getType() == QUICK) {
+        bits = appendBits(algorithm.getPivotMethod(), bits);
+        bits = appendBits(algorithm.getNumAverage(), bits);
     } else {
-        
-        //add general case
-        //should probably throw an error since this can never be legitimately entered
+        bits = appendBits(0, bits);
+        bits = appendBits(0, bits);
+    }
+
+    if (algorithm.getType() == MERGE) {
+        //attributes for mergesort...
+    } else {
 
     }
-*/
+
+    if (algorithm.getType() == BUBBLE) {
+        //attributes for bubblesort...
+    } else {
+
+    }
+
+
     return result;
 }
 
