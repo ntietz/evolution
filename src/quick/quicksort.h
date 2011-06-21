@@ -39,6 +39,9 @@ public:
     void setPivotMethod(pivotMethod);
     void setNumAverage(int); //number of points to use in finding the average
 
+    pivotMethod getPivotMethod();
+    int getNumAverage();
+
     //quicksort-specific function
     std::vector<T> concatenate(std::vector<T>, T, std::vector<T>);
 

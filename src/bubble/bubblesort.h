@@ -54,12 +54,27 @@ void bubblesort<T>::setData(std::vector<T> newData) {
 
 template<typename T>
 void bubblesort<T>::setThreshold(int i) {
-    //ignore it
+    threshold = i;
 }
 
 template<typename T>
 void bubblesort<T>::setSecondary(sorter<T>* s) {
-    //ignore it
+    secondsort = s;
+}
+
+template<typename T>
+std::vector<T> bubblesort<T>::getData() {
+    return data;
+}
+
+template<typename T>
+int bubblesort<T>::getThreshold() {
+    return threshold;
+}
+
+template<typename T>
+sorter* bubblesort<T>::getSecondary() {
+    return secondsort;
 }
 
 template<typename T>
