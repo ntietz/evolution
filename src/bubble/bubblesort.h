@@ -45,7 +45,8 @@ bubblesort<T>::bubblesort(std::vector<T> newData) {
 
 template<typename T>
 bubblesort<T>::~bubblesort() {
-    delete secondsort;
+    if (secondsort)
+        delete secondsort;
 }
 
 template<typename T>

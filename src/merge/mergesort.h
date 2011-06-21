@@ -21,7 +21,6 @@ public:
     void setThreshold(int); //sets threshold to switch to a different sort
     void setSecondary(sorter<T>*);
 
-    int getThreshold() { return threshold; }
     sortType getType() { return MERGE; }
 
     std::vector<T> sort();
@@ -30,10 +29,9 @@ private:
     std::vector<T>* split();
     std::vector<T> merge(std::vector<T>, std::vector<T>);
 
-    std::vector<T> data;
-    int threshold;
-    sorter<T>* secondsort;
-
+    using sorter<T>::data;
+    using sorter<T>::threshold;
+    using sorter<T>::secondsort;
 };
 
 template<typename T>

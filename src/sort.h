@@ -15,7 +15,7 @@ class sorter {
 public:
     sorter() { }
     sorter(std::vector<T>) { }
-    ~sorter() { delete secondsort; }
+    ~sorter() { if (secondsort) delete secondsort; }
 
     virtual void setData(std::vector<T>) = 0;
     virtual void setThreshold(int) = 0;
