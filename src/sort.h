@@ -15,21 +15,22 @@ class sorter {
 public:
     sorter() { }
     sorter(std::vector<T>) { }
-    ~sorter() { }
+    ~sorter() { delete secondsort; }
 
     virtual void setData(std::vector<T>) = 0;
     virtual void setThreshold(int) = 0;
     virtual void setSecondary(sorter*) = 0;
 
-    virtual std::vector<T> getData();
-    virtual int getThreshold();
-    virtual sorter* getSecondary();
+    std::vector<T> getData() { return data;}
+    int getThreshold() { return threshold; }
+    sorter* getSecondary() { return secondsort; }
 
     virtual std::vector<T> sort() = 0;
 
     virtual sortType getType() = 0;
 
-private:
+protected:
+    std::vector<T> data;
     int threshold;
     sorter<T>* secondsort;
 };

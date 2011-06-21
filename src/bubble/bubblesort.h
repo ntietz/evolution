@@ -20,16 +20,17 @@ public:
     void setData(std::vector<T>);
     void setThreshold(int);
     void setSecondary(sorter<T>*);
-    //setThreshold() and setSecondary() are not used but are required to be defined
-
-    sortType getType() { return BUBBLE; }
 
     std::vector<T> sort();
 
+    sortType getType() { return BUBBLE; }
+
 private:
 
-    std::vector<T> data;
-
+    // gaining access to parent's protected members...
+    using sorter<T>::data;
+    using sorter<T>::threshold;
+    using sorter<T>::secondsort;
 };
 
 template<typename T>
@@ -44,7 +45,7 @@ bubblesort<T>::bubblesort(std::vector<T> newData) {
 
 template<typename T>
 bubblesort<T>::~bubblesort() {
-    //nothing has to be done
+    delete secondsort;
 }
 
 template<typename T>
@@ -60,21 +61,6 @@ void bubblesort<T>::setThreshold(int i) {
 template<typename T>
 void bubblesort<T>::setSecondary(sorter<T>* s) {
     secondsort = s;
-}
-
-template<typename T>
-std::vector<T> bubblesort<T>::getData() {
-    return data;
-}
-
-template<typename T>
-int bubblesort<T>::getThreshold() {
-    return threshold;
-}
-
-template<typename T>
-sorter* bubblesort<T>::getSecondary() {
-    return secondsort;
 }
 
 template<typename T>
