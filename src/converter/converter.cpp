@@ -40,10 +40,19 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm) {
 
 template<typename T>
 sorter<T> converter<T>::fromChromosome(chromosome dna) {
-    // TODO: implement function
+    
+    sortType type = fromBits(dna.getBits(), 0, 32);
 
-    //..................
+    switch (type) {
+        case QUICK : 
+            break;
 
+        case MERGE : 
+            break;
+
+        case BUBBLE :
+            break;
+    }
 
     return mergesort<T>();
 };
