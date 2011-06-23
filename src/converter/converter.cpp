@@ -22,14 +22,16 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm) {
         bits = appendBits(0, bits);
     }
 
+    //attributes for mergesort...
     if (algorithm.getType() == MERGE) {
-        //attributes for mergesort...
+
     } else {
 
     }
 
+    //attributes for bubblesort...
     if (algorithm.getType() == BUBBLE) {
-        //attributes for bubblesort...
+
     } else {
 
     }
