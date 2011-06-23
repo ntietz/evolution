@@ -2,7 +2,7 @@
 # author:   ntietz
 # date:     2011.5.26
 
-COMPILE_OPTS= -Wall
+COMPILE_OPTS= -Wall -std=gnu++0x #adds c++0x support, for the random lib
 SRC=src
 TEST=test
 BIN=bin
