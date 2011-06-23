@@ -6,6 +6,8 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <random>
+
 const int null = 0;
 
 template<typename T>
