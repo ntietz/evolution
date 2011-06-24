@@ -15,7 +15,7 @@ all : clean init compile build_tests run_tests
 init :
 	mkdir bin
 
-compile : chromosome mergesort mergetest bubblesort bubbletest quicksort converter
+compile : chromosome random randomtest mergesort mergetest bubblesort bubbletest quicksort converter
 	
 
 build_tests : bubbletest quicktest mergetest
