@@ -40,8 +40,8 @@ chromosome : ${SRC}/chromosome/chromosome.cpp ${SRC}/chromosome/chromosome.hpp
 converter : ${SRC}/converter/converter.cpp ${SRC}/converter/converter.hpp
 	g++ ${COMPILE_OPTS} ${SRC}/converter/converter.cpp -c -o ${BIN}/converter.o
 
-random : ${SRC}/random/random.cpp ${SRC}/random/random.hpp
-	g++ ${COMPILE_OPTS} ${SRC}/random/random.cpp -c -o ${BIN}/random.o
+random : lib/SimpleRNG.h lib/SimpleRNG.cpp
+	g++ ${COMPILE_OPTS} lib/SimpleRNG.cpp -c -o ${BIN}/random.o
 
 # TEST TARGETS
 
@@ -55,7 +55,7 @@ quicktest :
 	g++ ${COMPILE_OPTS} ${TEST}/quick/quicktest.cpp -o ${BIN}/quicktest.out
 
 randomtest : 
-	g++ ${COMPILE_OPTS} ${TEST}/random/randomtest.cpp -o ${BIN}/randomtest.out
+	g++ ${COMPILE_OPTS} ${TEST}/random/randomtest.cpp bin/random.o -o ${BIN}/randomtest.out
 
 
 run_tests : mergetest bubbletest
