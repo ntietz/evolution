@@ -2,16 +2,22 @@
 //author:   ntietz
 //date:     2011.6.23
 
-#include "../../src/random/random.hpp"
+#include "../../lib/SimpleRNG.h"
 #include <iostream>
 
 int main() {
 
-    Random rng = new Random(0, 100);
-    Random fng = new Random(0.0f, 100.0f);
+    SimpleRNG rng;
+    unsigned long int counts[100];
+    for (int index = 0; index < 100; index++) {
+        counts[index] = 0;
+    }
 
-    for (int index = 0; index < 20; index++) {
-        std::cout << rng.nextInt() << "\t" << fng.nextFloat() << std::endl;
+    for (int index = 0; index < 10000; index++) {
+        ++(counts[rng.GetUint() % 100]);
+    }
+    for (int index = 0; index < 100; index++) {
+        std::cout << index << ": " << counts[index] << std::endl;
     }
 
 }
