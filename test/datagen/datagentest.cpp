@@ -8,7 +8,7 @@
 int main() {
 
     DataGenerator gen;
-    std::cout << gen.getUint() << std::endl;
+    std::cout << gen.getUnsignedInt() << std::endl;
 
 }
 

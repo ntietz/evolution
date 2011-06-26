@@ -14,7 +14,7 @@ public:
     DataGenerator();
     DataGenerator(unsigned int, unsigned int);
 
-    unsigned int getUint() { return rng->GetUint(); }
+    unsigned int getUnsignedInt() { return rng->GetUint(); }
 
 private:
     SimpleRNG* rng;
