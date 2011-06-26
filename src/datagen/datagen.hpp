@@ -7,10 +7,14 @@
 #define _DATAGEN_HPP_
 
 #include "../../lib/SimpleRNG.h"
+#include <fstream>
 
 class DataGenerator {
 public:
     DataGenerator();
+    DataGenerator(unsigned int, unsigned int);
+
+    unsigned int getUint() { return rng->GetUint(); }
 
 private:
     SimpleRNG* rng;
