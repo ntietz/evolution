@@ -61,7 +61,7 @@ randomtest :
 	g++ ${COMPILE_OPTS} ${TEST}/random/randomtest.cpp bin/random.o -o ${BIN}/randomtest.out
 
 datagentest :
-	g++ ${COMPILE_OPTS} test/datagen/datagentest.cpp bin/datagen.o -o bin/datagentest.out
+	g++ ${COMPILE_OPTS} test/datagen/datagentest.cpp bin/random.o bin/datagen.o -o bin/datagentest.out
 
 run_tests : mergetest bubbletest
 	@echo "\nRunning unit tests...\n\n"
