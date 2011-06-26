@@ -8,13 +8,16 @@
 
 #include "../../lib/SimpleRNG.h"
 #include <fstream>
+#include <vector>
 
 class DataGenerator {
 public:
     DataGenerator();
     DataGenerator(unsigned int, unsigned int);
 
-    unsigned int getUnsignedInt() { return rng->GetUint(); }
+    unsigned int getUnsignedInt();
+
+    std::vector<unsigned int> getUnsignedIntVector(int);
 
 private:
     SimpleRNG* rng;
