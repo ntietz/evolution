@@ -24,3 +24,17 @@ DataGenerator::DataGenerator(unsigned int seedA, unsigned int seedB) {
     rng->SetState(seedA, seedB);
 }
 
+unsigned int DataGenerator::getUnsignedInt() {
+    return rng->GetUint();
+}
+
+std::vector<unsigned int> DataGenerator::getUnsignedIntVector(int size) {
+    std::vector<unsigned int> results;
+
+    for (int index = 0; index < size; index++) {
+        results.push_back(rng->GetUint());
+    }
+
+    return results;
+}
+
