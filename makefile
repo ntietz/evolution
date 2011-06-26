@@ -15,10 +15,10 @@ all : clean init compile build_tests run_tests
 init :
 	mkdir bin
 
-compile : chromosome random randomtest datagen datagentest mergesort mergetest bubblesort bubbletest quicksort converter
+compile : chromosome random datagen mergesort bubblesort quicksort converter
 	
 
-build_tests : bubbletest quicktest mergetest
+build_tests : bubbletest quicktest mergetest datagentest randomtest
 	
 
 # SOURCE TARGETS
@@ -69,6 +69,7 @@ run_tests : mergetest bubbletest
 	./${BIN}/bubbletest.out
 	./${BIN}/quicktest.out
 	./${BIN}/randomtest.out
+	./${BIN}/datagentest.out
 	@echo "\nDone running test.\n"
 	
 
