@@ -7,12 +7,19 @@
 #define _GA_HPP_
 
 #include "../chromosome/chromosome.hpp"
+#include <vector>
 
 class GeneticAlgorithm {
 public:
+    GeneticAlgorithm();
+
+    GeneticAlgorithm* setChromosomeSize(int);
+    GeneticAlgorithm* setPopulationSize(int);
 
 private:
-    chromosome* 
+    int chromosomeSize;
+    int populationSize;
+    
 
 };
 
