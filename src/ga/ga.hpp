@@ -7,6 +7,7 @@
 #define _GA_HPP_
 
 #include "../chromosome/chromosome.hpp"
+#include "../../lib/SimpleRNG.hpp"
 #include <vector>
 
 class GeneticAlgorithm {
