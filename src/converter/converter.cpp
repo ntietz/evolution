@@ -5,8 +5,8 @@
 #include "converter.hpp"
 
 template <typename T>
-chromosome converter<T>::toChromosome(sorter<T> algorithm) {
-    chromosome result;
+Chromosome converter<T>::toChromosome(sorter<T> algorithm) {
+    Chromosome result;
 
     std::vector<bool> bits;
 
@@ -41,7 +41,7 @@ chromosome converter<T>::toChromosome(sorter<T> algorithm) {
 }
 
 template<typename T>
-sorter<T> converter<T>::fromChromosome(chromosome dna) {
+sorter<T> converter<T>::fromChromosome(Chromosome dna) {
     
     sortType type = fromBits(dna.getBits(), 0, 32);
 
