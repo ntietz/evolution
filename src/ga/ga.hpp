@@ -6,4 +6,14 @@
 #ifndef _GA_HPP_
 #define _GA_HPP_
 
+#include "../chromosome/chromosome.hpp"
+
+class GeneticAlgorithm {
+public:
+
+private:
+    chromosome* 
+
+};
+
 #endif
