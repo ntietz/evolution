@@ -5,40 +5,40 @@
 
 #include "chromosome.hpp"
 
-chromosome::chromosome() {
+Chromosome::Chromosome() {
     bits = null;
 }
 
-chromosome::chromosome(std::vector<bool> newBits) {
+Chromosome::Chromosome(std::vector<bool> newBits) {
     bits = new std::vector<bool>(newBits);
 }
 
-void chromosome::setBits(std::vector<bool> newBits) {
+void Chromosome::setBits(std::vector<bool> newBits) {
     bits = new std::vector<bool>(newBits);
 }
 
-std::vector<bool> chromosome::getBits() {
+std::vector<bool> Chromosome::getBits() {
     return *bits;
 }
 
-void chromosome::set(int index, bool value) {
+void Chromosome::set(int index, bool value) {
     (*bits)[index] = value;
 }
 
-bool chromosome::get(int index) {
+bool Chromosome::get(int index) {
     return (*bits)[index];
 }
 
-int chromosome::size() {
+int Chromosome::size() {
     return bits->size();
 }
 
-void chromosome::flip(int index) {
+void Chromosome::flip(int index) {
     (*bits)[index] = !(*bits)[index];
 }
 
-std::vector<chromosome> chromosome::split(int splitPoint) {
-    std::vector<chromosome> results;
+std::vector<Chromosome> Chromosome::split(int splitPoint) {
+    std::vector<Chromosome> results;
 
     long int leftSize = (splitPoint >= (int)bits->size()) ? (bits->size() - 1) : splitPoint;
     long int rightSize = bits->size() - leftSize - 1;
@@ -57,7 +57,7 @@ std::vector<chromosome> chromosome::split(int splitPoint) {
     return results;
 }
 
-chromosome chromosome::merge(chromosome left, chromosome right) const {
+Chromosome Chromosome::merge(Chromosome left, Chromosome right) const {
     std::vector<bool> bits;
 
     for (int index = 0; index < (int)left.size(); index++) {
@@ -68,10 +68,10 @@ chromosome chromosome::merge(chromosome left, chromosome right) const {
         bits.push_back(right[index]);
     }
 
-    return chromosome(bits);
+    return Chromosome(bits);
 }
 
-bool chromosome::operator[](int index) {
+bool Chromosome::operator[](int index) {
     return (*bits)[index];
 }
 

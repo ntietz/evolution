@@ -9,10 +9,10 @@
 #include <vector>
 #include "../common.h"
 
-class chromosome {
+class Chromosome {
 public:
-    chromosome();
-    chromosome(std::vector<bool>);
+    Chromosome();
+    Chromosome(std::vector<bool>);
 
     void setBits(std::vector<bool>);
     std::vector<bool> getBits();
@@ -21,9 +21,9 @@ public:
     int size();
 
     void flip(int);
-    std::vector<chromosome> split(int);
+    std::vector<Chromosome> split(int);
 
-    chromosome merge(chromosome, chromosome) const;
+    Chromosome merge(Chromosome, Chromosome) const;
 
     //operators
     bool operator[](int);
