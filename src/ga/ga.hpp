@@ -16,10 +16,15 @@ public:
     GeneticAlgorithm* setChromosomeSize(int);
     GeneticAlgorithm* setPopulationSize(int);
 
+
+
 private:
+    typedef std::vector<Chromosome> Population;
+
     int chromosomeSize;
     int populationSize;
-    
+
+    Population population;
 
 };
 
