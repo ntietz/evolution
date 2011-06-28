@@ -15,10 +15,10 @@ all : clean init compile build_tests run_tests
 init :
 	mkdir bin
 
-compile : chromosome random datagen mergesort bubblesort quicksort converter
+compile : chromosome random datagen mergesort bubblesort quicksort converter ga
 	
 
-build_tests : bubbletest quicktest mergetest datagentest randomtest
+build_tests : bubbletest quicktest mergetest datagentest randomtest gatest
 	
 
 # SOURCE TARGETS
@@ -46,6 +46,9 @@ random : lib/SimpleRNG.h lib/SimpleRNG.cpp
 datagen : src/datagen/datagen.cpp src/datagen/datagen.hpp
 	g++ ${COMPILE_OPTS} src/datagen/datagen.cpp -c -o ${BIN}/datagen.o
 
+ga : src/ga/ga.cpp src/ga/ga.hpp
+	g++ ${COMPILE_OPTS} src/ga/ga.cpp -c -o ${BIN}/ga.o
+
 # TEST TARGETS
 
 mergetest : 
@@ -62,6 +65,9 @@ randomtest :
 
 datagentest :
 	g++ ${COMPILE_OPTS} test/datagen/datagentest.cpp bin/random.o bin/datagen.o -o bin/datagentest.out
+
+gatest :
+	
 
 run_tests : mergetest bubbletest
 	@echo "\nRunning unit tests...\n\n"
