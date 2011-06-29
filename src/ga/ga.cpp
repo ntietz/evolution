@@ -6,7 +6,10 @@
 #include "ga.hpp"
 
 GeneticAlgorithm::GeneticAlgorithm() {
-    select = &tournamentSelection;
+    selector = &tournamentSelection;
+
+    // this seeds the rng from /dev/urandom
+    rng = new DataGenerator();
 }
 
 GeneticAlgorithm* GeneticAlgorithm::setChromosomeSize(int size) {
@@ -20,13 +23,20 @@ GeneticAlgorithm* GeneticAlgorithm::setPopulationSize(int size) {
 }
 
 GeneticAlgorithm* GeneticAlgorithm::setSelectionMechanism(Population* (*function)(Population*)) {
-    select = function;
+    selector = function;
+    return this;
+}
+
+GeneticAlgorithm* GeneticAlgorithm::setFitnessFunction(int (*function)(Chromosome*)) {
+    scorer = function;
     return this;
 }
 
 // tournament selection
 Population* tournamentSelection(Population* parents) {
-    
+
+    //int num = rng->getUnsignedInt();
+
     //TODO: implement
 
     return 0;
