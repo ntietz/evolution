@@ -18,16 +18,20 @@ public:
 
     GeneticAlgorithm* setChromosomeSize(int);
     GeneticAlgorithm* setPopulationSize(int);
-    GeneticAlgorithm* setSelectionMechanism(Population (*)(Population*));
-
+    GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*));
+    GeneticAlgorithm* setFitnessFunction(int (*)(Chromosome*));
 
 private:
+    // helper functions
+    Population* (*selector)(Population*);
+    int (*scorer)(Chromosome*);
+
     int chromosomeSize;
     int populationSize;
 
     Population population;
 
-    Population* (*select)(Population*);
+    DataGenerator* rng;
 };
 
 // pre-defined selection functions
