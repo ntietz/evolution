@@ -7,8 +7,10 @@
 #define _GA_HPP_
 
 #include "../chromosome/chromosome.hpp"
-#include "../../lib/SimpleRNG.hpp"
+#include "../../lib/SimpleRNG.h"
 #include <vector>
+
+typedef std::vector<Chromosome> Population;
 
 class GeneticAlgorithm {
 public:
@@ -16,17 +18,22 @@ public:
 
     GeneticAlgorithm* setChromosomeSize(int);
     GeneticAlgorithm* setPopulationSize(int);
-
+    GeneticAlgorithm* setSelectionMechanism(Population (*)(Population*));
 
 
 private:
-    typedef std::vector<Chromosome> Population;
-
     int chromosomeSize;
     int populationSize;
 
     Population population;
 
+    Population* (*select)(Population*);
 };
+
+// pre-defined selection functions
+Population* tournamentSelection(Population*);
+Population* rouletteWheelSelection(Population*);
+Population* stochasticUniversalSampling(Population*);
+
 
 #endif
