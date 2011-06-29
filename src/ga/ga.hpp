@@ -7,6 +7,7 @@
 #define _GA_HPP_
 
 #include "../chromosome/chromosome.hpp"
+#include "../datagen/datagen.hpp"
 #include "../../lib/SimpleRNG.h"
 #include <vector>
 
