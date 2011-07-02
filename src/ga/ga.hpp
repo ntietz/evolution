@@ -12,7 +12,7 @@
 #include <vector>
 
 typedef std::vector<Chromosome> Population;
-typedef int(*scorer)(Chromosome*);
+//typedef int(*scorer)(Chromosome*);
 
 class GeneticAlgorithm {
 public:
@@ -21,20 +21,19 @@ public:
     GeneticAlgorithm* setChromosomeSize(unsigned int);
     GeneticAlgorithm* setPopulationSize(unsigned int);
     GeneticAlgorithm* setChildrenPopulationSize(unsigned int);
-    GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*, scorer));
+    GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*));
     GeneticAlgorithm* setFitnessFunction(int (*)(Chromosome*));
-    GeneticAlgorithm* setGenerationFunction(Population* (*)(Population*, Population*, scorer));
+    GeneticAlgorithm* setGenerationFunction(Population* (*)(Population*, Population*));
 
     unsigned int getGenerationNumber();
     Population* getGeneration();
     
     void runGeneration();
 
-private:
-    // helper functions
-    Population* (*selector)(Population*, scorer);
-    Population* (*generator)(Population*, Population*, scorer);
-    scorer fitness;
+protected:
+    virtual Population* select(Population*) = 0;
+    virtual Population* generate(Population*, Population*) = 0;
+    virtual int fitness(Chromosome*) = 0;
 
     unsigned int generationNumber;
 
@@ -47,10 +46,20 @@ private:
     DataGenerator* rng;
 };
 
+class TournamentSelection : virtual public GeneticAlgorithm {
+protected:
+    virtual Population* select(Population*);
+};
+
+class RouletteWheelSelection : virtual public GeneticAlgorithm {
+protected:
+    virtual Population* select(Population*);
+};
+
 // pre-defined selection functions
-Population* tournamentSelection(Population*, scorer);
-Population* rouletteWheelSelection(Population*, scorer);
-Population* stochasticUniversalSampling(Population*, scorer);
+//Population* tournamentSelection(Population*, scorer);
+//Population* rouletteWheelSelection(Population*, scorer);
+//Population* stochasticUniversalSampling(Population*, scorer);
 
 // pre-defined generation functions
 Population* noElitism(Population*, Population*); //parents, children
