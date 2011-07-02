@@ -6,7 +6,7 @@
 #include "ga.hpp"
 
 GeneticAlgorithm::GeneticAlgorithm() {
-    selector = &tournamentSelection;
+    //selector = &tournamentSelection;
 
     // this seeds the rng from /dev/urandom
     rng = new DataGenerator();
@@ -27,23 +27,8 @@ GeneticAlgorithm* GeneticAlgorithm::setChildrenPopulationSize(unsigned int size)
     return this;
 }
 
-GeneticAlgorithm* GeneticAlgorithm::setSelectionMechanism(Population* (*function)(Population*, scorer)) {
-    selector = function;
-    return this;
-}
-
-GeneticAlgorithm* GeneticAlgorithm::setFitnessFunction(int (*function)(Chromosome*)) {
-    fitness = function;
-    return this;
-}
-
-GeneticAlgorithm* GeneticAlgorithm::setGenerationFunction(Population* (*function)(Population*, Population*, scorer)) {
-    generator = function;
-    return this;
-}
-
 // tournament selection
-Population* tournamentSelection(Population* parents, scorer fitness) {
+Population* TournamentSelection::select(Population* parents) {
     
     int size = parents->size();
     int* scores = new int[size];
@@ -61,13 +46,14 @@ Population* tournamentSelection(Population* parents, scorer fitness) {
 }
 
 // roulette wheel selection
-Population* rouletteWheelSelection(Population* parents) {
+Population* RouletteWheelSelection::select(Population* parents) {
 
     //TODO: implement
 
     return 0;
 }
 
+/*
 // stochastic universal selection
 Population* stochasticUniversalSampling(Population* parents) {
 
@@ -75,5 +61,5 @@ Population* stochasticUniversalSampling(Population* parents) {
 
     return 0;
 }
-
+*/
 
