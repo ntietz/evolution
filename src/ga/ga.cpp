@@ -27,7 +27,6 @@ GeneticAlgorithm* GeneticAlgorithm::setChildrenPopulationSize(unsigned int size)
     return this;
 }
 
-// tournament selection
 Population* TournamentSelection::select(Population* parents) {
     
     int size = parents->size();
@@ -45,7 +44,6 @@ Population* TournamentSelection::select(Population* parents) {
     return 0;
 }
 
-// roulette wheel selection
 Population* RouletteWheelSelection::select(Population* parents) {
 
     //TODO: implement
@@ -53,13 +51,31 @@ Population* RouletteWheelSelection::select(Population* parents) {
     return 0;
 }
 
-/*
-// stochastic universal selection
-Population* stochasticUniversalSampling(Population* parents) {
+Population* StochasticUniversalSampling::select(Population* parents) {
 
     //TODO: implement
 
     return 0;
 }
-*/
+
+Population* NoElitism::generate(Population* parents, Population* children) {
+    
+    //TODO: implement
+
+    return 0;
+}
+
+Population* FullElitism::generate(Population* parents, Population* children) {
+
+    //TODO: implement
+
+    return 0;
+}
+
+Population* Aging::generate(Population* parents, Population* children) {
+    
+    //TODO: implement
+
+    return 0;
+};
 
