@@ -14,6 +14,8 @@
 typedef std::vector<Chromosome> Population;
 //typedef int(*scorer)(Chromosome*);
 
+// BASE CLASS
+
 class GeneticAlgorithm {
 public:
     GeneticAlgorithm();
@@ -46,6 +48,8 @@ protected:
     DataGenerator* rng;
 };
 
+// SELECTION CLASSES
+
 class TournamentSelection : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
@@ -56,13 +60,23 @@ protected:
     virtual Population* select(Population*);
 };
 
-// pre-defined selection functions
-//Population* tournamentSelection(Population*, scorer);
-//Population* rouletteWheelSelection(Population*, scorer);
-//Population* stochasticUniversalSampling(Population*, scorer);
+class StochasticUniversalSampling : virtual public GeneticAlgorithm {
+protected:
+    virtual Population* select(Population*);
+};
 
-// pre-defined generation functions
-Population* noElitism(Population*, Population*); //parents, children
-Population* fullElitism(Population*, Population*);
+// GENERATION CLASSES
+class NoElitism : virtual public GeneticAlgorithm {
+    virtual Population* generate(Population*, Population*);
+};
+
+class FullElitism : virtual public GeneticAlgorithm {
+    virtual Population* generate(Population*, Population*);
+};
+
+class Aging : virtual public GeneticAlgorithm {
+    virtual Population* generate(Population*, Population*);
+};
 
 #endif
+
