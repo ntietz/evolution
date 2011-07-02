@@ -17,23 +17,29 @@ class GeneticAlgorithm {
 public:
     GeneticAlgorithm();
 
-    GeneticAlgorithm* setChromosomeSize(int);
-    GeneticAlgorithm* setPopulationSize(int);
+    GeneticAlgorithm* setChromosomeSize(unsigned int);
+    GeneticAlgorithm* setPopulationSize(unsigned int);
+    GeneticAlgorithm* setChildrenPopulationSize(unsigned int);
     GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*));
     GeneticAlgorithm* setFitnessFunction(int (*)(Chromosome*));
-    GeneticAlgorithm* setReproductionFunction(Population* (*)(Population*, Population*));
+    GeneticAlgorithm* setGenerationFunction(Population* (*)(Population*, Population*));
 
     unsigned int getGenerationNumber();
     Population* getGeneration();
     
+    void runGeneration();
 
 private:
     // helper functions
     Population* (*selector)(Population*);
+    Population* (*generator)(Population*, Population*);
     int (*scorer)(Chromosome*);
 
-    int chromosomeSize;
-    int populationSize;
+    unsigned int generationNumber;
+
+    unsigned int chromosomeSize;
+    unsigned int populationSize;
+    unsigned int childrenPopulationSize;
 
     Population population;
 
@@ -45,7 +51,7 @@ Population* tournamentSelection(Population*);
 Population* rouletteWheelSelection(Population*);
 Population* stochasticUniversalSampling(Population*);
 
-// pre-defined reproduction functions
+// pre-defined generation functions
 Population* noElitism(Population*, Population*); //parents, children
 Population* fullElitism(Population*, Population*);
 
