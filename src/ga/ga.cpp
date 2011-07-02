@@ -27,6 +27,17 @@ GeneticAlgorithm* GeneticAlgorithm::setChildrenPopulationSize(unsigned int size)
     return this;
 }
 
+unsigned int GeneticAlgorithm::getGenerationNumber() {
+    return generationNumber;
+}
+
+Population* GeneticAlgorithm::getGeneration() {
+
+    //TODO: implement
+
+    return 0;
+}
+
 Population* TournamentSelection::select(Population* parents) {
     
     int size = parents->size();
