@@ -23,9 +23,6 @@ public:
     GeneticAlgorithm* setChromosomeSize(unsigned int);
     GeneticAlgorithm* setPopulationSize(unsigned int);
     GeneticAlgorithm* setChildrenPopulationSize(unsigned int);
-    GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*));
-    GeneticAlgorithm* setFitnessFunction(int (*)(Chromosome*));
-    GeneticAlgorithm* setGenerationFunction(Population* (*)(Population*, Population*));
 
     unsigned int getGenerationNumber();
     Population* getGeneration();
