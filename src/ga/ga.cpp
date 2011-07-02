@@ -27,25 +27,32 @@ GeneticAlgorithm* GeneticAlgorithm::setChildrenPopulationSize(unsigned int size)
     return this;
 }
 
-GeneticAlgorithm* GeneticAlgorithm::setSelectionMechanism(Population* (*function)(Population*)) {
+GeneticAlgorithm* GeneticAlgorithm::setSelectionMechanism(Population* (*function)(Population*, scorer)) {
     selector = function;
     return this;
 }
 
 GeneticAlgorithm* GeneticAlgorithm::setFitnessFunction(int (*function)(Chromosome*)) {
-    scorer = function;
+    fitness = function;
     return this;
 }
 
-GeneticAlgorithm* GeneticAlgorithm::setGenerationFunction(Population* (*function)(Population*, Population*)) {
+GeneticAlgorithm* GeneticAlgorithm::setGenerationFunction(Population* (*function)(Population*, Population*, scorer)) {
     generator = function;
     return this;
 }
 
 // tournament selection
-Population* tournamentSelection(Population* parents) {
+Population* tournamentSelection(Population* parents, scorer fitness) {
     
     int size = parents->size();
+    int* scores = new int[size];
+
+    for (int index = 0; index < size; index++)
+    {
+        scores[index] = fitness(&parents->at(index));
+    }
+
     //int num = rng->getUnsignedInt();
 
     //TODO: implement
