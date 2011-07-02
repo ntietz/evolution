@@ -12,13 +12,18 @@ GeneticAlgorithm::GeneticAlgorithm() {
     rng = new DataGenerator();
 }
 
-GeneticAlgorithm* GeneticAlgorithm::setChromosomeSize(int size) {
+GeneticAlgorithm* GeneticAlgorithm::setChromosomeSize(unsigned int size) {
     chromosomeSize = size;
     return this;
 }
 
-GeneticAlgorithm* GeneticAlgorithm::setPopulationSize(int size) {
+GeneticAlgorithm* GeneticAlgorithm::setPopulationSize(unsigned int size) {
     populationSize = size;
+    return this;
+}
+
+GeneticAlgorithm* GeneticAlgorithm::setChildrenPopulationSize(unsigned int size) {
+    childrenPopulationSize = size;
     return this;
 }
 
@@ -32,9 +37,15 @@ GeneticAlgorithm* GeneticAlgorithm::setFitnessFunction(int (*function)(Chromosom
     return this;
 }
 
+GeneticAlgorithm* GeneticAlgorithm::setGenerationFunction(Population* (*function)(Population*, Population*)) {
+    generator = function;
+    return this;
+}
+
 // tournament selection
 Population* tournamentSelection(Population* parents) {
-
+    
+    int size = parents->size();
     //int num = rng->getUnsignedInt();
 
     //TODO: implement
