@@ -12,6 +12,7 @@
 #include <vector>
 
 typedef std::vector<Chromosome> Population;
+typedef int(*scorer)(Chromosome*);
 
 class GeneticAlgorithm {
 public:
@@ -20,9 +21,9 @@ public:
     GeneticAlgorithm* setChromosomeSize(unsigned int);
     GeneticAlgorithm* setPopulationSize(unsigned int);
     GeneticAlgorithm* setChildrenPopulationSize(unsigned int);
-    GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*));
+    GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*, scorer));
     GeneticAlgorithm* setFitnessFunction(int (*)(Chromosome*));
-    GeneticAlgorithm* setGenerationFunction(Population* (*)(Population*, Population*));
+    GeneticAlgorithm* setGenerationFunction(Population* (*)(Population*, Population*, scorer));
 
     unsigned int getGenerationNumber();
     Population* getGeneration();
@@ -31,9 +32,9 @@ public:
 
 private:
     // helper functions
-    Population* (*selector)(Population*);
-    Population* (*generator)(Population*, Population*);
-    int (*scorer)(Chromosome*);
+    Population* (*selector)(Population*, scorer);
+    Population* (*generator)(Population*, Population*, scorer);
+    scorer fitness;
 
     unsigned int generationNumber;
 
@@ -47,9 +48,9 @@ private:
 };
 
 // pre-defined selection functions
-Population* tournamentSelection(Population*);
-Population* rouletteWheelSelection(Population*);
-Population* stochasticUniversalSampling(Population*);
+Population* tournamentSelection(Population*, scorer);
+Population* rouletteWheelSelection(Population*, scorer);
+Population* stochasticUniversalSampling(Population*, scorer);
 
 // pre-defined generation functions
 Population* noElitism(Population*, Population*); //parents, children
