@@ -68,7 +68,6 @@ Population* rouletteWheelSelection(Population* parents) {
     return 0;
 }
 
-
 // stochastic universal selection
 Population* stochasticUniversalSampling(Population* parents) {
 
