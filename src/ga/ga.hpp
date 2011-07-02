@@ -67,14 +67,17 @@ protected:
 
 // GENERATION CLASSES
 class NoElitism : virtual public GeneticAlgorithm {
+protected:
     virtual Population* generate(Population*, Population*);
 };
 
 class FullElitism : virtual public GeneticAlgorithm {
+protected:
     virtual Population* generate(Population*, Population*);
 };
 
 class Aging : virtual public GeneticAlgorithm {
+protected:
     virtual Population* generate(Population*, Population*);
 };
 
