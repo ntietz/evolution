@@ -69,21 +69,27 @@ Population* StochasticUniversalSampling::select(Population* parents) {
     return 0;
 }
 
-Population* NoElitism::generate(Population* parents, Population* children) {
+Population* NoElitism::generate( Population* parents
+                               , Population* children
+                               ) {
     
     //TODO: implement
 
     return 0;
 }
 
-Population* FullElitism::generate(Population* parents, Population* children) {
+Population* FullElitism::generate( Population* parents
+                                 , Population* children
+                                 ) {
 
     //TODO: implement
 
     return 0;
 }
 
-Population* Aging::generate(Population* parents, Population* children) {
+Population* Aging::generate( Population* parents
+                           , Population* children
+                           ) {
     
     //TODO: implement
 
