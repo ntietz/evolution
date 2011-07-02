@@ -21,6 +21,11 @@ public:
     GeneticAlgorithm* setPopulationSize(int);
     GeneticAlgorithm* setSelectionMechanism(Population* (*)(Population*));
     GeneticAlgorithm* setFitnessFunction(int (*)(Chromosome*));
+    GeneticAlgorithm* setReproductionFunction(Population* (*)(Population*, Population*));
+
+    unsigned int getGenerationNumber();
+    Population* getGeneration();
+    
 
 private:
     // helper functions
@@ -40,5 +45,8 @@ Population* tournamentSelection(Population*);
 Population* rouletteWheelSelection(Population*);
 Population* stochasticUniversalSampling(Population*);
 
+// pre-defined reproduction functions
+Population* noElitism(Population*, Population*); //parents, children
+Population* fullElitism(Population*, Population*);
 
 #endif
