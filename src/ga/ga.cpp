@@ -43,9 +43,14 @@ Population* TournamentSelection::select(Population* parents) {
     int size = parents->size();
     int* scores = new int[size];
 
-    for (int index = 0; index < size; index++)
-    {
+    for (int index = 0; index < size; index++) {
         scores[index] = fitness(&parents->at(index));
+    }
+
+    Population* children = new Population();
+
+    while (children->size() < childrenPopulationSize) {
+        //TODO: do stuff
     }
 
     //int num = rng->getUnsignedInt();
