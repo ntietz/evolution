@@ -47,9 +47,15 @@ protected:
 
 // SELECTION CLASSES
 
-class TournamentSelection : virtual public GeneticAlgorithm {
+class KTournamentSelection : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
+
+    int tournamentSize = 2;
+
+    virtual int getTournamentSize();
+    virtual int setTournamentSize();
+
 };
 
 class RouletteWheelSelection : virtual public GeneticAlgorithm {
