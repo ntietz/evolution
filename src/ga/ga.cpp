@@ -36,20 +36,19 @@ Population* GeneticAlgorithm::getGeneration() {
     return 0;
 }
 
-Population* KTournamentSelection::select(Population* parents) {
-    tournamentSize = 2; //TODO: make sure it hasn't been set lest we stomp on changes...
-    
-    int size = parents->size();
+template <typename Fitness>
+Population KTournamentSelection<Fitness>::operator()(const Population& parents) const {
+    int size = parents.size();
     int* scores = new int[size];
 
     for (int index = 0; index < size; index++) {
-        scores[index] = fitness(&parents->at(index));
+        scores[index] = Fitness(&parents.at(index));
     }
 
-    Population* children = new Population();
+    Population children();
 
-    while (children->size() < childrenPopulationSize) {
-        //TODO: do stuff
+    while (children.size() < childrenPopulationSize) {
+
     }
 
     //int num = rng->getUnsignedInt();
@@ -59,6 +58,7 @@ Population* KTournamentSelection::select(Population* parents) {
     return 0;
 }
 
+/*
 Population* RouletteWheelSelection::select(Population* parents) {
 
     //TODO: implement
@@ -72,5 +72,5 @@ Population* StochasticUniversalSampling::select(Population* parents) {
 
     return 0;
 }
-
+*/
 

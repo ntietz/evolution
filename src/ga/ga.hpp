@@ -49,8 +49,19 @@ protected:
     DataGenerator* rng;
 };
 
-// SELECTION CLASSES
+template <typename Fitness>
+class KTournamentSelection {
+public:
+    KTournamentSelection(int tSize, int cpSize)
+        : tournamentSize(tSize)
+        , childrenPopulationSize(cpSize) {}
 
+    Population operator()(const Population&) const;
+private:
+    int tournamentSize;
+    int childrenPopulationSize;
+};
+/*
 class KTournamentSelection : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
@@ -71,6 +82,6 @@ class StochasticUniversalSampling : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
 };
-
+*/
 #endif
 
