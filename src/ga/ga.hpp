@@ -31,7 +31,11 @@ public:
 
 protected:
     virtual Population* select(Population*) = 0;
-    virtual Population* generate(Population*, Population*) = 0;
+    virtual Population* survive(Population*, Population*) = 0;
+
+    virtual Chromosome* mutate(Chromosome*) = 0;
+    virtual std::vector<Chromosome> recombine(std::vector<Chromosome>) = 0;
+
     virtual int fitness(Chromosome*) = 0;
 
     unsigned int generationNumber;
@@ -51,7 +55,7 @@ class KTournamentSelection : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
 
-    int tournamentSize = 2;
+    int tournamentSize;
 
     virtual int getTournamentSize();
     virtual int setTournamentSize();
@@ -66,22 +70,6 @@ protected:
 class StochasticUniversalSampling : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
-};
-
-// GENERATION CLASSES
-class NoElitism : virtual public GeneticAlgorithm {
-protected:
-    virtual Population* generate(Population*, Population*);
-};
-
-class FullElitism : virtual public GeneticAlgorithm {
-protected:
-    virtual Population* generate(Population*, Population*);
-};
-
-class Aging : virtual public GeneticAlgorithm {
-protected:
-    virtual Population* generate(Population*, Population*);
 };
 
 #endif
