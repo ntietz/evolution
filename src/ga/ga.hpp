@@ -16,6 +16,12 @@ typedef std::vector<Chromosome> Population;
 
 // BASE CLASS
 
+template < typename Fitness
+         , typename Selection
+         , template Survival
+         , template Mutation
+         , template Recombination
+         >
 class GeneticAlgorithm {
 public:
     GeneticAlgorithm();
@@ -52,14 +58,16 @@ protected:
 template <typename Fitness>
 class KTournamentSelection {
 public:
-    KTournamentSelection(int tSize, int cpSize)
+    KTournamentSelection(int tSize, int cpSize, DataGenerator* rng)
         : tournamentSize(tSize)
-        , childrenPopulationSize(cpSize) {}
+        , childrenPopulationSize(cpSize)
+        , random(rng) {}
 
     Population operator()(const Population&) const;
 private:
     int tournamentSize;
     int childrenPopulationSize;
+    DataGenerator* random;
 };
 /*
 class KTournamentSelection : virtual public GeneticAlgorithm {

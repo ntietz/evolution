@@ -48,7 +48,7 @@ Population KTournamentSelection<Fitness>::operator()(const Population& parents) 
     Population children();
 
     while (children.size() < childrenPopulationSize) {
-
+        
     }
 
     //int num = rng->getUnsignedInt();
