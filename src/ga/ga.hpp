@@ -12,30 +12,46 @@
 #include <vector>
 
 typedef std::vector<Chromosome> Population;
-//typedef int(*scorer)(Chromosome*);
 
 // BASE CLASS
 
 template < typename Fitness
          , typename Selection
-         , template Survival
-         , template Mutation
-         , template Recombination
+         , typename Survival
+         , typename Mutation
+         , typename Recombination
          >
 class GeneticAlgorithm {
 public:
-    GeneticAlgorithm();
+    GeneticAlgorithm(Fitness f, Selection se, Survival su, Mutation m, Recombination r)
+    {
+        // this seeds the rng from /dev/urandom
+        rng = new DataGenerator();
 
-    GeneticAlgorithm* setChromosomeSize(unsigned int);
-    GeneticAlgorithm* setPopulationSize(unsigned int);
-    GeneticAlgorithm* setChildrenPopulationSize(unsigned int);
+        fitness = f;
+        selection = se;
+        survival = su;
+        mutation = m;
+        recombination = r;
+    }
 
-    unsigned int getGenerationNumber();
+    GeneticAlgorithm& setChromosomeSize(unsigned int size) { chromosomeSize = size; return *this; }
+    GeneticAlgorithm& setPopulationSize(unsigned int size) { populationSize = size; return *this; }
+    GeneticAlgorithm& setChildrenPopulationSize(unsigned int size) { childrenPopulationSize = size; return *this; }
+
+    unsigned int getGenerationNumber() { return generationNumber; }
     Population* getGeneration();
     
     void runGeneration();
 
 protected:
+    Fitness fitness;
+    Selection selection;
+    Survival survival;
+    Mutation mutation;
+    Recombination recombination;
+
+/*
     virtual Population* select(Population*) = 0;
     virtual Population* survive(Population*, Population*) = 0;
 
@@ -43,6 +59,7 @@ protected:
     virtual std::vector<Chromosome> recombine(std::vector<Chromosome>) = 0;
 
     virtual int fitness(Chromosome*) = 0;
+*/
 
     unsigned int generationNumber;
 
