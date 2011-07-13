@@ -19,6 +19,7 @@ Population* GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombinati
     return 0;
 }
 
+/*
 template <typename Fitness>
 Population KTournamentSelection<Fitness>::operator()(const Population& parents) const {
     int size = parents.size();
@@ -41,7 +42,6 @@ Population KTournamentSelection<Fitness>::operator()(const Population& parents) 
     return 0;
 }
 
-/*
 Population* RouletteWheelSelection::select(Population* parents) {
 
     //TODO: implement
