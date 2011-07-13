@@ -5,31 +5,14 @@
 
 #include "ga.hpp"
 
-GeneticAlgorithm::GeneticAlgorithm() {
-    // this seeds the rng from /dev/urandom
-    rng = new DataGenerator();
-}
-
-GeneticAlgorithm* GeneticAlgorithm::setChromosomeSize(unsigned int size) {
-    chromosomeSize = size;
-    return this;
-}
-
-GeneticAlgorithm* GeneticAlgorithm::setPopulationSize(unsigned int size) {
-    populationSize = size;
-    return this;
-}
-
-GeneticAlgorithm* GeneticAlgorithm::setChildrenPopulationSize(unsigned int size) {
-    childrenPopulationSize = size;
-    return this;
-}
-
-unsigned int GeneticAlgorithm::getGenerationNumber() {
-    return generationNumber;
-}
-
-Population* GeneticAlgorithm::getGeneration() {
+template < typename Fitness
+         , typename Selection
+         , typename Survival
+         , typename Mutation
+         , typename Recombination
+         >
+Population* GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>
+::getGeneration() {
 
     //TODO: implement
 
