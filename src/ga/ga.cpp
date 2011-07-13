@@ -6,8 +6,6 @@
 #include "ga.hpp"
 
 GeneticAlgorithm::GeneticAlgorithm() {
-    //selector = &tournamentSelection;
-
     // this seeds the rng from /dev/urandom
     rng = new DataGenerator();
 }
@@ -38,7 +36,8 @@ Population* GeneticAlgorithm::getGeneration() {
     return 0;
 }
 
-Population* TournamentSelection::select(Population* parents) {
+Population* KTournamentSelection::select(Population* parents) {
+    tournamentSize = 2; //TODO: make sure it hasn't been set lest we stomp on changes...
     
     int size = parents->size();
     int* scores = new int[size];
@@ -74,30 +73,4 @@ Population* StochasticUniversalSampling::select(Population* parents) {
     return 0;
 }
 
-Population* NoElitism::generate( Population* parents
-                               , Population* children
-                               ) {
-    
-    //TODO: implement
-
-    return 0;
-}
-
-Population* FullElitism::generate( Population* parents
-                                 , Population* children
-                                 ) {
-
-    //TODO: implement
-
-    return 0;
-}
-
-Population* Aging::generate( Population* parents
-                           , Population* children
-                           ) {
-    
-    //TODO: implement
-
-    return 0;
-};
 
