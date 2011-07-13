@@ -75,13 +75,36 @@ protected:
 template <typename Fitness>
 class KTournamentSelection {
 public:
-    KTournamentSelection(int tSize, int cpSize, DataGenerator* rng)
+    KTournamentSelection(int tSize, int cpSize, DataGenerator* rng, Fitness fit)
         : tournamentSize(tSize)
         , childrenPopulationSize(cpSize)
-        , random(rng) {}
+        , random(rng)
+        , fitness(fit) {}
 
-    Population operator()(const Population&) const;
+    Population operator()(const Population& parentPopulation) const {
+        int size = parents.size();
+        int* scores = new int[size];
+
+        for (int index = 0; index < size; index++) {
+            scores[index] = fitness(parentPopulation.at(index));
+        }
+
+        Population children;
+
+        while (children.size() < childrenPopulationSize)  {
+
+            Population parents;
+            for (int index = 0; index < tournamentSize; index++) {
+                // TODO: 
+            }
+        }
+
+        delete [] scores;
+        return children;
+    }
+
 private:
+    Fitness fitness;
     int tournamentSize;
     int childrenPopulationSize;
     DataGenerator* random;
