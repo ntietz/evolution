@@ -82,7 +82,7 @@ public:
         , fitness(fit) {}
 
     Population operator()(const Population& parentPopulation) const {
-        int size = parents.size();
+        int size = parentPopulation.size();
         int* scores = new int[size];
 
         for (int index = 0; index < size; index++) {
@@ -95,8 +95,21 @@ public:
 
             Population parents;
             for (int index = 0; index < tournamentSize; index++) {
-                // TODO: 
+                parents.push_back(parentPopulation.at(
+                    random->getUnsignedInt() % parentPopulation.size() ));
             }
+
+            int max = fitness(parents.at(0));
+            int best = 0;
+            
+            for (int index = 1; index < parents.size(); index++) {
+                if (fitness(parents.at(index)) > max) {
+                    max = fitness(parents.at(index));
+                    best = index;
+                }
+            }
+
+            children.push_back(parents.at(best));
         }
 
         delete [] scores;
