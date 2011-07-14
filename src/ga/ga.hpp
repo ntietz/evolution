@@ -72,7 +72,7 @@ protected:
     DataGenerator* rng;
 };
 
-template <typename Fitness>
+template < typename Fitness >
 class KTournamentSelection {
 public:
     KTournamentSelection(int tSize, int cpSize, DataGenerator* rng, Fitness fit)
@@ -85,7 +85,7 @@ public:
         int size = parentPopulation.size();
         int* scores = new int[size];
 
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index < size; ++index) {
             scores[index] = fitness(parentPopulation.at(index));
         }
 
@@ -94,7 +94,7 @@ public:
         while (children.size() < childrenPopulationSize)  {
 
             Population parents;
-            for (int index = 0; index < tournamentSize; index++) {
+            for (int index = 0; index < tournamentSize; ++index) {
                 parents.push_back(parentPopulation.at(
                     random->getUnsignedInt() % parentPopulation.size() ));
             }
@@ -102,7 +102,7 @@ public:
             int max = fitness(parents.at(0));
             int best = 0;
             
-            for (int index = 1; index < parents.size(); index++) {
+            for (int index = 1; index < parents.size(); ++index) {
                 if (fitness(parents.at(index)) > max) {
                     max = fitness(parents.at(index));
                     best = index;
@@ -122,18 +122,39 @@ private:
     int childrenPopulationSize;
     DataGenerator* random;
 };
-/*
-class KTournamentSelection : virtual public GeneticAlgorithm {
-protected:
-    virtual Population* select(Population*);
 
-    int tournamentSize;
+template < typename Fitness > 
+class RouletteWheelSelection {
+public:
+    RouletteWheelSelection(int cpSize, DataGenerator* rng, Fitness fit)
+        : childrenPopulationSize(cpSize)
+        , random(rng)
+        , fitness(fit) {}
 
-    virtual int getTournamentSize();
-    virtual int setTournamentSize();
+    Population operator()(const Population& parentPopulation) const {
+        int size = parentPopulation.size();
+        int* scores = new int[size];
 
+        int total = 0;
+        for (int index = 0; index < size; ++index) {
+            total += fitness(parentPopulation.at(index));
+            scores[index] = total;
+        }
+
+        Population children;
+
+
+
+        delete [] scores;
+        return children;
+    }
+
+private:
+    int childrenPopulationSize;
+    DataGenerator* random;
+    Fitness fitness;
 };
-
+/*
 class RouletteWheelSelection : virtual public GeneticAlgorithm {
 protected:
     virtual Population* select(Population*);
