@@ -89,13 +89,13 @@ public:
             scores[index] = fitness(parentPopulation.at(index));
         }
 
-        Population children;
+        Population parents;
 
-        while (children.size() < childrenPopulationSize)  {
+        while (parents.size() < childrenPopulationSize)  {
 
-            Population parents;
+            Population candidates;
             for (int index = 0; index < tournamentSize; ++index) {
-                parents.push_back(parentPopulation.at(
+                candidates.push_back(parentPopulation.at(
                     random->getUnsignedInt() % parentPopulation.size() ));
             }
 
@@ -103,17 +103,17 @@ public:
             int best = 0;
             
             for (int index = 1; index < parents.size(); ++index) {
-                if (fitness(parents.at(index)) > max) {
-                    max = fitness(parents.at(index));
+                if (fitness(candidates.at(index)) > max) {
+                    max = fitness(candidates.at(index));
                     best = index;
                 }
             }
 
-            children.push_back(parents.at(best));
+            parents.push_back(candidates.at(best));
         }
 
         delete [] scores;
-        return children;
+        return parents;
     }
 
 private:
@@ -141,13 +141,13 @@ public:
             scores[index] = total;
         }
 
-        Population children;
+        Population parents;
 
-        while (children.size() < childrenPopulationSize) {
+        while (parents.size() < childrenPopulationSize) {
         }
 
         delete [] scores;
-        return children;
+        return parents;
     }
 
 private:
