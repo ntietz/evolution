@@ -196,6 +196,21 @@ public:
         , random(rng)
         { }
 
+    void mutate(Chromosome& actual) {
+        for (int loc = 0; loc < actual.size(); ++loc) {
+            if (random->getDouble() < mutationRate) {
+                int other = random->getUnsignedInt() % (actual.size() - 1);
+                if (other >= loc) {
+                    ++other;
+                }
+                
+                bool temp = actual[loc];
+                actual.set(loc, actual[other]);
+                actual.set(other, temp);
+            }
+        }
+    }
+
 private:
     double mutationRate;
     DataGenerator* random;
