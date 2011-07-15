@@ -217,17 +217,23 @@ private:
 };
 
 class SinglePointCrossover {
+public:
 
+private:
 
 };
 
 class KPointCrossover {
+public:
 
+private:
 
 };
 
 class UniformCrossover {
+public:
 
+private:
 
 };
 
