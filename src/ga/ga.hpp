@@ -226,6 +226,11 @@ class KPointCrossover {
 
 };
 
+class UniformCrossover {
+
+
+};
+
 /*
 class RouletteWheelSelection : virtual public GeneticAlgorithm {
 protected:
