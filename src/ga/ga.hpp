@@ -216,6 +216,16 @@ private:
     DataGenerator* random;
 };
 
+class SinglePointCrossover {
+
+
+};
+
+class KPointCrossover {
+
+
+};
+
 /*
 class RouletteWheelSelection : virtual public GeneticAlgorithm {
 protected:
