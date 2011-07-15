@@ -16,6 +16,7 @@ public:
     DataGenerator(unsigned int, unsigned int);
 
     unsigned int getUnsignedInt();
+    double getDouble();
 
     std::vector<unsigned int> getUnsignedIntVector(int);
 

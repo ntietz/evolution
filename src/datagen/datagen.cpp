@@ -28,6 +28,10 @@ unsigned int DataGenerator::getUnsignedInt() {
     return rng->GetUint();
 }
 
+double DataGenerator::getDouble() {
+    return rng->GetUniform();
+}
+
 std::vector<unsigned int> DataGenerator::getUnsignedIntVector(int size) {
     std::vector<unsigned int> results;
 

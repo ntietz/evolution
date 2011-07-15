@@ -38,6 +38,8 @@ public:
     GeneticAlgorithm& setChromosomeSize(unsigned int size) { chromosomeSize = size; return *this; }
     GeneticAlgorithm& setPopulationSize(unsigned int size) { populationSize = size; return *this; }
     GeneticAlgorithm& setChildrenPopulationSize(unsigned int size) { childrenPopulationSize = size; return *this; }
+    GeneticAlgorithm& setMutationRate(double rate) { mutationRate = rate; return *this; }
+    GeneticAlgorithm& setRecombinationRate(double rate) { recombinationRate = rate; return *this; }
 
     unsigned int getGenerationNumber() { return generationNumber; }
     Population* getGeneration();
@@ -66,6 +68,9 @@ protected:
     unsigned int chromosomeSize;
     unsigned int populationSize;
     unsigned int childrenPopulationSize;
+
+    double mutationRate;
+    double recombinationRate;
 
     Population population;
 
@@ -144,6 +149,14 @@ public:
         Population parents;
 
         while (parents.size() < childrenPopulationSize) {
+            unsigned int score = random->getUnsignedInt() % total;
+
+            int index = 0;
+            while (scores[index] < score) {
+                ++index;
+            }
+
+            parents.push_back(parentPopulation.at(index));
         }
 
         delete [] scores;
@@ -155,6 +168,39 @@ private:
     DataGenerator* random;
     Fitness fitness;
 };
+
+class BitFlipMutate {
+public:
+    BitFlipMutate(double rate, DataGenerator* rng)
+        : mutationRate(rate)
+        , random(rng)
+        { }
+
+    void mutate(Chromosome& actual) {
+        for (int loc = 0; loc < actual.size(); ++loc) {
+            if (random->getDouble() < mutationRate) {
+                actual.flip(loc);
+            }
+        }
+    }
+
+private:
+    double mutationRate;
+    DataGenerator* random;
+};
+
+class BitSwapMutate {
+public:
+    BitSwapMutate(double rate, DataGenerator* rng)
+        : mutationRate(rate)
+        , random(rng)
+        { }
+
+private:
+    double mutationRate;
+    DataGenerator* random;
+};
+
 /*
 class RouletteWheelSelection : virtual public GeneticAlgorithm {
 protected:
