@@ -245,12 +245,22 @@ public:
         { }
 
     void recombine(Chromosome& first, Chromosome& second) {
-        
+        for (int index = 0; index < splitPoints.size(); index++) {
+            recombineOnePoint(first, second, splitPoints[index]);
+        }
     }
 
 private:
     std::vector<int> splitPoints;
     DataGenerator* random;
+
+    void recombineOnePoint(Chromosome& first, Chromosome& second, int point) {
+        std::vector<Chromosome> firstParts = first.split(point);
+        std::vector<Chromosome> secondParts = second.split(point);
+
+        first = Chromosome().merge(firstParts[0], secondParts[1]);
+        second = Chromosome().merge(secondParts[0], secondParts[1]);
+    }
 };
 
 class UniformCrossover {
