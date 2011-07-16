@@ -9,6 +9,7 @@
 #include "../chromosome/chromosome.hpp"
 #include "../datagen/datagen.hpp"
 #include "../../lib/SimpleRNG.h"
+#include "../pair/pair.h"
 #include <vector>
 
 typedef std::vector<Chromosome> Population;
@@ -229,15 +230,18 @@ public:
         : random(rng)
         { }
 
-    void recombine(Chromosome& first, Chromosome& second) {
+    Pair<Chromosome> recombine(const Chromosome& first, const Chromosome& second) {
         int splitPoint = random->getUnsignedInt() % (first.size() - 1);
         
+        Pair<Chromosome> result;
+
         std::vector<Chromosome> firstParts = first.split(splitPoint);
         std::vector<Chromosome> secondParts = second.split(splitPoint);
 
-        first = Chromosome().merge(firstParts[0], secondParts[1]);
-        second = Chromosome().merge(secondParts[0], firstParts[1]);
+        result.first = Chromosome().merge(firstParts[0], secondParts[1]);
+        result.second = Chromosome().merge(secondParts[0], firstParts[1]);
 
+        return result;
     }
 
 private:
