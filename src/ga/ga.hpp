@@ -255,16 +255,23 @@ public:
         , random(rng)
         { }
 
-    void recombine(Chromosome& first, Chromosome& second) {
+    Pair<Chromosome> recombine(const Chromosome& first, const Chromosome& second) {
+        Pair<Chromosome> result;
+        result.first = first;
+        result.second = second;
+
         for (unsigned int index = 0; index < splitPoints.size(); index++) {
-            recombineOnePoint(first, second, splitPoints[index]);
+            recombineOnePoint(result.first, result.second, splitPoints[index]);
         }
+
+        return result;
     }
 
 private:
     std::vector<int> splitPoints;
     DataGenerator* random;
 
+    // this relies on side effects to work but only within this class
     void recombineOnePoint(Chromosome& first, Chromosome& second, int point) {
         std::vector<Chromosome> firstParts = first.split(point);
         std::vector<Chromosome> secondParts = second.split(point);
