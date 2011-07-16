@@ -218,21 +218,30 @@ private:
 
 class SinglePointCrossover {
 public:
-    SinglePointCrossover() { }
+    SinglePointCrossover(DataGenerator* rng)
+        : random(rng)
+        { }
 
-    void mutate(Chromosome& actual) {
-        //TODO: 
+    void recombine(Chromosome& first, Chromosome& second) {
+        int splitPoint = random->getUnsignedInt() % (first.size() - 1);
+        
+        std::vector<Chromosome> firstParts = first.split(splitPoint);
+        std::vector<Chromosome> secondParts = second.split(splitPoint);
+
+        first = Chromosome().merge(firstParts[0], secondParts[1]);
+        second = Chromosome().merge(secondParts[0], firstParts[1]);
+
     }
 
 private:
-
+    DataGenerator* random;
 };
 
 class KPointCrossover {
 public:
     KPointCrossover() { } 
 private:
-    int
+
 };
 
 class UniformCrossover {
