@@ -176,12 +176,18 @@ public:
         , random(rng)
         { }
 
-    void mutate(Chromosome& actual) {
+    Chromosome mutate(const Chromosome& actual) {
+        Chromosome result = actual;
+
         for (int loc = 0; loc < actual.size(); ++loc) {
             if (random->getDouble() < mutationRate) {
-                actual.flip(loc);
+                result.set(loc, ! actual[loc]);
+            } else {
+                result.set(loc, actual[loc]);
             }
         }
+
+        return result;
     }
 
 private:
@@ -245,7 +251,7 @@ public:
         { }
 
     void recombine(Chromosome& first, Chromosome& second) {
-        for (int index = 0; index < splitPoints.size(); index++) {
+        for (unsigned int index = 0; index < splitPoints.size(); index++) {
             recombineOnePoint(first, second, splitPoints[index]);
         }
     }
@@ -265,9 +271,22 @@ private:
 
 class UniformCrossover {
 public:
+    UniformCrossover(DataGenerator* rng)
+        : random(rng)
+        { }
+
+    void recombine(Chromosome& first, Chromosome& second) {
+        for (int loc = 0; loc < first.size(); loc++) {
+            double value = random->getDouble();
+
+            if (value < 0.5) {
+                
+            }
+        }
+    }
 
 private:
-
+    DataGenerator* random;
 };
 
 /*
