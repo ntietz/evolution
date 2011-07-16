@@ -218,6 +218,11 @@ private:
 
 class SinglePointCrossover {
 public:
+    SinglePointCrossover() { }
+
+    void mutate(Chromosome& actual) {
+        //TODO: 
+    }
 
 private:
 
@@ -225,9 +230,9 @@ private:
 
 class KPointCrossover {
 public:
-
+    KPointCrossover() { } 
 private:
-
+    int
 };
 
 class UniformCrossover {
