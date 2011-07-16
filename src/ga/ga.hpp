@@ -179,7 +179,7 @@ public:
     Chromosome mutate(const Chromosome& actual) {
         Chromosome result = actual;
 
-        for (int loc = 0; loc < actual.size(); ++loc) {
+        for (int loc = 0; loc < result.size(); ++loc) {
             if (random->getDouble() < mutationRate) {
                 result.set(loc, ! actual[loc]);
             } else {
@@ -202,19 +202,20 @@ public:
         , random(rng)
         { }
 
-    void mutate(Chromosome& actual) {
-        for (int loc = 0; loc < actual.size(); ++loc) {
+    Chromosome mutate(const Chromosome& actual) {
+        Chromosome result = actual;
+
+        for (int loc = 0; loc < result.size(); ++loc) {
             if (random->getDouble() < mutationRate) {
-                int other = random->getUnsignedInt() % (actual.size() - 1);
-                if (other >= loc) {
-                    ++other;
-                }
+                int other = random->getUnsignedInt() % (actual.size() - 2);
+                if (other >= loc) ++other;
                 
-                bool temp = actual[loc];
-                actual.set(loc, actual[other]);
-                actual.set(other, temp);
+                result.set(loc, actual[other]);
+                result.set(other, actual[loc]);
             }
         }
+
+        return result;
     }
 
 private:
