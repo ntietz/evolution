@@ -239,9 +239,18 @@ private:
 
 class KPointCrossover {
 public:
-    KPointCrossover() { } 
-private:
+    KPointCrossover(std::vector<int> points, DataGenerator* rng)
+        : splitPoints(points)
+        , random(rng)
+        { }
 
+    void recombine(Chromosome& first, Chromosome& second) {
+        
+    }
+
+private:
+    std::vector<int> splitPoints;
+    DataGenerator* random;
 };
 
 class UniformCrossover {
