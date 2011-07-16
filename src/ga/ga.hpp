@@ -287,14 +287,21 @@ public:
         : random(rng)
         { }
 
-    void recombine(Chromosome& first, Chromosome& second) {
+    Pair<Chromosome> recombine(const Chromosome& first, const Chromosome& second) {
+        Pair<Chromosome> result;
+        result.first = first;
+        result.second = second;
+
         for (int loc = 0; loc < first.size(); loc++) {
             double value = random->getDouble();
 
             if (value < 0.5) {
-                
+                result.first.set(loc, second[loc]);
+                result.second.set(loc, first[loc]);
             }
         }
+
+        return result;
     }
 
 private:
