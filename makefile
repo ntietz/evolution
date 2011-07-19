@@ -46,8 +46,8 @@ random : lib/SimpleRNG.h lib/SimpleRNG.cpp
 datagen : src/datagen/datagen.cpp src/datagen/datagen.hpp
 	g++ ${COMPILE_OPTS} src/datagen/datagen.cpp -c -o ${BIN}/datagen.o
 
-ga : src/ga/ga.cpp src/ga/ga.hpp
-	g++ ${COMPILE_OPTS} src/ga/ga.cpp -c -o ${BIN}/ga.o
+ga : src/ga/ga.h
+	g++ ${COMPILE_OPTS} src/ga/ga.h -c -o ${BIN}/ga.o
 
 # TEST TARGETS
 
