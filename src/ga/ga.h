@@ -68,6 +68,8 @@ protected:
     DataGenerator* rng;
 };
 
+
+
 template < typename Fitness >
 class KTournamentSelection {
 public:
