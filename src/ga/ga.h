@@ -14,7 +14,20 @@
 
 typedef std::vector<Chromosome> Population;
 
-// BASE CLASS
+Chromosome getRandomChromosome(int length) {
+    std::vector<bool> bits(length);
+    DataGenerator rng;
+
+    for (int index = 0; index < length; index++) {
+        if (rng.getUnsignedInt() % 2 == 0) {
+            bits[index] = true;
+        } else {
+            bits[index] = false;
+        }
+    }
+
+    return Chromosome(bits);
+}
 
 template < typename Fitness
          , typename Selection
@@ -44,8 +57,9 @@ public:
 
     unsigned int getGenerationNumber() { return generationNumber; }
     
+    void init();
     void step();
-    Population get();
+    Population get() const { return population; }
 
 protected:
     Fitness fitness;                //return: int,                    param: none
@@ -68,6 +82,49 @@ protected:
     DataGenerator* rng;
 };
 
+template < typename Fitness
+         , typename Selection
+         , typename Survival
+         , typename Mutation
+         , typename Recombination
+         >
+void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::init() {
+    population.resize(populationSize);
+
+    for (int index = 0; index < populationSize; ++index) {
+        population[index] = getRandomChromosome(chromosomeSize);
+    }
+}
+
+template < typename Fitness
+         , typename Selection
+         , typename Survival
+         , typename Mutation
+         , typename Recombination
+         >
+void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step() {
+    Population parents = selection(population);
+
+    Population children;
+    for (int index = 0; index < childrenPopulationSize; ++index) {
+        double value = rng->getDouble();
+
+        if (value < recombinationRate) {
+            Pair<Chromosome> twins = recombination(parents[index], parents[index + 1]);
+            children.push_back(twins.first);
+            children.push_back(twins.second);
+        } else {
+            children.push_back(parents[index]);
+            children.push_back(parents[index+1]);
+        }
+    }
+
+    for (int index = 0; index < childrenPopulationSize; ++index) {
+        children[index] = mutation(children[index]);
+    }
+
+    population = survival(population, children);
+}
 
 
 template < typename Fitness >
