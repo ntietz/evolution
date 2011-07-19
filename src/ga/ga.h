@@ -1,7 +1,7 @@
-//file:     ga.hpp
+//file:     ga.h
 //author:   ntietz
 //date:     20111.6.27
-// Specification of a genetic algorithm class.
+// Specification and immplementaiton of a generic genetic algorithm class.
 
 #ifndef _GA_HPP_
 #define _GA_HPP_
@@ -43,26 +43,16 @@ public:
     GeneticAlgorithm& setRecombinationRate(double rate) { recombinationRate = rate; return *this; }
 
     unsigned int getGenerationNumber() { return generationNumber; }
-    Population* getGeneration();
     
-    void runGeneration();
+    void step();
+    Population get();
 
 protected:
-    Fitness fitness;
-    Selection selection;
-    Survival survival;
-    Mutation mutation;
-    Recombination recombination;
-
-/*
-    virtual Population* select(Population*) = 0;
-    virtual Population* survive(Population*, Population*) = 0;
-
-    virtual Chromosome* mutate(Chromosome*) = 0;
-    virtual std::vector<Chromosome> recombine(std::vector<Chromosome>) = 0;
-
-    virtual int fitness(Chromosome*) = 0;
-*/
+    Fitness fitness;                //return: int,                    param: none
+    Selection selection;            //return: population,             param: population
+    Survival survival;              //return: population,             param: population, population
+    Mutation mutation;              //return: chromosome,             param: chromosome
+    Recombination recombination;    //return: chromosome, chromosome  param: pair<chromosome>
 
     unsigned int generationNumber;
 
