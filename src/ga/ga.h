@@ -172,10 +172,10 @@ public:
     }
 
 private:
-    Fitness fitness;
     int tournamentSize;
     int childrenPopulationSize;
     DataGenerator* random;
+    Fitness fitness;
 };
 
 template < typename Fitness > 

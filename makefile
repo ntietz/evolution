@@ -37,8 +37,8 @@ quicksort :
 chromosome : ${SRC}/chromosome/chromosome.cpp ${SRC}/chromosome/chromosome.hpp
 	g++ ${COMPILE_OPTS} ${SRC}/chromosome/chromosome.cpp -c -o ${BIN}/chromosome.o
 
-converter : ${SRC}/converter/converter.cpp ${SRC}/converter/converter.hpp
-	g++ ${COMPILE_OPTS} ${SRC}/converter/converter.cpp -c -o ${BIN}/converter.o
+converter : ${SRC}/converter/converter.hpp
+	g++ ${COMPILE_OPTS} ${SRC}/converter/converter.hpp -c -o ${BIN}/converter.o
 
 random : lib/SimpleRNG.h lib/SimpleRNG.cpp
 	g++ ${COMPILE_OPTS} lib/SimpleRNG.cpp -c -o ${BIN}/random.o
@@ -67,7 +67,7 @@ datagentest :
 	g++ ${COMPILE_OPTS} test/datagen/datagentest.cpp bin/random.o bin/datagen.o -o bin/datagentest.out
 
 gatest :
-	
+	g++ ${COMPILE_OPTS} test/ga/gatest.cpp bin/datagen.o bin/random.o bin/chromosome.o -o bin/gatest.out
 
 run_tests : mergetest bubbletest
 	@echo "\nRunning unit tests...\n\n"
