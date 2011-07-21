@@ -28,5 +28,7 @@ private:
 
 };
 
+#include "converter.cpp"
+
 #endif
 
