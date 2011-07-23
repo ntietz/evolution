@@ -8,8 +8,9 @@
 class Fitness {
 public:
     Fitness() { }
+    Fitness(const Fitness& actual) { }
 
-    int operator()(const Chromosome& candidate) {
+    int operator()(const Chromosome& candidate) const {
         int result = 0;
 
         for (int index = 0; index < candidate.size(); ++index) {
@@ -23,6 +24,14 @@ public:
 
 };
 
+class FooSurvival {
+public:
+    FooSurvival() { }
+
+    Population operator()(const Population& foo, const Population& bar) { return foo; }
+
+} foo;
+
 int main() {
 
     int tournamentSize = 10;
@@ -31,11 +40,17 @@ int main() {
 
     DataGenerator* random = new DataGenerator(1532, 943912);
 
-    Fitness fitness();
+    Fitness fitness;
     KTournamentSelection<Fitness> selection(tournamentSize, childPopulationSize, random, fitness);
     //KTournamentSelection<Fitness> selection(10, 100, new DataGenerator(1532, 943912), fitness);
     BitFlipMutate mutate(0.01, random);
     SinglePointCrossover crossover(random);
 
+
+    GeneticAlgorithm<Fitness, KTournamentSelection<Fitness>, FooSurvival, BitFlipMutate, SinglePointCrossover>
+        ga(fitness, selection, foo, mutate, crossover);
+
+    ga.init();
+    ga.step();
 }
 
