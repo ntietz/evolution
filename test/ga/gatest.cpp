@@ -12,7 +12,7 @@ public:
 
     int operator()(const Chromosome& candidate) const {
         int result = 0;
-
+        
         for (int index = 0; index < candidate.size(); ++index) {
             if (candidate[index] == true) {
                 ++result;
@@ -49,6 +49,12 @@ int main() {
 
     GeneticAlgorithm<Fitness, KTournamentSelection<Fitness>, FooSurvival, BitFlipMutate, SinglePointCrossover>
         ga(fitness, selection, foo, mutate, crossover);
+    
+    ga.setChromosomeSize(10)
+      .setPopulationSize(populationSize)
+      .setChromosomeSize(childPopulationSize)
+      .setMutationRate(0.01)
+      .setRecombinationRate(0.9);
 
     ga.init();
     ga.step();

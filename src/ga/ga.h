@@ -11,6 +11,7 @@
 #include "../../lib/SimpleRNG.h"
 #include "../pair/pair.h"
 #include <vector>
+#include <iostream>
 
 typedef std::vector<Chromosome> Population;
 
@@ -18,7 +19,7 @@ Chromosome getRandomChromosome(int length) {
     std::vector<bool> bits(length);
     DataGenerator rng;
 
-    for (int index = 0; index < length; index++) {
+    for (int index = 0; index < length; ++index) {
         if (rng.getUnsignedInt() % 2 == 0) {
             bits[index] = true;
         } else {
@@ -104,7 +105,10 @@ template < typename Fitness
          , typename Recombination
          >
 void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step() {
+    std::cout << "0";
     Population parents = selection(population);
+
+    std::cout << "a";
 
     Population children;
     for (int index = 0; index < childrenPopulationSize; ++index) {
@@ -119,6 +123,8 @@ void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::st
             children.push_back(parents[index+1]);
         }
     }
+
+    std::cout << "B";
 
     for (int index = 0; index < childrenPopulationSize; ++index) {
         children[index] = mutation(children[index]);
@@ -149,7 +155,7 @@ public:
         }
 
         Population parents;
-
+        std::cout << " 199";
         while (parents.size() < childrenPopulationSize)  {
 
             Population candidates;
@@ -157,11 +163,11 @@ public:
                 candidates.push_back(parentPopulation.at(
                     random->getUnsignedInt() % parentPopulation.size() ));
             }
-
-            int max = fitness(parents.at(0));
+            
+            int max = fitness(candidates.at(0));
             int best = 0;
             
-            for (int index = 1; index < parents.size(); ++index) {
+            for (int index = 1; index < candidates.size(); ++index) {
                 if (fitness(candidates.at(index)) > max) {
                     max = fitness(candidates.at(index));
                     best = index;
