@@ -107,9 +107,9 @@ template < typename Fitness
 void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step() {
     std::cout << "A";
     Population parents = selection(population);
-
+    
     Population children;
-    for (int index = 0; index < childrenPopulationSize; ++index) {
+    for (int index = 0; children.size() < childrenPopulationSize; ++index) {
         std::cout << "1";
         double value = rng->getDouble();
         std::cout << "2";
@@ -157,7 +157,7 @@ public:
         }
 
         Population parents;
-        while (parents.size() < childrenPopulationSize)  {
+        while (2*parents.size() < childrenPopulationSize)  {
 
             Population candidates;
             for (int index = 0; index < tournamentSize; ++index) {

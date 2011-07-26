@@ -58,17 +58,17 @@ std::vector<Chromosome> Chromosome::split(int splitPoint) const {
 }
 
 Chromosome Chromosome::merge(const Chromosome& left, const Chromosome& right) {
-    std::vector<bool> bits;
+    std::vector<bool> newBits;
 
     for (int index = 0; index < (int)left.size(); ++index) {
-        bits.push_back(left[index]);
+        newBits.push_back(left[index]);
     }
 
     for (int index = 0; index < (int)right.size(); ++index) {
-        bits.push_back(right[index]);
+        newBits.push_back(right[index]);
     }
 
-    return Chromosome(bits);
+    return Chromosome(newBits);
 }
 
 bool Chromosome::operator[](int index) const {
