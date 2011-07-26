@@ -28,7 +28,7 @@ class FooSurvival {
 public:
     FooSurvival() { }
 
-    Population operator()(const Population& foo, const Population& bar) { return foo; }
+    Population operator()(const Population& population, const Population& children) { return children; }
 
 } foo;
 
@@ -42,7 +42,6 @@ int main() {
 
     Fitness fitness;
     KTournamentSelection<Fitness> selection(tournamentSize, childPopulationSize, random, fitness);
-    //KTournamentSelection<Fitness> selection(10, 100, new DataGenerator(1532, 943912), fitness);
     BitFlipMutate mutate(0.01, random);
     SinglePointCrossover crossover(random);
 
@@ -52,11 +51,16 @@ int main() {
     
     ga.setChromosomeSize(10)
       .setPopulationSize(populationSize)
-      .setChromosomeSize(childPopulationSize)
+      .setChildrenPopulationSize(childPopulationSize)
       .setMutationRate(0.01)
       .setRecombinationRate(0.9);
 
     ga.init();
-    ga.step();
+
+    for (int index = 0; index < 100; ++index) {
+        std::cout << "Round " << index << "..." << std::endl;
+        ga.step();
+        std::cout << "...finished.\n";
+    }
 }
 

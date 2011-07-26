@@ -105,15 +105,14 @@ template < typename Fitness
          , typename Recombination
          >
 void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step() {
-    std::cout << "0";
+    std::cout << "A";
     Population parents = selection(population);
-
-    std::cout << "a";
 
     Population children;
     for (int index = 0; index < childrenPopulationSize; ++index) {
+        std::cout << "1";
         double value = rng->getDouble();
-
+        std::cout << "2";
         if (value < recombinationRate) {
             Pair<Chromosome> twins = recombination(parents[index], parents[index + 1]);
             children.push_back(twins.first);
@@ -123,14 +122,17 @@ void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::st
             children.push_back(parents[index+1]);
         }
     }
-
-    std::cout << "B";
-
+    std::cout << "The kids are " << children.size() << " many. ";
+    std::cout << "C";
     for (int index = 0; index < childrenPopulationSize; ++index) {
         children[index] = mutation(children[index]);
     }
+    std::cout << "D";
 
     population = survival(population, children);
+    std::cout << "E";
+
+    std::cout << population.size() << ", " << parents.size() << ", " << children.size() << "\n";
 }
 
 
@@ -155,7 +157,6 @@ public:
         }
 
         Population parents;
-        std::cout << " 199";
         while (parents.size() < childrenPopulationSize)  {
 
             Population candidates;
