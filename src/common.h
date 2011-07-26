@@ -7,6 +7,7 @@
 #define _COMMON_H_
 
 #include <random>
+#include <iostream>
 
 const int null = 0;
 

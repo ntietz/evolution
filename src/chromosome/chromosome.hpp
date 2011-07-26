@@ -23,7 +23,7 @@ public:
     void flip(int);
     std::vector<Chromosome> split(int) const;
 
-    static Chromosome merge(Chromosome, Chromosome);
+    static Chromosome merge(const Chromosome&, const Chromosome&);
 
     //operators
     bool operator[](int) const;
