@@ -57,14 +57,14 @@ std::vector<Chromosome> Chromosome::split(int splitPoint) const {
     return results;
 }
 
-Chromosome Chromosome::merge(Chromosome left, Chromosome right) {
+Chromosome Chromosome::merge(const Chromosome& left, const Chromosome& right) {
     std::vector<bool> bits;
 
-    for (int index = 0; index < (int)left.size(); index++) {
+    for (int index = 0; index < (int)left.size(); ++index) {
         bits.push_back(left[index]);
     }
 
-    for (int index = 0; index < (int)right.size(); index++) {
+    for (int index = 0; index < (int)right.size(); ++index) {
         bits.push_back(right[index]);
     }
 
