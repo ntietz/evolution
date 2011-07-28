@@ -7,7 +7,7 @@
 #define _CHROMOSOME_HPP_
 
 #include <vector>
-#include "../common.h"
+#include "common.h"
 
 class Chromosome {
 public:

@@ -14,7 +14,7 @@
 
 COMPILER=g++
 # COMPILER=clang
-COMPILE_OPTS= -std=gnu++0x -Wall -ggdb #adds c++0x support, for the random lib
+COMPILE_OPTS= -std=gnu++0x -Wall -ggdb -I${SRC} -Ilib #adds c++0x support, for the random lib
 SRC=src
 BIN=bin
 

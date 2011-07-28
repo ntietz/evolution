@@ -6,8 +6,8 @@
 #ifndef _QUICKSORT_H_
 #define _QUICKSORT_H_
 
-#include "../common.h"
-#include "../sort.h"
+#include "common.h"
+#include "sort.h"
 #include <vector>
 
 enum pivotMethod {

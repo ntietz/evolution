@@ -8,9 +8,9 @@
 
 #include <climits>
 
-#include "../chromosome/chromosome.hpp"
-#include "../sort.h"
-#include "../all_sorts.h"
+#include "chromosome/chromosome.hpp"
+#include "sort.h"
+#include "all_sorts.h"
 
 template <typename T>
 class converter {

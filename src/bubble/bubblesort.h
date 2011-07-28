@@ -6,8 +6,8 @@
 #ifndef _BUBBLESORT_H_
 #define _BUBBLESORT_H_
 
-#include "../common.h"
-#include "../sort.h"
+#include "common.h"
+#include "sort.h"
 #include <vector>
 
 template<typename T>
