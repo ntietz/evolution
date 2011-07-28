@@ -15,6 +15,7 @@
 COMPILER=g++
 # COMPILER=clang
 COMPILE_OPTS= -std=gnu++0x -Wall -ggdb -I${SRC} -Ilib #adds c++0x support, for the random lib
+SRC_DIR = src
 SRC=src
 BIN=bin
 
@@ -42,7 +43,7 @@ compile : chromosome random datagen mergesort bubblesort quicksort converter ga
 build_tests : tests
 	
 
-run_tests :
+run_tests : build_tests
 	bin/tests.out
 
 #
@@ -97,8 +98,9 @@ chromosomeTest.o : ${TEST_DIR}/chromosomeTest.cpp chromosome ${GTEST_HEADERS}
 quicksortTest.o : ${TEST_DIR}/quicksortTest.cpp quicksort ${GTEST_HEADERS}
 	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/quicksortTest.cpp
 
-tests : ${TESTS} gtest_main.a
-	${COMPILER} ${TEST_FLAGS} -lpthread $^ -o bin/$@.out
+LINKS = bin/*.o
+tests : ${TESTS} gtest_main.a 
+	${COMPILER} ${TEST_FLAGS} -lpthread $^ bin/chromosome.o -o bin/$@.out
 
 #
 # CLEAN
