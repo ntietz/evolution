@@ -6,7 +6,7 @@
 #ifndef _DATAGEN_HPP_
 #define _DATAGEN_HPP_
 
-#include "../../lib/SimpleRNG.h"
+#include "SimpleRNG.h"
 #include <fstream>
 #include <vector>
 

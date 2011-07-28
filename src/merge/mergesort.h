@@ -6,8 +6,8 @@
 #ifndef _MERGESORT_H_
 #define _MERGESORT_H_
 
-#include "../common.h"
-#include "../sort.h"
+#include "common.h"
+#include "sort.h"
 #include <vector>
 
 template<typename T>
