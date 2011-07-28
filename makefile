@@ -20,8 +20,8 @@ BIN=bin
 
 GTEST_DIR = lib/gtest-1.6.0
 TEST_DIR = test
-TEST_FLAGS = ${COMPILE_OPTS} -I${GTEST_DIR}/include
-TESTS = chromosomeTest quicksortTest
+TEST_FLAGS = ${COMPILE_OPTS} -I${GTEST_DIR} -I${GTEST_DIR}/include
+TESTS = chromosomeTest.o quicksortTest.o
 
 GTEST_HEADERS = ${GTEST_DIR}/include/gtest/*.h \
 				${GTEST_DIR}/include/gtest/internal/*.h
@@ -39,11 +39,11 @@ init :
 compile : chromosome random datagen mergesort bubblesort quicksort converter ga
 	
 
-build_tests : ${TESTS}
+build_tests : tests
 	
 
 run_tests :
-	echo "Not working yet."
+	bin/tests.out
 
 #
 # SOURCE TARGETS
@@ -80,10 +80,10 @@ ga : src/ga/ga.h
 #
 
 gtest-all.o : ${GTEST_SRCS}
-	${COMPILER} ${TEST_FLAGS} -c -I${GTEST_DIR} ${GTEST_DIR}/src/gtest-all.cc
+	${COMPILER} ${TEST_FLAGS} -c ${GTEST_DIR}/src/gtest-all.cc
 
-gtest-main.o : ${GTEST_SRCS}
-	${COMPILER} ${TEST_FLAGS} -c -I${GTEST_DIR} ${GTEST_DIR}/src/gtest_main.cc
+gtest_main.o : ${GTEST_SRCS}
+	${COMPILER} ${TEST_FLAGS} -c ${GTEST_DIR}/src/gtest_main.cc
 
 gtest.a : gtest-all.o
 	$(AR) $(ARFLAGS) $@ $^
@@ -91,12 +91,14 @@ gtest.a : gtest-all.o
 gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
-chromosomeTest : 
-	..
+chromosomeTest.o : ${TEST_DIR}/chromosomeTest.cpp chromosome ${GTEST_HEADERS}
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/chromosomeTest.cpp
 
-quicksortTest :
-	..
+quicksortTest.o : ${TEST_DIR}/quicksortTest.cpp quicksort ${GTEST_HEADERS}
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/quicksortTest.cpp
 
+tests : ${TESTS} gtest_main.a
+	${COMPILER} ${TEST_FLAGS} -lpthread $^ -o bin/$@.out
 
 #
 # CLEAN
@@ -105,4 +107,6 @@ quicksortTest :
 clean : 
 	rm -f */*/*.h.gch
 	rm -rf bin
+	rm -f *.o
+	rm -f *.a
 
