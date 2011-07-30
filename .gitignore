@@ -2,7 +2,10 @@
 * .so
 *.out
 *.h.gch
+*.gch
+*.a
 *.swp
+*.o
 
 # Directories
 bin
