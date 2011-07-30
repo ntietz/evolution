@@ -46,7 +46,7 @@ TEST(Accessors, SetBits) {
 
 }
 
-TEST(Accessors, Set) {
+TEST(Accessors, SetAndGet) {
     const int size = 10;
     std::vector<bool> bits(size);
     
@@ -60,5 +60,110 @@ TEST(Accessors, Set) {
         EXPECT_EQ(true, chr.get(index));
     }
 
+}
+
+TEST(Accessors, GetBits) {
+    const int size = 3;
+    Chromosome chr = Chromosome(std::vector<bool>(size));
+
+    chr.set(0, true);
+    chr.set(1, false);
+    chr.set(2, true);
+
+    std::vector<bool> bits = chr.getBits();
+
+    EXPECT_EQ(true, bits[0]);
+    EXPECT_EQ(false, bits[1]);
+    EXPECT_EQ(true, bits[2]);
+}
+
+TEST(Operations, Flip) {
+    const int size = 10;
+    Chromosome chr = Chromosome(std::vector<bool>(size));
+
+    for (int index = 0; index < size; ++index) {
+        chr.set(index, false);
+    }
+
+    chr.flip(0);
+    chr.flip(3);
+    chr.flip(7);
+
+    for (int index = 0; index < size; ++index) {
+        switch (index) {
+            case 0 :
+            case 3 :
+            case 7 :
+                EXPECT_EQ(true, chr.get(index));
+                break;
+            default :
+                EXPECT_EQ(false, chr.get(index));
+                break;
+        }
+    }
+}
+
+TEST(Operations, Split) {
+    const int size = 10;
+    const int splitPoint = 5;
+    Chromosome chr = Chromosome(std::vector<bool>(size));
+
+    for (int index = 0; index < splitPoint; ++index) {
+        chr.set(index, false);
+    }
+
+    for (int index = splitPoint; index < size; ++index) {
+        chr.set(index, true);
+    }
+
+    std::vector<Chromosome> parts = chr.split(splitPoint);
+
+    ASSERT_EQ(splitPoint, parts[0].size());
+    ASSERT_EQ(size - splitPoint, parts[1].size());
+
+    for (int index = 0; index < splitPoint; ++index) {
+        EXPECT_EQ(false, parts[0].get(index));
+    }
+
+    for (int index = 0; index < (size - splitPoint); ++index) {
+        EXPECT_EQ(true, parts[1].get(index));
+    }
+}
+
+TEST(Operations, Merge) {
+    Chromosome left = Chromosome(std::vector<bool>(3));
+    Chromosome right = Chromosome(std::vector<bool>(5));
+    left.set(0, true);
+    left.set(1, false);
+    left.set(2, false);
+    right.set(0, true);
+    right.set(1, true);
+    right.set(2, true);
+    right.set(3, false);
+    right.set(4, false);
+
+    Chromosome both = Chromosome().merge(left, right);
+
+    ASSERT_EQ(8, both.size());
+
+    EXPECT_EQ(true, both.get(0));
+    EXPECT_EQ(false, both.get(1));
+    EXPECT_EQ(false, both.get(2));
+    EXPECT_EQ(true, both.get(3));
+    EXPECT_EQ(true, both.get(4));
+    EXPECT_EQ(true, both.get(5));
+    EXPECT_EQ(false, both.get(6));
+    EXPECT_EQ(false, both.get(7));
+}
+
+TEST(Operators, Brackets) {
+    Chromosome chr = Chromosome(std::vector<bool>(3));
+    chr.set(0, false);
+    chr.set(1, true);
+    chr.set(2, true);
+
+    EXPECT_EQ(false, chr[0]);
+    EXPECT_EQ(true, chr[1]);
+    EXPECT_EQ(true, chr[2]);
 }
 

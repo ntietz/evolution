@@ -40,19 +40,22 @@ void Chromosome::flip(int index) {
 std::vector<Chromosome> Chromosome::split(int splitPoint) const {
     std::vector<Chromosome> results;
 
-    long int leftSize = (splitPoint >= (int)bits.size()) ? (bits.size() - 1) : splitPoint;
-    long int rightSize = bits.size() - leftSize - 1;
+    long int leftSize = (bits.size() < splitPoint) ? (bits.size() - 1) : splitPoint;
+    long int rightSize = bits.size() - leftSize;
 
-    std::vector<bool> left(leftSize);
-    std::vector<bool> right(rightSize);
+    std::vector<bool> left;
+    std::vector<bool> right;
 
-    for (int index = 0; index < (int)leftSize; index++) {
+    for (int index = 0; index < (int)leftSize; ++index) {
         left.push_back(bits[index]);
     }
 
-    for (int index = 0; index < (int)rightSize; index++) {
+    for (int index = 0; index < (int)rightSize; ++index) {
         right.push_back(bits[index + leftSize]);
     }
+
+    results.push_back(Chromosome(left));
+    results.push_back(Chromosome(right));
 
     return results;
 }
