@@ -22,7 +22,7 @@ BIN=bin
 GTEST_DIR = lib/gtest-1.6.0
 TEST_DIR = test
 TEST_FLAGS = ${COMPILE_OPTS} -I${GTEST_DIR} -I${GTEST_DIR}/include
-TESTS = chromosomeTest.o quicksortTest.o
+TESTS = chromosomeTest.o quicksortTest.o bubblesortTest.o mergesortTest.o
 
 GTEST_HEADERS = ${GTEST_DIR}/include/gtest/*.h \
 				${GTEST_DIR}/include/gtest/internal/*.h
@@ -97,6 +97,12 @@ chromosomeTest.o : ${TEST_DIR}/chromosomeTest.cpp chromosome ${GTEST_HEADERS}
 
 quicksortTest.o : ${TEST_DIR}/quicksortTest.cpp quicksort ${GTEST_HEADERS}
 	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/quicksortTest.cpp
+
+bubblesortTest.o : ${TEST_DIR}/bubblesortTest.cpp bubblesort ${GTEST_HEADERS}
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/bubblesortTest.cpp
+
+mergesortTest.o : ${TEST_DIR}/mergesortTest.cpp mergesort ${GTEST_HEADERS}
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/mergesortTest.cpp
 
 LINKS = bin/*.o
 tests : ${TESTS} gtest_main.a 

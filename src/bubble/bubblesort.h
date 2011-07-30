@@ -45,8 +45,6 @@ bubblesort<T>::bubblesort(std::vector<T> newData) {
 
 template<typename T>
 bubblesort<T>::~bubblesort() {
-    if (secondsort)
-        delete secondsort;
 }
 
 template<typename T>
@@ -72,9 +70,12 @@ std::vector<T> bubblesort<T>::sort() {
     while (swapped) {
         swapped = false;
 
-        for (long int index = 0; index < (long int)data.size() - 1; index++) {
-            if (data[index] > data[index + 1]) {
-                swap(data[index], data[index + 1]);
+        for (int index = 0; index < data.size() - 1; ++index) {
+            if (data[index] > data[index+1]) {
+                T temp = data[index];
+                data[index] = data[index+1];
+                data[index+1] = temp;
+
                 swapped = true;
             }
         }
