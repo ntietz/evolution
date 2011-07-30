@@ -72,9 +72,7 @@ std::vector<T> bubblesort<T>::sort() {
 
         for (int index = 0; index < data.size() - 1; ++index) {
             if (data[index] > data[index+1]) {
-                T temp = data[index];
-                data[index] = data[index+1];
-                data[index+1] = temp;
+                swap(data[index], data[index+1]);
 
                 swapped = true;
             }
