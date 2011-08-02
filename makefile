@@ -14,7 +14,7 @@
 
 COMPILER=g++
 # COMPILER=clang
-COMPILE_OPTS= -std=gnu++0x -Wall -ggdb -I${SRC} -Ilib #adds c++0x support, for the random lib
+COMPILE_OPTS= -std=gnu++0x -I${SRC} -Ilib# -Wall -ggdb  #adds c++0x support, for the random lib
 SRC_DIR = src
 SRC=src
 BIN=bin
@@ -22,7 +22,7 @@ BIN=bin
 GTEST_DIR = lib/gtest-1.6.0
 TEST_DIR = test
 TEST_FLAGS = ${COMPILE_OPTS} -I${GTEST_DIR} -I${GTEST_DIR}/include
-TESTS = chromosomeTest.o quicksortTest.o bubblesortTest.o mergesortTest.o
+TESTS = chromosomeTest.o quicksortTest.o bubblesortTest.o mergesortTest.o converterTest.o
 
 GTEST_HEADERS = ${GTEST_DIR}/include/gtest/*.h \
 				${GTEST_DIR}/include/gtest/internal/*.h
@@ -103,6 +103,9 @@ bubblesortTest.o : ${TEST_DIR}/bubblesortTest.cpp bubblesort ${GTEST_HEADERS}
 
 mergesortTest.o : ${TEST_DIR}/mergesortTest.cpp mergesort ${GTEST_HEADERS}
 	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/mergesortTest.cpp
+
+converterTest.o : ${TEST_DIR}/converterTest.cpp converter ${GTEST_HEADERS}
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/converterTest.cpp
 
 LINKS = bin/*.o
 tests : ${TESTS} gtest_main.a 

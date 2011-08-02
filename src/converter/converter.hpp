@@ -1,7 +1,7 @@
 //file:     converter.hpp
 //author:   ntietz
 //date:     2011.6.15
-// Specification of a converter class used to convert between Chromosomes and sorting algorithms
+// Specification of a Converter class used to convert between Chromosomes and sorting algorithms
 
 #ifndef _CONVERTER_HPP_
 #define _CONVERTER_HPP_
@@ -13,10 +13,10 @@
 #include "all_sorts.h"
 
 template <typename T>
-class converter {
+class Converter {
 public:
     
-    Chromosome toChromosome(sorter<T>);
+    Chromosome toChromosome(sorter<T>*);
     sorter<T> fromChromosome(Chromosome);
 
 private:

@@ -1,11 +1,11 @@
 //file:     converter.cpp
 //author:   ntietz
 //date:     2011.6.15
-// Implementation of the converter class
+// Implementation of the Converter class
 #include "converter.hpp"
 
 template <typename T>
-Chromosome converter<T>::toChromosome(sorter<T> algorithm) {
+Chromosome Converter<T>::toChromosome(const sorter<T>& algorithm) {
     Chromosome result;
 
     std::vector<bool> bits;
@@ -41,7 +41,7 @@ Chromosome converter<T>::toChromosome(sorter<T> algorithm) {
 }
 
 template<typename T>
-sorter<T> converter<T>::fromChromosome(Chromosome dna) {
+sorter<T> Converter<T>::fromChromosome(Chromosome dna) {
     
     sortType type = fromBits(dna.getBits(), 0, 32);
 
@@ -60,12 +60,12 @@ sorter<T> converter<T>::fromChromosome(Chromosome dna) {
 };
 
 template<typename T>
-std::vector<bool> converter<T>::toBits(int number) {
+std::vector<bool> Converter<T>::toBits(int number) {
     return appendBits(number, std::vector<bool>());
 }
 
 template<typename T>
-std::vector<bool> converter<T>::appendBits(int number, std::vector<bool> original) {
+std::vector<bool> Converter<T>::appendBits(int number, std::vector<bool> original) {
     unsigned int max = UINT_MAX;
 
     while (max > 0) {
@@ -77,7 +77,7 @@ std::vector<bool> converter<T>::appendBits(int number, std::vector<bool> origina
 }
 
 template<typename T>
-int converter<T>::fromBits(std::vector<bool> bits, int start, int length) {
+int Converter<T>::fromBits(std::vector<bool> bits, int start, int length) {
 
     int number = 0;
 

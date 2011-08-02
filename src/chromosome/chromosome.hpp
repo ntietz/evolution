@@ -27,6 +27,8 @@ public:
 
     //operators
     bool operator[](int) const;
+    bool operator==(const Chromosome&) const;
+    bool operator!=(const Chromosome&) const;
 
 private:
     std::vector<bool> bits;
