@@ -78,3 +78,20 @@ bool Chromosome::operator[](int index) const {
     return bits[index];
 }
 
+bool Chromosome::operator==(const Chromosome& other) const {
+    if (bits.size() != other.size()) {
+        return false;
+    } else {
+        for (int index = 0; index < bits.size(); ++index) {
+            if (bits[index] != other[index]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+bool Chromosome::operator!=(const Chromosome& other) const {
+    return !((*this) == other);
+}
+

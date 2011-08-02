@@ -8,7 +8,7 @@
 
 #include <vector>
 
-enum sortType { BUBBLE, MERGE, QUICK };
+enum sortType { BOGUS, BUBBLE, MERGE, QUICK };
 
 template<typename T>
 class sorter {
@@ -19,20 +19,20 @@ public:
 
     virtual void setData(std::vector<T>) = 0;
     virtual void setThreshold(int) = 0;
-    virtual void setSecondary(sorter*) = 0;
+    virtual void setSecondary(sorter<T>*) = 0;
 
     std::vector<T> getData() const { return data;}
     int getThreshold() const { return threshold; }
-    sorter* getSecondary() const { return secondsort; }
+    sorter<T> getSecondary() const { return secondsort; }
 
     virtual std::vector<T> sort() = 0;
 
-    virtual sortType getType() = 0;
+    virtual sortType getType() { return BOGUS; }
 
 protected:
     std::vector<T> data;
     int threshold;
-    sorter<T>* secondsort;
+    sorter* secondsort;
 };
 
 #endif

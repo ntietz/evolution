@@ -26,7 +26,7 @@ public:
 
     //setters defined by interface
     void setData(std::vector<T>);
-    void setThreshold(int); //sets threshold to switch to a different sort
+    void setThreshold(int); //se threshold to switch to a different sort
     void setSecondary(sorter<T>*);
 
     sortType getType() { return QUICK; }
