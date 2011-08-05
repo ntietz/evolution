@@ -22,7 +22,7 @@ BIN=bin
 GTEST_DIR = lib/gtest-1.6.0
 TEST_DIR = test
 TEST_FLAGS = ${COMPILE_OPTS} -I${GTEST_DIR} -I${GTEST_DIR}/include
-TESTS = chromosomeTest.o quicksortTest.o bubblesortTest.o mergesortTest.o converterTest.o
+TESTS = chromosomeTest.o
 
 GTEST_HEADERS = ${GTEST_DIR}/include/gtest/*.h \
 				${GTEST_DIR}/include/gtest/internal/*.h
@@ -37,7 +37,7 @@ all : clean init compile build_tests run_tests
 init :
 	mkdir bin
 
-compile : chromosome random datagen mergesort bubblesort quicksort converter ga
+compile : chromosome random datagen ga
 	
 
 build_tests : tests
@@ -50,22 +50,10 @@ run_tests : build_tests
 # SOURCE TARGETS
 #
 
-mergesort: ${SRC}/common.h ${SRC}/merge/mergesort.h
-	${COMPILER} ${COMPILE_OPTS} ${SRC}/merge/mergesort.h
-
-bubblesort: ${SRC}/common.h ${SRC}/bubble/bubblesort.h
-	${COMPILER} ${COMPILE_OPTS} ${SRC}/bubble/bubblesort.h
-
 #TODO add dependencies to the following targets
-
-quicksort :
-	${COMPILER} ${COMPILE_OPTS} ${SRC}/quick/quicksort.h
 
 chromosome : ${SRC}/chromosome/chromosome.cpp ${SRC}/chromosome/chromosome.hpp
 	${COMPILER} ${COMPILE_OPTS} ${SRC}/chromosome/chromosome.cpp -c -o ${BIN}/chromosome.o
-
-converter : ${SRC}/converter/converter.hpp
-	${COMPILER} ${COMPILE_OPTS} ${SRC}/converter/converter.hpp -c -o ${BIN}/converter.o
 
 random : lib/SimpleRNG.h lib/SimpleRNG.cpp
 	${COMPILER} ${COMPILE_OPTS} lib/SimpleRNG.cpp -c -o ${BIN}/random.o
@@ -94,18 +82,6 @@ gtest_main.a : gtest-all.o gtest_main.o
 
 chromosomeTest.o : ${TEST_DIR}/chromosomeTest.cpp chromosome ${GTEST_HEADERS}
 	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/chromosomeTest.cpp
-
-quicksortTest.o : ${TEST_DIR}/quicksortTest.cpp quicksort ${GTEST_HEADERS}
-	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/quicksortTest.cpp
-
-bubblesortTest.o : ${TEST_DIR}/bubblesortTest.cpp bubblesort ${GTEST_HEADERS}
-	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/bubblesortTest.cpp
-
-mergesortTest.o : ${TEST_DIR}/mergesortTest.cpp mergesort ${GTEST_HEADERS}
-	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/mergesortTest.cpp
-
-converterTest.o : ${TEST_DIR}/converterTest.cpp converter ${GTEST_HEADERS}
-	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/converterTest.cpp
 
 LINKS = bin/*.o
 tests : ${TESTS} gtest_main.a 
