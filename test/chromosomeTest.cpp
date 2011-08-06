@@ -6,7 +6,7 @@
 #include "gtest/gtest.h"
 #include "chromosome/chromosome.hpp"
 
-TEST(Chromsome, DefaultSizeTest) {
+TEST(Chromosome, DefaultSizeTest) {
     Chromosome chr;
 
     EXPECT_EQ(0, chr.size());

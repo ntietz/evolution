@@ -84,11 +84,11 @@ chromosomeTest.o : ${TEST_DIR}/chromosomeTest.cpp chromosome ${GTEST_HEADERS}
 	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/chromosomeTest.cpp
 
 gaTest.o : ${TEST_DIR}/gaTest.cpp ga ${GTEST_HEADERS} datagen
-	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/gaTest.cpp bin/datagen.o
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/gaTest.cpp
 
 LINKS = bin/*.o
 tests : ${TESTS} gtest_main.a 
-	${COMPILER} ${TEST_FLAGS} -lpthread $^ bin/chromosome.o -o bin/$@.out
+	${COMPILER} ${TEST_FLAGS} -lpthread $^ bin/chromosome.o bin/datagen.o bin/random.o -o bin/$@.out
 
 #
 # CLEAN
