@@ -6,20 +6,20 @@
 #include "gtest/gtest.h"
 #include "chromosome/chromosome.hpp"
 
-TEST(SizeTest, Default) {
+TEST(Chromsome, DefaultSizeTest) {
     Chromosome chr;
 
     EXPECT_EQ(0, chr.size());
 }
 
-TEST(SizeTest, SetBits) {
+TEST(Chromosome, SetBitsSizeTest) {
     const int size = 10;
     Chromosome chr = Chromosome(std::vector<bool>(size));
 
     EXPECT_EQ(size, chr.size());
 }
 
-TEST(SizeTest, Assignment) {
+TEST(Chromosome, AssignmentSizeTest) {
     const int size = 10;
     Chromosome first = Chromosome(std::vector<bool>(size));
     Chromosome second = first;
@@ -28,7 +28,7 @@ TEST(SizeTest, Assignment) {
     EXPECT_EQ(first.size(), second.size());
 }
 
-TEST(Accessors, SetBits) {
+TEST(Chromosome, SetBits) {
     std::vector<bool> bits;
     bits.push_back(false);
     bits.push_back(true);
@@ -46,7 +46,7 @@ TEST(Accessors, SetBits) {
 
 }
 
-TEST(Accessors, SetAndGet) {
+TEST(Chromosome, SetAndGet) {
     const int size = 10;
     std::vector<bool> bits(size);
     
@@ -62,7 +62,7 @@ TEST(Accessors, SetAndGet) {
 
 }
 
-TEST(Accessors, GetBits) {
+TEST(Chromosome, GetBits) {
     const int size = 3;
     Chromosome chr = Chromosome(std::vector<bool>(size));
 
@@ -77,7 +77,7 @@ TEST(Accessors, GetBits) {
     EXPECT_EQ(true, bits[2]);
 }
 
-TEST(Operations, Flip) {
+TEST(Chromosome, Flip) {
     const int size = 10;
     Chromosome chr = Chromosome(std::vector<bool>(size));
 
@@ -103,7 +103,7 @@ TEST(Operations, Flip) {
     }
 }
 
-TEST(Operations, Split) {
+TEST(Chromosome, Split) {
     const int size = 10;
     const int splitPoint = 5;
     Chromosome chr = Chromosome(std::vector<bool>(size));
@@ -130,7 +130,7 @@ TEST(Operations, Split) {
     }
 }
 
-TEST(Operations, Merge) {
+TEST(Chromosome, Merge) {
     Chromosome left = Chromosome(std::vector<bool>(3));
     Chromosome right = Chromosome(std::vector<bool>(5));
     left.set(0, true);
@@ -156,7 +156,7 @@ TEST(Operations, Merge) {
     EXPECT_EQ(false, both.get(7));
 }
 
-TEST(Operators, Brackets) {
+TEST(Chromosome, Brackets) {
     Chromosome chr = Chromosome(std::vector<bool>(3));
     chr.set(0, false);
     chr.set(1, true);

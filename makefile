@@ -22,7 +22,7 @@ BIN=bin
 GTEST_DIR = lib/gtest-1.6.0
 TEST_DIR = test
 TEST_FLAGS = ${COMPILE_OPTS} -I${GTEST_DIR} -I${GTEST_DIR}/include
-TESTS = chromosomeTest.o
+TESTS = chromosomeTest.o gaTest.o
 
 GTEST_HEADERS = ${GTEST_DIR}/include/gtest/*.h \
 				${GTEST_DIR}/include/gtest/internal/*.h
@@ -82,6 +82,9 @@ gtest_main.a : gtest-all.o gtest_main.o
 
 chromosomeTest.o : ${TEST_DIR}/chromosomeTest.cpp chromosome ${GTEST_HEADERS}
 	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/chromosomeTest.cpp
+
+gaTest.o : ${TEST_DIR}/gaTest.cpp ga ${GTEST_HEADERS} datagen
+	${COMPILER} ${TEST_FLAGS} -c ${TEST_DIR}/gaTest.cpp bin/datagen.o
 
 LINKS = bin/*.o
 tests : ${TESTS} gtest_main.a 
