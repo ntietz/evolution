@@ -15,12 +15,19 @@
 
 typedef std::vector<Chromosome> Population;
 
+Chromosome getRandomChromosome(int);
+Chromosome getRandomChromosome(int, DataGenerator*);
+
 Chromosome getRandomChromosome(int length) {
+    DataGenerator* rng = new DataGenerator();
+    return getRandomChromosome(length, rng);
+}
+
+Chromosome getRandomChromosome(int length, DataGenerator* rng) {
     std::vector<bool> bits(length);
-    DataGenerator rng;
 
     for (int index = 0; index < length; ++index) {
-        if (rng.getUnsignedInt() % 2 == 0) {
+        if (rng->getUnsignedInt() % 2 == 0) {
             bits[index] = true;
         } else {
             bits[index] = false;
@@ -157,7 +164,7 @@ public:
         }
 
         Population parents;
-        while (2*parents.size() < childrenPopulationSize)  {
+        while (parents.size() < childrenPopulationSize)  {
 
             Population candidates;
             for (int index = 0; index < tournamentSize; ++index) {
