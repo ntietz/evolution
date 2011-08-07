@@ -62,6 +62,49 @@ TEST(GeneticAlgorithm, KTournamentSelection) {
     Population children = selection(population);
 
     ASSERT_EQ(childrenPopulationSize, children.size());
+}
 
+TEST(GeneticAlgorithm, RouletteWheelSelection) {
+    Fitness fitness;
+    int populationSize = 100;
+    int childrenPopulationSize = 100;
+    int chromosomeSize = 25;
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+
+    RouletteWheelSelection<Fitness> selection(childrenPopulationSize, rng, fitness);
+
+    Population population(populationSize);
+    for (int index = 0; index < populationSize; ++index) {
+        population[index] = getRandomChromosome(chromosomeSize);
+    }
+
+    Population children = selection(population);
+
+    ASSERT_EQ(childrenPopulationSize, children.size());
+}
+
+TEST(GeneticAlgorithm, BitFlipMutate) {
+    Fitness fitness;
+
+    double mutationRate = 0.5;
+    int chromosomeSize = 10000;
+    Chromosome chromosome = Chromosome(std::vector<bool>(chromosomeSize));
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+
+    BitFlipMutate mutate(mutationRate, rng);
+
+    Chromosome mutatedChromosome = mutate(chromosome);
+
+    ASSERT_EQ(chromosomeSize, mutatedChromosome.size());
+
+    int changedCount = 0;
+    for (int index = 0; index < chromosomeSize; ++index) {
+        if (chromosome[index] != mutatedChromosome[index]) {
+            ++changedCount;
+        }
+    }
+
+    EXPECT_LT((chromosomeSize/2) - (chromosomeSize/100), changedCount);
+    EXPECT_LT(changedCount, (chromosomeSize/2) + (chromosomeSize/100));
 }
 

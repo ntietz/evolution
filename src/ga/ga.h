@@ -246,7 +246,7 @@ public:
         , random(rng)
         { }
 
-    Chromosome operator()(const Chromosome& actual) {
+    Chromosome operator()(const Chromosome& actual) const {
         Chromosome result = actual;
 
         for (int loc = 0; loc < result.size(); ++loc) {
