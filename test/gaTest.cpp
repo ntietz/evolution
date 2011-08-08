@@ -84,11 +84,9 @@ TEST(GeneticAlgorithm, RouletteWheelSelection) {
 }
 
 TEST(GeneticAlgorithm, BitFlipMutate) {
-    Fitness fitness;
-
     double mutationRate = 0.5;
-    int chromosomeSize = 10000;
-    Chromosome chromosome = Chromosome(std::vector<bool>(chromosomeSize));
+    int chromosomeSize = 100000;
+    Chromosome chromosome = getRandomChromosome(chromosomeSize);
     DataGenerator* rng = new DataGenerator(1024, 1024);
 
     BitFlipMutate mutate(mutationRate, rng);
@@ -107,4 +105,29 @@ TEST(GeneticAlgorithm, BitFlipMutate) {
     EXPECT_LT((chromosomeSize/2) - (chromosomeSize/100), changedCount);
     EXPECT_LT(changedCount, (chromosomeSize/2) + (chromosomeSize/100));
 }
+
+TEST(GeneticAlgorithm, BitSwapMutate) {
+    double mutationRate = 0.1;
+    int chromosomeSize = 100000;
+    Chromosome chromosome = getRandomChromosome(chromosomeSize);
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+
+    BitSwapMutate mutate(mutationRate, rng);
+
+    Chromosome mutatedChromosome = mutate(chromosome);
+
+    ASSERT_EQ(chromosomeSize, mutatedChromosome.size());
+
+    int changedCount = 0;
+    for (int index = 0; index < chromosomeSize; ++index) {
+        if (chromosome[index] != mutatedChromosome[index]) {
+            ++changedCount;
+        }
+    }
+
+
+    EXPECT_LT((chromosomeSize/10) - (chromosomeSize/100), changedCount);
+    EXPECT_LT(changedCount, (chromosomeSize/10) + (chromosomeSize/100));
+}
+
 
