@@ -136,7 +136,9 @@ TEST(GeneticAlgorithm, SinglePointCrossover) {
     Chromosome first = getRandomChromosome(chromosomeSize, rng);
     Chromosome second = getRandomChromosome(chromosomeSize, rng);
 
+    SinglePointCrossover crossover(rng);
 
+    ASSERT_STREQ("TEST_WRITTEN", "NO");
 }
 
 TEST(GeneticAlgorithm, KPointCrossover) {

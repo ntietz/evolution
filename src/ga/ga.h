@@ -296,7 +296,6 @@ private:
 
 class SinglePointCrossover {
 public:
-    SinglePointCrossover() { }
     SinglePointCrossover(DataGenerator* rng)
         : random(rng)
         { }
