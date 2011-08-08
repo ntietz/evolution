@@ -381,16 +381,5 @@ private:
     DataGenerator* random;
 };
 
-/*
-class RouletteWheelSelection : virtual public GeneticAlgorithm {
-protected:
-    virtual Population* select(Population*);
-};
-
-class StochasticUniversalSampling : virtual public GeneticAlgorithm {
-protected:
-    virtual Population* select(Population*);
-};
-*/
 #endif
 

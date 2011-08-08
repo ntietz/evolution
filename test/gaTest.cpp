@@ -56,7 +56,7 @@ TEST(GeneticAlgorithm, KTournamentSelection) {
 
     Population population(populationSize);
     for (int index = 0; index < populationSize; ++index) {
-        population[index] = getRandomChromosome(chromosomeSize);
+        population[index] = getRandomChromosome(chromosomeSize, rng);
     }
 
     Population children = selection(population);
@@ -75,7 +75,7 @@ TEST(GeneticAlgorithm, RouletteWheelSelection) {
 
     Population population(populationSize);
     for (int index = 0; index < populationSize; ++index) {
-        population[index] = getRandomChromosome(chromosomeSize);
+        population[index] = getRandomChromosome(chromosomeSize, rng);
     }
 
     Population children = selection(population);
@@ -86,8 +86,8 @@ TEST(GeneticAlgorithm, RouletteWheelSelection) {
 TEST(GeneticAlgorithm, BitFlipMutate) {
     double mutationRate = 0.5;
     int chromosomeSize = 100000;
-    Chromosome chromosome = getRandomChromosome(chromosomeSize);
     DataGenerator* rng = new DataGenerator(1024, 1024);
+    Chromosome chromosome = getRandomChromosome(chromosomeSize, rng);
 
     BitFlipMutate mutate(mutationRate, rng);
 
@@ -109,8 +109,8 @@ TEST(GeneticAlgorithm, BitFlipMutate) {
 TEST(GeneticAlgorithm, BitSwapMutate) {
     double mutationRate = 0.1;
     int chromosomeSize = 100000;
-    Chromosome chromosome = getRandomChromosome(chromosomeSize);
     DataGenerator* rng = new DataGenerator(1024, 1024);
+    Chromosome chromosome = getRandomChromosome(chromosomeSize, rng);
 
     BitSwapMutate mutate(mutationRate, rng);
 
@@ -130,4 +130,25 @@ TEST(GeneticAlgorithm, BitSwapMutate) {
     EXPECT_LT(changedCount, (chromosomeSize/10) + (chromosomeSize/100));
 }
 
+TEST(GeneticAlgorithm, SinglePointCrossover) {
+    int chromosomeSize = 50;
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+    Chromosome first = getRandomChromosome(chromosomeSize, rng);
+    Chromosome second = getRandomChromosome(chromosomeSize, rng);
+
+
+}
+
+TEST(GeneticAlgorithm, KPointCrossover) {
+
+
+
+    ASSERT_STREQ("TEST_WRITTEN", "NO");
+
+}
+
+TEST(GeneticAlgorithm, UniformCrossover) {
+
+    ASSERT_STREQ("TEST_WRITTEN", "NO");
+}
 
