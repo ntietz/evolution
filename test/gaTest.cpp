@@ -12,7 +12,7 @@ public:
         int score = 0;
 
         for (int index = 0; index < candidate.size(); ++index) {
-            if (candidate[index] == 0) {
+            if (candidate[index] == true) {
                 ++score;
             }
         }
@@ -248,6 +248,10 @@ TEST(GeneticAlgorithm, Init) {
     int tournamentSize = 10;
     int populationSize = 100;
     int childrenPopulationSize = 100;
+    int chromosomeSize = 25;
+
+    double mutationRate = 0.05;
+    double recombinationRate = 1.0;
 
     Fitness fitness;
     KTournamentSelection<Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
@@ -266,6 +270,22 @@ TEST(GeneticAlgorithm, Init) {
                         , mutation
                         , crossover
                         );
+
+    
+    ga.setChromosomeSize(chromosomeSize)
+      .setPopulationSize(populationSize)
+      .setChildrenPopulationSize(childrenPopulationSize)
+      .setMutationRate(mutationRate)
+      .setRecombinationRate(recombinationRate);
+
+    ga.init();
+
+    Population firstGeneration = ga.get();
+
+    ASSERT_EQ(populationSize, firstGeneration.size());
+
+    ga.step();
+
 }
 
 
