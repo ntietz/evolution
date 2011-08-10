@@ -165,15 +165,62 @@ TEST(GeneticAlgorithm, SinglePointCrossover) {
 }
 
 TEST(GeneticAlgorithm, KPointCrossover) {
+    int chromosomeSize = 50;
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+    Chromosome first = getRandomChromosome(chromosomeSize, rng);
+    Chromosome second = getRandomChromosome(chromosomeSize, rng);
 
+    KPointCrossover crossover(3, rng);
 
+    Pair<Chromosome> result = crossover(first, second);
 
-    ASSERT_STREQ("TEST_WRITTEN", "NO");
+    ASSERT_NE(first, second);
+    ASSERT_NE(result.first, result.second);
+    ASSERT_EQ(chromosomeSize, result.first.size());
+    ASSERT_EQ(chromosomeSize, result.second.size());
 
+    int originalOnes = 0;
+    int resultOnes = 0;
+    for (int index = 0; index < chromosomeSize; ++index) {
+        if (first[index] || second[index]) {
+            ++originalOnes;
+        }
+
+        if (result.first[index] || result.second[index]) {
+            ++resultOnes;
+        }
+    }
+
+    EXPECT_EQ(originalOnes, resultOnes);
 }
 
 TEST(GeneticAlgorithm, UniformCrossover) {
+    int chromosomeSize = 50;
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+    Chromosome first = getRandomChromosome(chromosomeSize, rng);
+    Chromosome second = getRandomChromosome(chromosomeSize, rng);
 
-    ASSERT_STREQ("TEST_WRITTEN", "NO");
+    UniformCrossover crossover(rng);
+
+    Pair<Chromosome> result = crossover(first, second);
+
+    ASSERT_NE(first, second);
+    ASSERT_NE(result.first, result.second);
+    ASSERT_EQ(chromosomeSize, result.first.size());
+    ASSERT_EQ(chromosomeSize, result.second.size());
+
+    int originalOnes = 0;
+    int resultOnes = 0;
+    for (int index = 0; index < chromosomeSize; ++index) {
+        if (first[index] || second[index]) {
+            ++originalOnes;
+        }
+
+        if (result.first[index] || result.second[index]) {
+            ++resultOnes;
+        }
+    }
+
+    EXPECT_EQ(originalOnes, resultOnes);
 }
 
