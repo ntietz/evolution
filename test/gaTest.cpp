@@ -244,7 +244,28 @@ TEST(GeneticAlgorithm, GenerationalSurvival) {
 }
 
 TEST(GeneticAlgorithm, Init) {
-    //GeneticAlgorithm<Fitness, KTournamentSelection, 
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+    int tournamentSize = 10;
+    int populationSize = 100;
+    int childrenPopulationSize = 100;
+
+    Fitness fitness;
+    KTournamentSelection<Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
+    GenerationalSurvival survival;
+    BitFlipMutate mutation;
+    SinglePointCrossover crossover(rng);
+
+    GeneticAlgorithm< Fitness
+                    , KTournamentSelection<Fitness>
+                    , GenerationalSurvival
+                    , BitFlipMutate
+                    , SinglePointCrossover
+                    > ga( fitness
+                        , selection
+                        , survival
+                        , mutation
+                        , crossover
+                        );
 }
 
 
