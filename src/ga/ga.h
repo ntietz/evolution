@@ -63,6 +63,7 @@ public:
     GeneticAlgorithm& setChildrenPopulationSize(unsigned int size) { childrenPopulationSize = size; return *this; }
     GeneticAlgorithm& setMutationRate(double rate) { mutationRate = rate; return *this; }
     GeneticAlgorithm& setRecombinationRate(double rate) { recombinationRate = rate; return *this; }
+    GeneticAlgorithm& setRng(DataGenerator* random) { rng = random; return *this; }
 
     unsigned int getGenerationNumber() { return generationNumber; }
     
@@ -240,7 +241,10 @@ private:
 
 class BitFlipMutate {
 public:
-    BitFlipMutate() { }
+    BitFlipMutate() {
+        mutationRate = 0.01;
+        random = new DataGenerator();
+    }
     BitFlipMutate(double rate, DataGenerator* rng)
         : mutationRate(rate)
         , random(rng)
@@ -267,7 +271,10 @@ private:
 
 class BitSwapMutate {
 public:
-    BitSwapMutate() { }
+    BitSwapMutate() {
+        mutationRate = 0.01;
+        random = new DataGenerator();
+    }
     BitSwapMutate(double rate, DataGenerator* rng)
         : mutationRate(rate)
         , random(rng)
@@ -296,7 +303,9 @@ private:
 
 class SinglePointCrossover {
 public:
-    SinglePointCrossover() { }
+    SinglePointCrossover() {
+        random = new DataGenerator();
+    }
     SinglePointCrossover(DataGenerator* rng)
         : random(rng)
         { }
@@ -321,7 +330,10 @@ private:
 
 class KPointCrossover {
 public:
-    KPointCrossover() { }
+    KPointCrossover() {
+        splitPoints = 3;
+        random = new DataGenerator();
+    }
     KPointCrossover(int points, DataGenerator* rng)
         : splitPoints(points)
         , random(rng)

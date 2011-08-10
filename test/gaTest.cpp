@@ -256,7 +256,7 @@ TEST(GeneticAlgorithm, Init) {
     Fitness fitness;
     KTournamentSelection<Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
     GenerationalSurvival survival;
-    BitFlipMutate mutation;
+    BitFlipMutate mutation(mutationRate, rng);
     SinglePointCrossover crossover(rng);
 
     GeneticAlgorithm< Fitness
@@ -276,14 +276,43 @@ TEST(GeneticAlgorithm, Init) {
       .setPopulationSize(populationSize)
       .setChildrenPopulationSize(childrenPopulationSize)
       .setMutationRate(mutationRate)
-      .setRecombinationRate(recombinationRate);
+      .setRecombinationRate(recombinationRate)
+      .setRng(rng);
 
     ga.init();
 
     Population firstGeneration = ga.get();
 
+    int initialMaxFitness = 0;
+    int initialMinFitness = chromosomeSize;
+    int sum = 0;
+    for (int index = 0; index < firstGeneration.size(); ++index) {
+        int currentFitness = fitness(firstGeneration[index]);
+
+        if (currentFitness > initialMaxFitness) {
+            initialMaxFitness = currentFitness;
+        }
+
+        if (currentFitness < initialMinFitness) {
+            initialMinFitness = currentFitness;
+        }
+
+        sum += currentFitness;
+    }
+    double initialMeanFitness = sum / firstGeneration.size();
+
+    std::cout << "Initial population statistics: " << std::endl
+              << "  min:  " << initialMinFitness << std::endl
+              << "  max:  " << initialMaxFitness << std::endl
+              << "  mean: " << initialMeanFitness << std::endl;
+
     ASSERT_EQ(populationSize, firstGeneration.size());
 
+    int maxFitness = initialMaxFitness;
+    int minFitness = initialMinFitness;
+    
+
+    for (int index = 0; 
     ga.step();
 
 }
