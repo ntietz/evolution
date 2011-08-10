@@ -224,3 +224,27 @@ TEST(GeneticAlgorithm, UniformCrossover) {
     EXPECT_EQ(originalOnes, resultOnes);
 }
 
+TEST(GeneticAlgorithm, GenerationalSurvival) {
+    DataGenerator* rng = new DataGenerator(1024, 1024);
+    int populationSize = 10;
+    int chromosomeSize = 10;
+    Population population;
+    Population children;
+
+    for (int index = 0; index < populationSize; ++index) {
+        population.push_back(getRandomChromosome(chromosomeSize, rng));
+        children.push_back(getRandomChromosome(chromosomeSize, rng));
+    }
+
+    GenerationalSurvival survival;
+
+    Population nextGeneration = survival(population, children);
+
+    EXPECT_EQ(nextGeneration, children);
+}
+
+TEST(GeneticAlgorithm, Init) {
+    //GeneticAlgorithm<Fitness, KTournamentSelection, 
+}
+
+
