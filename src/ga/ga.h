@@ -321,7 +321,7 @@ private:
 class KPointCrossover {
 public:
     KPointCrossover() { }
-    KPointCrossover(std::vector<int> points, DataGenerator* rng)
+    KPointCrossover(int points, DataGenerator* rng)
         : splitPoints(points)
         , random(rng)
         { }
@@ -330,16 +330,17 @@ public:
         Pair<Chromosome> result;
         result.first = first;
         result.second = second;
+        SinglePointCrossover crossover(random);
 
-        for (unsigned int index = 0; index < splitPoints.size(); index++) {
-            recombineOnePoint(result.first, result.second, splitPoints[index]);
+        for (unsigned int index = 0; index < splitPoints; index++) {
+            result = crossover(result.first, result.second);
         }
 
         return result;
     }
 
 private:
-    std::vector<int> splitPoints;
+    int splitPoints;
     DataGenerator* random;
 
     // this relies on side effects to work but only within this class

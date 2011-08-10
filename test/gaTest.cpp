@@ -138,7 +138,30 @@ TEST(GeneticAlgorithm, SinglePointCrossover) {
 
     SinglePointCrossover crossover(rng);
 
-    ASSERT_STREQ("TEST_WRITTEN", "NO");
+    Pair<Chromosome> result = crossover(first, second);
+
+    ASSERT_NE(first, second);
+    ASSERT_EQ(chromosomeSize, result.first.size());
+    ASSERT_EQ(chromosomeSize, result.second.size());
+
+    int switchpoint = -1;
+    for (int index = 0; index < chromosomeSize; ++index) {
+        if (switchpoint < 0) {
+            if (first[index] == result.second[index]
+              && second[index] == result.first[index]
+              && first[index] != second[index]) {
+                switchpoint = index;
+            } else {
+                EXPECT_EQ(first[index], result.first[index]);
+                EXPECT_EQ(second[index], result.second[index]);
+            }
+        } else {
+            EXPECT_EQ(first[index], result.second[index]);
+            EXPECT_EQ(second[index], result.first[index]);
+        }
+    }
+
+    EXPECT_GT(switchpoint, 0);
 }
 
 TEST(GeneticAlgorithm, KPointCrossover) {
