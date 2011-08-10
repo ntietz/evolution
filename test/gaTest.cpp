@@ -285,7 +285,7 @@ TEST(GeneticAlgorithm, Init) {
 
     int initialMaxFitness = 0;
     int initialMinFitness = chromosomeSize;
-    int sum = 0;
+    int initialSum = 0;
     for (int index = 0; index < firstGeneration.size(); ++index) {
         int currentFitness = fitness(firstGeneration[index]);
 
@@ -297,9 +297,9 @@ TEST(GeneticAlgorithm, Init) {
             initialMinFitness = currentFitness;
         }
 
-        sum += currentFitness;
+        initialSum += currentFitness;
     }
-    double initialMeanFitness = sum / firstGeneration.size();
+    double initialMeanFitness = initialSum / firstGeneration.size();
 
     std::cout << "Initial population statistics: " << std::endl
               << "  min:  " << initialMinFitness << std::endl
@@ -308,12 +308,60 @@ TEST(GeneticAlgorithm, Init) {
 
     ASSERT_EQ(populationSize, firstGeneration.size());
 
-    int maxFitness = initialMaxFitness;
-    int minFitness = initialMinFitness;
-    
+    for (int index = 0; index < 10; ++index) {
+        ga.step();
+        ASSERT_EQ(populationSize, ga.get().size());
 
-    for (int index = 0; 
-    ga.step();
+        int maxFitness = 0;
+        int minFitness = chromosomeSize;
+        int sum = 0;
+        for (int index = 0; index < ga.get().size(); ++index) {
+            int currentFitness = fitness(ga.get()[index]);
+
+            if (currentFitness > maxFitness) {
+                maxFitness = currentFitness;
+            }
+
+            if (currentFitness < minFitness) {
+                minFitness = currentFitness;
+            }
+
+            sum += currentFitness;
+        }
+        double meanFitness = sum / ga.get().size();
+
+        std::cout << "Round " << index << " population statistics: " << std::endl
+                  << "  min:  " << minFitness << std::endl
+                  << "  max:  " << maxFitness << std::endl
+                  << "  mean: " << meanFitness << std::endl;
+
+
+    }
+
+    int maxFitness = 0;
+    int minFitness = chromosomeSize;
+    int sum = 0;
+    for (int index = 0; index < ga.get().size(); ++index) {
+        int currentFitness = fitness(ga.get()[index]);
+
+        if (currentFitness > maxFitness) {
+            maxFitness = currentFitness;
+        }
+
+        if (currentFitness < minFitness) {
+            minFitness = currentFitness;
+        }
+
+        sum += currentFitness;
+    }
+    double meanFitness = sum / ga.get().size();
+
+    std::cout << "Final population statistics: " << std::endl
+              << "  min:  " << minFitness << std::endl
+              << "  max:  " << maxFitness << std::endl
+              << "  mean: " << meanFitness << std::endl;
+
+
 
 }
 
