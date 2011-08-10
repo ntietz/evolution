@@ -381,5 +381,15 @@ private:
     DataGenerator* random;
 };
 
+class GenerationalSurvival {
+public:
+    GenerationalSurvival() { }
+
+    Population operator()(Population population, Population children) {
+        return children;
+    }
+
+};
+
 #endif
 
