@@ -1,6 +1,6 @@
 //file:     ga.h
 //author:   ntietz
-//date:     20111.6.27
+//date:     2011.6.27
 // Specification and immplementaiton of a generic genetic algorithm class.
 
 #ifndef _GA_HPP_
