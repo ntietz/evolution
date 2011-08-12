@@ -247,11 +247,11 @@ TEST(GeneticAlgorithm, Init) {
     DataGenerator* rng = new DataGenerator(1024, 1024);
     int tournamentSize = 10;
     int populationSize = 100;
-    int childrenPopulationSize = 100;
+    int childrenPopulationSize = populationSize;
     int chromosomeSize = 25;
 
-    double mutationRate = 0.05;
-    double recombinationRate = 1.0;
+    double mutationRate = 0.01;
+    double recombinationRate = 0.5;
 
     Fitness fitness;
     KTournamentSelection<Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
@@ -308,7 +308,11 @@ TEST(GeneticAlgorithm, Init) {
 
     ASSERT_EQ(populationSize, firstGeneration.size());
 
-    for (int index = 0; index < 10; ++index) {
+    int round = 0;
+    int populationFitness = 0;
+    int maxRounds = 1000;
+    
+    do {
         ga.step();
         ASSERT_EQ(populationSize, ga.get().size());
 
@@ -329,14 +333,14 @@ TEST(GeneticAlgorithm, Init) {
             sum += currentFitness;
         }
         double meanFitness = sum / ga.get().size();
+        
+        ++round;
+        populationFitness = maxFitness;
+    } while (round < maxRounds && populationFitness != 25);
 
-        std::cout << "Round " << index << " population statistics: " << std::endl
-                  << "  min:  " << minFitness << std::endl
-                  << "  max:  " << maxFitness << std::endl
-                  << "  mean: " << meanFitness << std::endl;
-
-
-    }
+    EXPECT_EQ(populationFitness, chromosomeSize);
+    
+    std::cout << "Converged in " << round << " generations." << std::endl;
 
     int maxFitness = 0;
     int minFitness = chromosomeSize;
