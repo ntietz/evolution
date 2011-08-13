@@ -52,7 +52,7 @@ TEST(GeneticAlgorithm, KTournamentSelection) {
     int tournamentSize = 10;
     DataGenerator* rng = new DataGenerator(1024, 1024);
 
-    KTournamentSelection<Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
+    KTournamentSelection<int, Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
 
     Population population(populationSize);
     for (int index = 0; index < populationSize; ++index) {
@@ -71,7 +71,7 @@ TEST(GeneticAlgorithm, RouletteWheelSelection) {
     int chromosomeSize = 25;
     DataGenerator* rng = new DataGenerator(1024, 1024);
 
-    RouletteWheelSelection<Fitness> selection(childrenPopulationSize, rng, fitness);
+    RouletteWheelSelection<int, Fitness> selection(childrenPopulationSize, rng, fitness);
 
     Population population(populationSize);
     for (int index = 0; index < populationSize; ++index) {
@@ -254,13 +254,13 @@ TEST(GeneticAlgorithm, Init) {
     double recombinationRate = 0.5;
 
     Fitness fitness;
-    KTournamentSelection<Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
+    KTournamentSelection<int, Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
     GenerationalSurvival survival;
     BitFlipMutate mutation(mutationRate, rng);
     SinglePointCrossover crossover(rng);
 
     GeneticAlgorithm< Fitness
-                    , KTournamentSelection<Fitness>
+                    , KTournamentSelection<int, Fitness>
                     , GenerationalSurvival
                     , BitFlipMutate
                     , SinglePointCrossover
@@ -310,7 +310,7 @@ TEST(GeneticAlgorithm, Init) {
 
     int round = 0;
     int populationFitness = 0;
-    int maxRounds = 1000;
+    int maxRounds = 100;
     
     do {
         ga.step();
@@ -336,6 +336,8 @@ TEST(GeneticAlgorithm, Init) {
         
         ++round;
         populationFitness = maxFitness;
+
+        std::cout << "Round " << round << " has fitness " << populationFitness << std::endl;
     } while (round < maxRounds && populationFitness != 25);
 
     EXPECT_EQ(populationFitness, chromosomeSize);
