@@ -137,7 +137,7 @@ void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::st
 }
 
 
-template < typename FitnessT >
+template < typename ReturnType, typename FitnessT>
 class KTournamentSelection {
 public:
     KTournamentSelection() { }
@@ -151,7 +151,7 @@ public:
 
     Population operator()(const Population& parentPopulation) const {
         int size = parentPopulation.size();
-        int* scores = new int[size];
+        ReturnType* scores = new int[size];
 
         for (int index = 0; index < size; ++index) {
             scores[index] = fitness(parentPopulation.at(index));
@@ -166,7 +166,7 @@ public:
                     random->getUnsignedInt() % parentPopulation.size() ));
             }
             
-            int max = fitness(candidates.at(0));
+            ReturnType max = fitness(candidates.at(0));
             int best = 0;
             
             for (int index = 1; index < candidates.size(); ++index) {
@@ -190,7 +190,7 @@ private:
     FitnessT fitness;
 };
 
-template < typename Fitness > 
+template < typename ReturnType, typename Fitness > 
 class RouletteWheelSelection {
 public:
     RouletteWheelSelection() { }
@@ -201,9 +201,9 @@ public:
 
     Population operator()(const Population& parentPopulation) const {
         int size = parentPopulation.size();
-        int* scores = new int[size];
+        ReturnType* scores = new int[size];
 
-        int total = 0;
+        ReturnType total = 0;
         for (int index = 0; index < size; ++index) {
             total += fitness(parentPopulation.at(index));
             scores[index] = total;
@@ -212,7 +212,7 @@ public:
         Population parents;
 
         while (parents.size() < childrenPopulationSize) {
-            unsigned int score = random->getUnsignedInt() % total;
+            double score = random->getDouble() * total;
 
             int index = 0;
             while (scores[index] < score) {
