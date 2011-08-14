@@ -151,7 +151,7 @@ public:
 
     Population operator()(const Population& parentPopulation) const {
         int size = parentPopulation.size();
-        ReturnType* scores = new int[size];
+        ReturnType* scores = new ReturnType[size];
 
         for (int index = 0; index < size; ++index) {
             scores[index] = fitness(parentPopulation.at(index));
