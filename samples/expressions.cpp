@@ -85,13 +85,17 @@ string convertToBits(char c) {
     }
 }
 
-struct Triple {
+class Triple {
+public:
+    Triple(int x, int y, int z)
+        : first(x)
+        , second(y)
+        , third(z)
+        { }
+
     int first;
     int second;
     int third;
-    bool hasFirst;
-    bool hasSecond;
-    bool hasThird;
 };
 
 class Fitness {
@@ -103,6 +107,8 @@ public:
         { }
 
     int operator()(const Chromosome& candidate) const {
+        int score = 0;
+
         int numBlocks = candidate.size() / 4;
 
         string expression = "";
@@ -215,51 +221,71 @@ public:
 
         int value = 0;
 
+        /*
         for (int index = 0; index < tokens.size(); ++index) {
             cout << tokens[index] << " ";
         }   cout << " = ";
+        */
 
+        vector<string> original = tokens;
 
-        while (tokens.size() > 1) {
-            if (tokens[0] == "x" || tokens[0] == "y") {
+        for (int index = 0; index < data.size(); ++index) {
+            tokens = original;
+            int xValue = data[index].first;
+            int yValue = data[index].second;
+            int expected = data[index].third;
+            value = 0;
+
+            while (tokens.size() > 1) {
+                int tokenValue = 0;
+
+                if (tokens[0] == "x") {
+                    tokenValue = xValue;
+                } else if (tokens[0] == "y") {
+                    tokenValue = yValue;
+                } else {
+                    token = tokens[0];
+                    for (int loc = 0; loc < token.size(); ++loc) {
+                        tokenValue = 10 * tokenValue + (token[loc] - '0');
+                    }
+                }
+
+                char op = tokens[1][0];
+
+                switch (op) {
+                    case '+' :
+                        value += tokenValue;
+                        break;
+                    case '-' :
+                        value -= tokenValue;
+                        break;
+                    case '*' :
+                        value *= tokenValue;
+                        break;
+                    case '/' :
+                        if (tokenValue != 0)
+                        value /= tokenValue;
+                        break;
+                }
+
                 tokens.erase(tokens.begin());
                 tokens.erase(tokens.begin());
-                continue;
             }
 
-            int tokenValue = 0;
-            token = tokens[0];
-            for (int loc = 0; loc < token.size(); ++loc) {
-                tokenValue = 10 * tokenValue + (token[loc] - '0');
+            int diff = expected - value;
+            if (diff < 0) {
+                diff = -1 * diff;
             }
 
-            char op = tokens[1][0];
-
-            switch (op) {
-                case '+' :
-                    value += tokenValue;
-                    break;
-                case '-' :
-                    value -= tokenValue;
-                    break;
-                case '*' :
-                    value *= tokenValue;
-                    break;
-                case '/' :
-                    if (tokenValue != 0)
-                    value /= tokenValue;
-                    break;
-            }
-
-            tokens.erase(tokens.begin());
-            tokens.erase(tokens.begin());
+            score -= diff;
+            score += (original.size());
 
         }
 
         cout << value << endl;
         cout << expression << endl;
 
-        return 0;
+        return score;
     }
 
 private:
@@ -278,7 +304,13 @@ int main() {
     double recombinationRate = 0.5;
 
     Chromosome target; //TODO: fill these in
-    vector<Triple> data; //TODO: fill these in
+    vector<Triple> data;
+    //data.push_back(Triple(0, 0, 98));
+    //data.push_back(Triple(120,-192, 98));
+    //data.push_back(Triple(-392, -10210, 98));
+    data.push_back(Triple(2, 2, 10));
+    data.push_back(Triple(100, 1, 101));
+    data.push_back(Triple(-10, 10, 990));
 
     Fitness fitness(target, data);
     KTournamentSelection<int, Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
@@ -307,9 +339,91 @@ int main() {
       .setRng(rng);
 
     ga.init();
-    ga.step();
 
     Population firstGeneration = ga.get();
+
+    int initialMaxFitness = 0;
+    int initialMinFitness = chromosomeSize;
+    int initialSum = 0;
+    for (int index = 0; index < firstGeneration.size(); ++index) {
+        int currentFitness = fitness(firstGeneration[index]);
+
+        if (currentFitness > initialMaxFitness) {
+            initialMaxFitness = currentFitness;
+        }
+
+        if (currentFitness < initialMinFitness) {
+            initialMinFitness = currentFitness;
+        }
+
+        initialSum += currentFitness;
+    }
+    double initialMeanFitness = initialSum / firstGeneration.size();
+
+    cout << "Initial population statistics: " << endl
+         << "  min:  " << initialMinFitness << endl
+         << "  max:  " << initialMaxFitness << endl
+         << "  mean: " << initialMeanFitness << endl;
+
+    int round = 0;
+    int populationFitness = 0;
+    int maxRounds = 100;
+    
+    do {
+        ga.step();
+
+        int maxFitness = 0;
+        int minFitness = chromosomeSize;
+        int sum = 0;
+        for (int index = 0; index < ga.get().size(); ++index) {
+            int currentFitness = fitness(ga.get()[index]);
+
+            if (currentFitness > maxFitness) {
+                maxFitness = currentFitness;
+            }
+
+            if (currentFitness < minFitness) {
+                minFitness = currentFitness;
+            }
+
+            sum += currentFitness;
+        }
+        double meanFitness = sum / ga.get().size();
+        
+        ++round;
+        populationFitness = maxFitness;
+
+        cout << "Round " << round << " has fitness " << populationFitness << endl;
+    } while (round < maxRounds && populationFitness != 25);
+
+    cout << "Converged in " << round << " generations." << endl;
+
+    int maxFitness = 0;
+    int minFitness = chromosomeSize;
+    int sum = 0;
+    int best = 0;
+    for (int index = 0; index < ga.get().size(); ++index) {
+        int currentFitness = fitness(ga.get()[index]);
+
+        if (currentFitness > maxFitness) {
+            maxFitness = currentFitness;
+            best = index;
+        }
+
+        if (currentFitness < minFitness) {
+            minFitness = currentFitness;
+        }
+
+        sum += currentFitness;
+    }
+    double meanFitness = sum / ga.get().size();
+
+    cout << "Final population statistics: " << endl
+         << "  min:  " << minFitness << endl
+         << "  max:  " << maxFitness << endl
+         << "  mean: " << meanFitness << endl;
+
+    fitness(ga.get()[best]);
 
 }
 
