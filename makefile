@@ -64,6 +64,9 @@ datagen : src/datagen/datagen.cpp src/datagen/datagen.hpp
 ga : src/ga/ga.h
 	${COMPILER} ${COMPILE_OPTS} src/ga/ga.h -c -o ${BIN}/ga.o
 
+sampleExpressions : samples/expressions.cpp
+	${COMPILER} ${COMPILE_OPTS} samples/expressions.cpp bin/chromosome.o bin/datagen.o bin/random.o -o bin/sampleExpressions.out
+
 # 
 # UNIT TEST TARGETS
 #
