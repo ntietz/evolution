@@ -67,6 +67,9 @@ ga : src/ga/ga.h
 sampleExpressions : samples/expressions.cpp
 	${COMPILER} ${COMPILE_OPTS} samples/expressions.cpp bin/chromosome.o bin/datagen.o bin/random.o -o bin/sampleExpressions.out
 
+sampleKnapsack : samples/knapsack.cpp
+	${COMPILER} ${COMPILE_OPTS} samples/knapsack.cpp bin/chromosome.o bin/datagen.o bin/random.o -o bin/sampleKnapsack.out
+
 # 
 # UNIT TEST TARGETS
 #
