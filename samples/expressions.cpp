@@ -13,6 +13,8 @@ using std::endl;
 using std::string;
 using std::vector;
 
+void display(const Chromosome&);
+
 char convertFromBits(string bits) {
     if (bits == "0000")
         return '0';
@@ -42,10 +44,8 @@ char convertFromBits(string bits) {
         return '*';
     else if (bits == "1101")
         return '/';
-    else if (bits == "1110")
-        return 'x';
-    else if (bits == "1111")
-        return 'y';
+
+    return '*';
 }
 
 string convertToBits(char c) {
@@ -78,10 +78,8 @@ string convertToBits(char c) {
             return "1100";
         case '/' :
             return "1101";
-        case 'x' :
+        case '?' :
             return "1110";
-        case 'y' :
-            return "1111";
 
     }
 }
@@ -97,6 +95,7 @@ string expressionFromChromosome(const Chromosome& candidate) {
             bits += (candidate[4*index + loc] == true ? '1' : '0');
         }
 
+        if ('?' != convertFromBits(bits))
         expression += convertFromBits(bits);
 
     }
@@ -104,13 +103,20 @@ string expressionFromChromosome(const Chromosome& candidate) {
     return expression;
 }
 
+int stringToInt(string str) {
+    int value = 0;
+
+    for (int index = 0; index < str.size(); ++index) {
+        value = 10*value + (str[index] - '0');
+    }
+
+    return value;
+}
+
 vector<string> tokenize(string expression) {
     vector<string> tokens;
-    string token = "";
-    bool wasNum = false;
-    bool wasVar = false;
-    bool wasOp = false;
-    bool pushed = false;
+    string token = "0";
+    bool wasNum = true;
 
     for (int index = 0; index < expression.size(); ++index) {
 
@@ -125,22 +131,14 @@ vector<string> tokenize(string expression) {
             case '7' :
             case '8' :
             case '9' :
-                if (wasVar || wasOp) {
+                if (!wasNum) {
                     tokens.push_back(token);
                     token = "";
 
-                    if (wasVar) {
-                        tokens.push_back("*");
-                    }
-
-                    wasVar = false;
-                    wasOp = false;
-                    pushed = true;
+                    wasNum = true;
                 }
-                wasNum = true;
                 
                 token += expression[index];
-                pushed = false;
 
                 break;
 
@@ -148,43 +146,14 @@ vector<string> tokenize(string expression) {
             case '-' :
             case '*' :
             case '/' :
-                if (wasNum || wasVar) {
+                if (wasNum) {
                     tokens.push_back(token);
                     token = "";
                     wasNum = false;
-                    wasVar = false;
-                    pushed = true;
+
+                    token = expression[index];
                 }
 
-                if (! wasOp) {
-                    token += expression[index];
-                    pushed = false;
-                }
-
-                wasOp = true;
-                break;
-
-            case 'x' :
-            case 'y' :
-                if (wasNum || wasOp) {
-                    if (wasNum) {
-                    }
-                    tokens.push_back(token);
-                    token = "";
-
-                    if (! wasVar) {
-                        if (wasNum) {
-                            tokens.push_back("*");
-                        }
-                        token = expression[index];
-                    }
-
-                    wasNum = false;
-                    wasOp = false;
-                    pushed = true;
-                }
-
-                wasVar = true;
                 break;
 
             default :
@@ -193,112 +162,61 @@ vector<string> tokenize(string expression) {
         }
     }
 
-    if (!pushed) {
-        tokens.push_back(token);
-    }
-
-    if (tokens[0][0] < '0' || tokens[0][0] > '9') {
-        tokens.insert(tokens.begin(), "0");
-    }
+    tokens.push_back(token);
 
     return tokens;
 }
 
-class Triple {
-public:
-    Triple(int x, int y, int z)
-        : first(x)
-        , second(y)
-        , third(z)
-        { }
-
-    int first;
-    int second;
-    int third;
-};
-
 class Fitness {
 public:
     Fitness() { }
-    Fitness(Chromosome pTarget, vector<Triple> pData)
+    Fitness(int pTarget)
         : target(pTarget)
-        , data(pData)
         { }
 
     int operator()(const Chromosome& candidate) const {
-        int score = 0;
+        int value;
 
-        string expression = expressionFromChromosome(candidate);
-        vector<string> tokens = tokenize(expression);
+        vector<string> tokens = tokenize(expressionFromChromosome(candidate));
 
-        int value = 0;
+        value = stringToInt(tokens[0]);
+        tokens.erase(tokens.begin());
 
-        vector<string> original = tokens;
-        string token = "";
+        while (tokens.size() > 1) {
+            int tokenValue = stringToInt(tokens[1]);
 
-        for (int index = 0; index < data.size(); ++index) {
-            tokens = original;
-            int xValue = data[index].first;
-            int yValue = data[index].second;
-            int expected = data[index].third;
-            value = 1;
+            char op = tokens[0][0];
 
-            while (tokens.size() > 1) {
-                int tokenValue = 0;
-
-                if (tokens[0] == "x") {
-                    tokenValue = xValue;
-                } else if (tokens[0] == "y") {
-                    tokenValue = yValue;
-                } else {
-                    token = tokens[0];
-                    for (int loc = 0; loc < token.size(); ++loc) {
-                        tokenValue = 10 * tokenValue + (token[loc] - '0');
-                    }
-                }
-
-                char op = tokens[1][0];
-
-                switch (op) {
-                    case '+' :
-                        value += tokenValue;
-                        break;
-                    case '-' :
-                        value -= tokenValue;
-                        break;
-                    case '*' :
-                        value *= tokenValue;
-                        break;
-                    case '/' :
-                        if (tokenValue != 0)
-                        value /= tokenValue;
-                        break;
-                }
-
-                tokens.erase(tokens.begin());
-                tokens.erase(tokens.begin());
+            switch (op) {
+                case '+' :
+                    value += tokenValue;
+                    break;
+                case '-' :
+                    value -= tokenValue;
+                    break;
+                case '*' :
+                    value *= tokenValue;
+                    break;
+                case '/' :
+                    if (tokenValue != 0)
+                    value = (int) ( (double)value / tokenValue);
+                    break;
             }
 
-            int diff = expected - value;
-            if (diff < 0) {
-                diff = -1 * diff;
-            }
+            tokens.erase(tokens.begin());
+            tokens.erase(tokens.begin());
+        }
 
-            score -= diff;
-            if (score > 0) {
-                score = INT_MIN;
-            }
-
-            cout << "x: " << xValue << ", y: " << yValue << ", expected: " << expected
-                 << "\nvalue: " << value << ", score: " << score << endl;
+        int score = target - value;
+        if (score > 0) {
+            score = -1 * score;
         }
 
         return score;
     }
 
 private:
-    Chromosome target;
-    vector<Triple> data;
+    int target;
 };
 
 void display(const Chromosome& candidate) {
@@ -317,47 +235,10 @@ int main() {
     int childrenPopulationSize = populationSize;
     int chromosomeSize = 60;
 
-    double mutationRate = 0.01;
-    double recombinationRate = 0.5;
+    double mutationRate = 0.05;
+    double recombinationRate = 0.7;
 
-    Chromosome target; //TODO: fill these in
-    vector<Triple> data;
-    //data.push_back(Triple(0, 0, 98));
-    //data.push_back(Triple(120,-192, 98));
-    //data.push_back(Triple(-392, -10210, 98));
-    data.push_back(Triple(0, 0, 0));
-    data.push_back(Triple(1, 0, 1));
-    data.push_back(Triple(2, 0, 2));
-    data.push_back(Triple(3, 0, 3));
-    data.push_back(Triple(4, 0, 4));
-    data.push_back(Triple(5, 0, 5));
-    data.push_back(Triple(-1, 0, -1));
-    data.push_back(Triple(-2, 0, -2));
-    data.push_back(Triple(-3, 0, -3));
-    data.push_back(Triple(-4, 0, -4));
-    data.push_back(Triple(-5, 0, -5));
-    data.push_back(Triple(10, 0, 10));
-    data.push_back(Triple(1000, 0, 1000));
-    data.push_back(Triple(-100, 0, -100));
-    data.push_back(Triple(-1000, 0, -1000));
-    data.push_back(Triple(0, 1, 1));
-    data.push_back(Triple(0, -1, 1));
-    data.push_back(Triple(0, 2, 4));
-    data.push_back(Triple(0, -2, 4));
-    data.push_back(Triple(0, 3, 9));
-    data.push_back(Triple(0, -3, 9));
-    data.push_back(Triple(0, 4, 16));
-    data.push_back(Triple(0, -4, 16));
-    data.push_back(Triple(0, 5, 25));
-    data.push_back(Triple(0, -5, 25));
-    data.push_back(Triple(0, 10, 100));
-    data.push_back(Triple(0, -10, 100));
-    data.push_back(Triple(0, 100, 10000));
-    data.push_back(Triple(0, -100, 10000));
-    data.push_back(Triple(10, -4, 26));
-    data.push_back(Triple(-300, 2, -296));
-
-    Fitness fitness(target, data);
+    Fitness fitness(1293);
     KTournamentSelection<int, Fitness> selection(tournamentSize, childrenPopulationSize, rng, fitness);
     GenerationalSurvival survival;
     BitFlipMutate mutation(mutationRate, rng);
@@ -387,8 +268,8 @@ int main() {
 
     Population firstGeneration = ga.get();
 
-    int initialMaxFitness = 0;
-    int initialMinFitness = chromosomeSize;
+    int initialMaxFitness = fitness(ga.get()[0]);
+    int initialMinFitness = initialMaxFitness;
     double initialSum = 0;
     for (int index = 0; index < firstGeneration.size(); ++index) {
         int currentFitness = fitness(firstGeneration[index]);
@@ -417,8 +298,8 @@ int main() {
     do {
         ga.step();
 
-        int maxFitness = 0;
-        int minFitness = chromosomeSize;
+        int maxFitness = fitness(ga.get()[0]);
+        int minFitness = maxFitness;
         double sum = 0;
         for (int index = 0; index < ga.get().size(); ++index) {
             int currentFitness = fitness(ga.get()[index]);
@@ -443,8 +324,8 @@ int main() {
 
     cout << "Converged in " << round << " generations." << endl;
 
-    int maxFitness = 0;
-    int minFitness = chromosomeSize;
+    int maxFitness = fitness(ga.get()[0]);
+    int minFitness = maxFitness;
     double sum = 0;
     int best = 0;
     for (int index = 0; index < ga.get().size(); ++index) {
