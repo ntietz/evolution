@@ -9,7 +9,8 @@
 #include <vector>
 #include "common.h"
 
-class Chromosome {
+class Chromosome
+{
 public:
     Chromosome();
     Chromosome(std::vector<bool>);
