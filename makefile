@@ -31,13 +31,13 @@ GTEST_SRCS = ${GTEST_DIR}/src/*.cc ${GTEST_DIR}/src/*.h ${GTEST_HEADERS}
 
 # META TARGETS
 
-all : clean init compile build_tests run_tests
+all : compile build_tests run_tests
 	
 
 init :
 	mkdir bin
 
-compile : chromosome random datagen ga
+compile : clean init chromosome random datagen ga
 	
 
 build_tests : tests

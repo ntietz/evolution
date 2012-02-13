@@ -18,18 +18,24 @@ typedef std::vector<Chromosome> Population;
 Chromosome getRandomChromosome(int);
 Chromosome getRandomChromosome(int, DataGenerator*);
 
-Chromosome getRandomChromosome(int length) {
+Chromosome getRandomChromosome(int length)
+{
     DataGenerator* rng = new DataGenerator();
     return getRandomChromosome(length, rng);
 }
 
-Chromosome getRandomChromosome(int length, DataGenerator* rng) {
+Chromosome getRandomChromosome(int length, DataGenerator* rng)
+{
     std::vector<bool> bits(length);
 
-    for (int index = 0; index < length; ++index) {
-        if (rng->getUnsignedInt() % 2 == 0) {
+    for (int index = 0; index < length; ++index)
+    {
+        if (rng->getUnsignedInt() % 2 == 0)
+        {
             bits[index] = true;
-        } else {
+        }
+        else
+        {
             bits[index] = false;
         }
     }
@@ -43,10 +49,15 @@ template < typename Fitness
          , typename Mutation
          , typename Recombination
          >
-class GeneticAlgorithm {
-public:
-    GeneticAlgorithm(const Fitness& f, const Selection& se, 
-        const Survival& su, const Mutation& m, const Recombination& r)
+class GeneticAlgorithm
+{
+  public:
+    GeneticAlgorithm( const Fitness& f
+                    , const Selection& se
+                    , const Survival& su
+                    , const Mutation& m
+                    , const Recombination& r
+                    )
     {
         // this seeds the rng from /dev/urandom
         rng = new DataGenerator();
@@ -71,7 +82,7 @@ public:
     void step();
     Population get() const { return population; }
 
-protected:
+  protected:
     Fitness fitness;                //return: int,                    param: none
     Selection selection;            //return: population,             param: population
     Survival survival;              //return: population,             param: population, population
@@ -98,10 +109,12 @@ template < typename Fitness
          , typename Mutation
          , typename Recombination
          >
-void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::init() {
+void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::init()
+{
     population.resize(populationSize);
 
-    for (int index = 0; index < populationSize; ++index) {
+    for (int index = 0; index < populationSize; ++index)
+    {
         population[index] = getRandomChromosome(chromosomeSize);
     }
 }
@@ -112,24 +125,30 @@ template < typename Fitness
          , typename Mutation
          , typename Recombination
          >
-void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step() {
+void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step()
+{
     Population parents = selection(population);
     
     Population children;
-    for (int index = 0; children.size() < childrenPopulationSize; ++index) {
+    for (int index = 0; children.size() < childrenPopulationSize; ++index)
+    {
         double value = rng->getDouble();
         
-        if (value < recombinationRate) {
+        if (value < recombinationRate)
+        {
             Pair<Chromosome> twins = recombination(parents[index], parents[index + 1]);
             children.push_back(twins.first);
             children.push_back(twins.second);
-        } else {
+        }
+        else
+        {
             children.push_back(parents[index]);
             children.push_back(parents[index+1]);
         }
     }
 
-    for (int index = 0; index < childrenPopulationSize; ++index) {
+    for (int index = 0; index < childrenPopulationSize; ++index)
+    {
         children[index] = mutation(children[index]);
     }
 
@@ -137,11 +156,17 @@ void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::st
 }
 
 
-template < typename ReturnType, typename FitnessT>
+template < typename ReturnType
+         , typename FitnessT
+         >
 class KTournamentSelection {
 public:
     KTournamentSelection() { }
-    KTournamentSelection(int const& tSize, int const& cpSize, DataGenerator* rng, FitnessT const& fit)
+    KTournamentSelection( int const& tSize
+                        , int const& cpSize
+                        , DataGenerator* rng
+                        , FitnessT const& fit
+                        )
         : tournamentSize(tSize)
         , childrenPopulationSize(cpSize)
         , random(rng)
@@ -149,19 +174,23 @@ public:
     {
     }
 
-    Population operator()(const Population& parentPopulation) const {
+    Population operator()(const Population& parentPopulation) const
+    {
         int size = parentPopulation.size();
         ReturnType* scores = new ReturnType[size];
 
-        for (int index = 0; index < size; ++index) {
+        for (int index = 0; index < size; ++index)
+        {
             scores[index] = fitness(parentPopulation.at(index));
         }
 
         Population parents;
-        while (parents.size() < childrenPopulationSize)  {
+        while (parents.size() < childrenPopulationSize)
+        {
 
             Population candidates;
-            for (int index = 0; index < tournamentSize; ++index) {
+            for (int index = 0; index < tournamentSize; ++index)
+            {
                 candidates.push_back(parentPopulation.at(
                     random->getUnsignedInt() % parentPopulation.size() ));
             }
@@ -169,8 +198,10 @@ public:
             ReturnType max = fitness(candidates.at(0));
             int best = 0;
             
-            for (int index = 1; index < candidates.size(); ++index) {
-                if (fitness(candidates.at(index)) > max) {
+            for (int index = 1; index < candidates.size(); ++index)
+            {
+                if (fitness(candidates.at(index)) > max)
+                {
                     max = fitness(candidates.at(index));
                     best = index;
                 }
@@ -190,32 +221,43 @@ private:
     FitnessT fitness;
 };
 
-template < typename ReturnType, typename Fitness > 
+template < typename ReturnType
+         , typename Fitness
+         > 
 class RouletteWheelSelection {
 public:
     RouletteWheelSelection() { }
-    RouletteWheelSelection(int cpSize, DataGenerator* rng, Fitness fit)
+    RouletteWheelSelection( int cpSize
+                          , DataGenerator* rng
+                          , Fitness fit
+                          )
         : childrenPopulationSize(cpSize)
         , random(rng)
-        , fitness(fit) {}
+        , fitness(fit)
+    {
+    }
 
-    Population operator()(const Population& parentPopulation) const {
+    Population operator()(const Population& parentPopulation) const
+    {
         int size = parentPopulation.size();
         ReturnType* scores = new int[size];
 
         ReturnType total = 0;
-        for (int index = 0; index < size; ++index) {
+        for (int index = 0; index < size; ++index)
+        {
             total += fitness(parentPopulation.at(index));
             scores[index] = total;
         }
 
         Population parents;
 
-        while (parents.size() < childrenPopulationSize) {
+        while (parents.size() < childrenPopulationSize)
+        {
             double score = random->getDouble() * total;
 
             int index = 0;
-            while (scores[index] < score) {
+            while (scores[index] < score)
+            {
                 ++index;
             }
 
@@ -232,24 +274,35 @@ private:
     Fitness fitness;
 };
 
-class BitFlipMutate {
+class BitFlipMutate
+{
 public:
-    BitFlipMutate() {
+    BitFlipMutate()
+    {
         mutationRate = 0.01;
         random = new DataGenerator();
     }
-    BitFlipMutate(double rate, DataGenerator* rng)
+
+    BitFlipMutate( double rate
+                 , DataGenerator* rng
+                 )
         : mutationRate(rate)
         , random(rng)
-        { }
+    {
+    }
 
-    Chromosome operator()(const Chromosome& actual) const {
+    Chromosome operator()(const Chromosome& actual) const
+    {
         Chromosome result = actual;
 
-        for (int loc = 0; loc < result.size(); ++loc) {
-            if (random->getDouble() < mutationRate) {
+        for (int loc = 0; loc < result.size(); ++loc)
+        {
+            if (random->getDouble() < mutationRate)
+            {
                 result.set(loc, ! actual[loc]);
-            } else {
+            }
+            else
+            {
                 result.set(loc, actual[loc]);
             }
         }
@@ -262,22 +315,31 @@ private:
     DataGenerator* random;
 };
 
-class BitSwapMutate {
+class BitSwapMutate
+{
 public:
-    BitSwapMutate() {
+    BitSwapMutate()
+    {
         mutationRate = 0.01;
         random = new DataGenerator();
     }
-    BitSwapMutate(double rate, DataGenerator* rng)
+
+    BitSwapMutate( double rate
+                 , DataGenerator* rng
+                 )
         : mutationRate(rate)
         , random(rng)
-        { }
+    {
+    }
 
-    Chromosome operator()(const Chromosome& actual) {
+    Chromosome operator()(const Chromosome& actual)
+    {
         Chromosome result = actual;
 
-        for (int loc = 0; loc < result.size(); ++loc) {
-            if (random->getDouble() < mutationRate) {
+        for (int loc = 0; loc < result.size(); ++loc)
+        {
+            if (random->getDouble() < mutationRate)
+            {
                 int other = random->getUnsignedInt() % (actual.size() - 2);
                 if (other >= loc) ++other;
                 
@@ -294,16 +356,20 @@ private:
     DataGenerator* random;
 };
 
-class SinglePointCrossover {
+class SinglePointCrossover
+{
 public:
-    SinglePointCrossover() {
+    SinglePointCrossover()
+    {
         random = new DataGenerator();
     }
     SinglePointCrossover(DataGenerator* rng)
         : random(rng)
-        { }
+    {
+    }
 
-    Pair<Chromosome> operator()(const Chromosome& first, const Chromosome& second) {
+    Pair<Chromosome> operator()(const Chromosome& first, const Chromosome& second)
+    {
         int splitPoint = random->getUnsignedInt() % (first.size() - 1);
         
         Pair<Chromosome> result;
@@ -321,24 +387,34 @@ private:
     DataGenerator* random;
 };
 
-class KPointCrossover {
+class KPointCrossover
+{
 public:
-    KPointCrossover() {
+    KPointCrossover()
+    {
         splitPoints = 3;
         random = new DataGenerator();
     }
-    KPointCrossover(int points, DataGenerator* rng)
+
+    KPointCrossover( int points
+                   , DataGenerator* rng
+                   )
         : splitPoints(points)
         , random(rng)
-        { }
+    {
+    }
 
-    Pair<Chromosome> operator()(const Chromosome& first, const Chromosome& second) {
+    Pair<Chromosome> operator()( const Chromosome& first
+                               , const Chromosome& second
+                               )
+    {
         Pair<Chromosome> result;
         result.first = first;
         result.second = second;
         SinglePointCrossover crossover(random);
 
-        for (unsigned int index = 0; index < splitPoints; index++) {
+        for (unsigned int index = 0; index < splitPoints; index++)
+        {
             result = crossover(result.first, result.second);
         }
 
@@ -350,7 +426,11 @@ private:
     DataGenerator* random;
 
     // this relies on side effects to work but only within this class
-    void recombineOnePoint(Chromosome& first, Chromosome& second, int point) {
+    void recombineOnePoint( Chromosome& first
+                          , Chromosome& second
+                          , int point
+                          )
+    {
         std::vector<Chromosome> firstParts = first.split(point);
         std::vector<Chromosome> secondParts = second.split(point);
 
@@ -359,22 +439,32 @@ private:
     }
 };
 
-class UniformCrossover {
+class UniformCrossover
+{
 public:
-    UniformCrossover() { }
+    UniformCrossover()
+    {
+    }
+
     UniformCrossover(DataGenerator* rng)
         : random(rng)
-        { }
+    {
+    }
 
-    Pair<Chromosome> operator()(const Chromosome& first, const Chromosome& second) {
+    Pair<Chromosome> operator()( const Chromosome& first
+                               , const Chromosome& second
+                               )
+    {
         Pair<Chromosome> result;
         result.first = first;
         result.second = second;
 
-        for (int loc = 0; loc < first.size(); loc++) {
+        for (int loc = 0; loc < first.size(); loc++)
+        {
             double value = random->getDouble();
 
-            if (value < 0.5) {
+            if (value < 0.5)
+            {
                 result.first.set(loc, second[loc]);
                 result.second.set(loc, first[loc]);
             }
@@ -387,11 +477,17 @@ private:
     DataGenerator* random;
 };
 
-class GenerationalSurvival {
+class GenerationalSurvival
+{
 public:
-    GenerationalSurvival() { }
+    GenerationalSurvival()
+    {
+    }
 
-    Population operator()(Population population, Population children) {
+    Population operator()( Population population
+                         , Population children
+                         )
+    {
         return children;
     }
 
