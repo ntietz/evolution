@@ -5,7 +5,8 @@
 
 #include "datagen.hpp"
 
-DataGenerator::DataGenerator() {
+DataGenerator::DataGenerator()
+{
     rng = new SimpleRNG();
     
     std::ifstream seeder("/dev/urandom", std::ios::in | std::ios::binary);
@@ -19,23 +20,30 @@ DataGenerator::DataGenerator() {
 
 }
 
-DataGenerator::DataGenerator(unsigned int seedA, unsigned int seedB) {
+DataGenerator::DataGenerator( unsigned int seedA
+                            , unsigned int seedB
+                            )
+{
     rng = new SimpleRNG();
     rng->SetState(seedA, seedB);
 }
 
-unsigned int DataGenerator::getUnsignedInt() {
+unsigned int DataGenerator::getUnsignedInt()
+{
     return rng->GetUint();
 }
 
-double DataGenerator::getDouble() {
+double DataGenerator::getDouble()
+{
     return rng->GetUniform();
 }
 
-std::vector<unsigned int> DataGenerator::getUnsignedIntVector(int size) {
+std::vector<unsigned int> DataGenerator::getUnsignedIntVector(int size)
+{
     std::vector<unsigned int> results;
 
-    for (int index = 0; index < size; index++) {
+    for (int index = 0; index < size; index++)
+    {
         results.push_back(rng->GetUint());
     }
 
