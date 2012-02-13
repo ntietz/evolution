@@ -11,8 +11,11 @@
 
 const int null = 0;
 
-template<typename T>
-void swap(T& left, T& right) {
+template < typename T >
+void swap( T& left
+         , T& right
+         )
+{
     T temp = left;
     left = right;
     right = temp;
