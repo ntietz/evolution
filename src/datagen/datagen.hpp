@@ -10,8 +10,9 @@
 #include <fstream>
 #include <vector>
 
-class DataGenerator {
-public:
+class DataGenerator
+{
+  public:
     DataGenerator();
     DataGenerator(unsigned int, unsigned int);
 
@@ -20,7 +21,7 @@ public:
 
     std::vector<unsigned int> getUnsignedIntVector(int);
 
-private:
+  private:
     SimpleRNG* rng;
 
 };
