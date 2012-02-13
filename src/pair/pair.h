@@ -7,7 +7,8 @@
 #define _PAIR_H_
 
 template < typename T >
-class Pair {
+class Pair
+{
 public:
     T first;
     T second;
