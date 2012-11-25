@@ -13,6 +13,8 @@
 #include <vector>
 #include <iostream>
 
+static auto gaRNG = new DataGenerator();
+
 typedef std::vector<Chromosome> Population;
 
 Chromosome getRandomChromosome(int);
@@ -439,6 +441,7 @@ private:
     }
 };
 
+// FIXME DEPRECATED CLASS
 class UniformCrossover
 {
 public:
@@ -477,6 +480,26 @@ private:
     DataGenerator* random;
 };
 
+auto uniformCrossover = [&gaRNG] (const Chromosome& first, const Chromosome& second) {
+        Pair<Chromosome> result;
+        result.first = first;
+        result.second = second;
+
+        for (int loc = 0; loc < first.size(); loc++)
+        {
+            double value = gaRNG->getDouble();
+
+            if (value < 0.5)
+            {
+                result.first.set(loc, second[loc]);
+                result.second.set(loc, first[loc]);
+            }
+        }
+
+        return result;
+    };
+
+// FIXME DEPRECATED CLASS
 class GenerationalSurvival
 {
 public:
@@ -492,6 +515,10 @@ public:
     }
 
 };
+
+auto generationalSurvival = [] (Population population, Population children) {
+        return children;
+    };
 
 #endif
 

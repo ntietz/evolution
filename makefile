@@ -14,7 +14,7 @@
 
 COMPILER=g++
 # COMPILER=clang
-COMPILE_OPTS= -std=gnu++0x -I${SRC} -Ilib# -Wall -ggdb  #adds c++0x support, for the random lib
+COMPILE_OPTS= -std=c++11 -I${SRC} -Ilib# -Wall -ggdb  #adds c++0x support, for the random lib
 SRC_DIR = src
 SRC=src
 BIN=bin
@@ -33,6 +33,8 @@ GTEST_SRCS = ${GTEST_DIR}/src/*.cc ${GTEST_DIR}/src/*.h ${GTEST_HEADERS}
 
 all : compile build_tests run_tests
 	
+
+samples : sampleExpressions sampleKnapsack
 
 init :
 	mkdir bin
