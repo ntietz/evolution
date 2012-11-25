@@ -12,6 +12,7 @@
 #include "pair/pair.h"
 #include <vector>
 #include <iostream>
+#include <functional>
 
 static auto gaRNG = new DataGenerator();
 
@@ -85,6 +86,7 @@ class GeneticAlgorithm
     Population get() const { return population; }
 
   protected:
+    //std::function<int(const Chromosome&)> fitness;
     Fitness fitness;                //return: int,                    param: none
     Selection selection;            //return: population,             param: population
     Survival survival;              //return: population,             param: population, population
