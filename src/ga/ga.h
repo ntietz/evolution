@@ -100,60 +100,41 @@ class GeneticAlgorithm
     DataGenerator* rng;
 };
 
-/*
-template < typename Fitness
-         , typename Selection
-         , typename Survival
-         , typename Mutation
-         , typename Recombination
-         >
-void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::init()
-{
+void GeneticAlgorithm::init() {
     population.resize(populationSize);
 
-    for (int index = 0; index < populationSize; ++index)
-    {
-        population[index] = getRandomChromosome(chromosomeSize);
+    for (auto& each : population) {
+        each = getRandomChromosome(chromosomeSize);
     }
 }
 
-template < typename Fitness
-         , typename Selection
-         , typename Survival
-         , typename Mutation
-         , typename Recombination
-         >
-void GeneticAlgorithm<Fitness, Selection, Survival, Mutation, Recombination>::step()
-{
+void GeneticAlgorithm::step() {
     Population parents = selection(population);
-    
+
     Population children;
-    for (int index = 0; children.size() < childrenPopulationSize; ++index)
-    {
+    for (int index = 0; children.size() < childrenPopulationSize; ++index) {
         double value = rng->getDouble();
-        
-        if (value < recombinationRate)
-        {
-            Pair<Chromosome> twins = recombination(parents[index], parents[index + 1]);
+
+        // TODO Investigate whether or not this is right. It seems wrong:
+        // It seems like it would be better to choose the parent pairing randomly, instead of automatically pairing neighbors.
+        if (value < recombinationRate) {
+            Pair<Chromosome> twins = recombination(parents[index], parents[index+1]);
             children.push_back(twins.first);
             children.push_back(twins.second);
-        }
-        else
-        {
+        } else {
             children.push_back(parents[index]);
             children.push_back(parents[index+1]);
         }
     }
 
-    for (int index = 0; index < childrenPopulationSize; ++index)
-    {
-        children[index] = mutation(children[index]);
+    for (auto& each : children) {
+        each = mutation(each);
     }
 
     population = survival(population, children);
 }
 
-
+/*
 template < typename ReturnType
          , typename FitnessT
          >
