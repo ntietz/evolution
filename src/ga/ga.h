@@ -202,6 +202,12 @@ SelectionFunction RouletteWheelSelection( int childrenPopulationSize
     };
 }
 
+SurvivalFunction GenerationalSurvival() {
+    return [=] (const Population& population, const Population& children) -> Population {
+        return children;
+    };
+}
+
 MutationFunction BitFlipMutate( double mutationRate
                               , DataGenerator random
                               ) {
@@ -245,6 +251,8 @@ MutationFunction BitSwapMutate( double mutationRate
         return result;
     };
 }
+
+
 
 /*
 class SinglePointCrossover
@@ -330,7 +338,6 @@ private:
     }
 };
 
-// FIXME DEPRECATED CLASS
 class UniformCrossover
 {
 public:
@@ -368,47 +375,6 @@ public:
 private:
     DataGenerator* random;
 };
-
-auto uniformCrossover = [&gaRNG] (const Chromosome& first, const Chromosome& second) {
-        Pair<Chromosome> result;
-        result.first = first;
-        result.second = second;
-
-        for (int loc = 0; loc < first.size(); loc++)
-        {
-            double value = gaRNG->getDouble();
-
-            if (value < 0.5)
-            {
-                result.first.set(loc, second[loc]);
-                result.second.set(loc, first[loc]);
-            }
-        }
-
-        return result;
-    };
-
-// FIXME DEPRECATED CLASS
-class GenerationalSurvival
-{
-public:
-    GenerationalSurvival()
-    {
-    }
-
-    Population operator()( Population population
-                         , Population children
-                         )
-    {
-        return children;
-    }
-
-};
-
-auto generationalSurvival = [] (Population population, Population children) {
-        return children;
-    };
-
 */
 #endif
 
