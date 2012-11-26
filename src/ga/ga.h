@@ -14,8 +14,6 @@
 #include <iostream>
 #include <functional>
 
-static auto gaRNG = new DataGenerator();
-
 typedef std::vector<Chromosome> Population;
 
 Chromosome getRandomChromosome(int);
@@ -56,7 +54,6 @@ class GeneticAlgorithm
                     , const RecombinationFunction& r
                     )
     {
-        // this seeds the rng from /dev/urandom
         rng = new DataGenerator();
 
         fitness = f;
