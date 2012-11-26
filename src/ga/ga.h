@@ -223,48 +223,30 @@ MutationFunction BitFlipMutate( double mutationRate
     };
 }
 
-/*
-class BitSwapMutate
-{
-public:
-    BitSwapMutate()
-    {
-        mutationRate = 0.01;
-        random = new DataGenerator();
-    }
-
-    BitSwapMutate( double rate
-                 , DataGenerator* rng
-                 )
-        : mutationRate(rate)
-        , random(rng)
-    {
-    }
-
-    Chromosome operator()(const Chromosome& actual)
-    {
+MutationFunction BitSwapMutate( double mutationRate
+                              , DataGenerator random
+                              ) {
+    return [=] (const Chromosome& actual) mutable -> Chromosome {
         Chromosome result = actual;
+        int length = result.size();
 
-        for (int loc = 0; loc < result.size(); ++loc)
-        {
-            if (random->getDouble() < mutationRate)
-            {
-                int other = random->getUnsignedInt() % (actual.size() - 2);
-                if (other >= loc) ++other;
-                
+        for (int loc = 0; loc < length; ++loc) {
+            if (random.getDouble() < mutationRate) {
+                int other = random.getUnsignedInt() % (length - 2);
+                if (other >= loc) {
+                    ++other;
+                }
+
                 result.set(loc, actual[other]);
                 result.set(other, actual[loc]);
             }
         }
 
         return result;
-    }
+    };
+}
 
-private:
-    double mutationRate;
-    DataGenerator* random;
-};
-
+/*
 class SinglePointCrossover
 {
 public:
