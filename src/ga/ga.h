@@ -115,8 +115,6 @@ void GeneticAlgorithm::step() {
     for (int index = 0; children.size() < childrenPopulationSize; ++index) {
         double value = rng->getDouble();
 
-        // TODO Investigate whether or not this is right. It seems wrong:
-        // It seems like it would be better to choose the parent pairing randomly, instead of automatically pairing neighbors.
         if (value < recombinationRate) {
             Pair<Chromosome> twins = recombination(parents[index], parents[index+1]);
             children.push_back(twins.first);
@@ -134,53 +132,32 @@ void GeneticAlgorithm::step() {
     population = survival(population, children);
 }
 
-/*
-template < typename ReturnType
-         , typename FitnessT
-         >
-class KTournamentSelection {
-public:
-    KTournamentSelection() { }
-    KTournamentSelection( int const& tSize
-                        , int const& cpSize
-                        , DataGenerator* rng
-                        , FitnessT const& fit
-                        )
-        : tournamentSize(tSize)
-        , childrenPopulationSize(cpSize)
-        , random(rng)
-        , fitness(fit)
-    {
-    }
-
-    Population operator()(const Population& parentPopulation) const
-    {
+SelectionFunction KTournamentSelection( const int& tournamentSize
+                                      , const int& childrenPopulationSize
+                                      , DataGenerator random
+                                      , FitnessFunction fitness
+                                      ) {
+    return [=] (const Population& parentPopulation) mutable -> Population {
         int size = parentPopulation.size();
-        ReturnType* scores = new ReturnType[size];
+        float* scores = new float[size];
 
-        for (int index = 0; index < size; ++index)
-        {
+        for (int index = 0; index < size; ++index) {
             scores[index] = fitness(parentPopulation.at(index));
         }
 
         Population parents;
-        while (parents.size() < childrenPopulationSize)
-        {
-
+        while (parents.size() < childrenPopulationSize) {
             Population candidates;
-            for (int index = 0; index < tournamentSize; ++index)
-            {
-                candidates.push_back(parentPopulation.at(
-                    random->getUnsignedInt() % parentPopulation.size() ));
+            for (int index = 0; index < tournamentSize; ++index) {
+                candidates.push_back(parentPopulation.at(random.getUnsignedInt()%size));
             }
-            
-            ReturnType max = fitness(candidates.at(0));
+
+            // TODO check if there's a fold function in the STL and use it here instead of your own find-max
+            float max = fitness(candidates.at(0));
             int best = 0;
-            
-            for (int index = 1; index < candidates.size(); ++index)
-            {
-                if (fitness(candidates.at(index)) > max)
-                {
+
+            for (int index = 1; index < candidates.size(); ++index) {
+                if (fitness(candidates.at(index)) > max) {
                     max = fitness(candidates.at(index));
                     best = index;
                 }
@@ -191,15 +168,10 @@ public:
 
         delete [] scores;
         return parents;
-    }
+    };
+}
 
-private:
-    int tournamentSize;
-    int childrenPopulationSize;
-    DataGenerator* random;
-    FitnessT fitness;
-};
-
+/*
 template < typename ReturnType
          , typename Fitness
          > 
