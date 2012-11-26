@@ -252,92 +252,39 @@ MutationFunction BitSwapMutate( double mutationRate
     };
 }
 
-
-
-/*
-class SinglePointCrossover
-{
-public:
-    SinglePointCrossover()
-    {
-        random = new DataGenerator();
-    }
-    SinglePointCrossover(DataGenerator* rng)
-        : random(rng)
-    {
-    }
-
-    Pair<Chromosome> operator()(const Chromosome& first, const Chromosome& second)
-    {
-        int splitPoint = random->getUnsignedInt() % (first.size() - 1);
-        
+RecombinationFunction SinglePointCrossover(DataGenerator random) {
+    return [=] (const Chromosome& first, const Chromosome& second) mutable -> Pair<Chromosome> {
+        int splitPoint = random.getUnsignedInt() % (first.size() - 1);
         Pair<Chromosome> result;
 
         std::vector<Chromosome> firstParts = first.split(splitPoint);
         std::vector<Chromosome> secondParts = second.split(splitPoint);
 
         result.first = Chromosome().merge(firstParts[0], secondParts[1]);
-        result.second = Chromosome().merge(secondParts[0], firstParts[1]);
+        result.second = Chromosome().merge(secondParts[0], firstParts[0]);
 
         return result;
-    }
+    };
+}
 
-private:
-    DataGenerator* random;
-};
-
-class KPointCrossover
-{
-public:
-    KPointCrossover()
-    {
-        splitPoints = 3;
-        random = new DataGenerator();
-    }
-
-    KPointCrossover( int points
-                   , DataGenerator* rng
-                   )
-        : splitPoints(points)
-        , random(rng)
-    {
-    }
-
-    Pair<Chromosome> operator()( const Chromosome& first
-                               , const Chromosome& second
-                               )
-    {
+RecombinationFunction KPointCrossover( int points
+                                     , DataGenerator random
+                                     ) {
+    return [=] (const Chromosome& first, const Chromosome& second) mutable -> Pair<Chromosome> {
         Pair<Chromosome> result;
         result.first = first;
         result.second = second;
-        SinglePointCrossover crossover(random);
 
-        for (unsigned int index = 0; index < splitPoints; index++)
-        {
+        RecombinationFunction crossover = SinglePointCrossover(random);
+        for (int index = 0; index < points; ++index) {
             result = crossover(result.first, result.second);
         }
 
         return result;
-    }
+    };
+}
 
-private:
-    int splitPoints;
-    DataGenerator* random;
-
-    // this relies on side effects to work but only within this class
-    void recombineOnePoint( Chromosome& first
-                          , Chromosome& second
-                          , int point
-                          )
-    {
-        std::vector<Chromosome> firstParts = first.split(point);
-        std::vector<Chromosome> secondParts = second.split(point);
-
-        first = Chromosome().merge(firstParts[0], secondParts[1]);
-        second = Chromosome().merge(secondParts[0], secondParts[1]);
-    }
-};
-
+/*
 class UniformCrossover
 {
 public:
