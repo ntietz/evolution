@@ -1,7 +1,7 @@
 //file:     ga.h
 //author:   ntietz
 //date:     2011.6.27
-// Specification and immplementaiton of a generic genetic algorithm class.
+// Specification and implementation of a generic genetic algorithm class.
 
 #ifndef _GA_HPP_
 #define _GA_HPP_
@@ -21,24 +21,18 @@ typedef std::vector<Chromosome> Population;
 Chromosome getRandomChromosome(int);
 Chromosome getRandomChromosome(int, DataGenerator*);
 
-Chromosome getRandomChromosome(int length)
-{
+Chromosome getRandomChromosome(int length) {
     DataGenerator* rng = new DataGenerator();
     return getRandomChromosome(length, rng);
 }
 
-Chromosome getRandomChromosome(int length, DataGenerator* rng)
-{
+Chromosome getRandomChromosome(int length, DataGenerator* rng) {
     std::vector<bool> bits(length);
 
-    for (int index = 0; index < length; ++index)
-    {
-        if (rng->getUnsignedInt() % 2 == 0)
-        {
+    for (int index = 0; index < length; ++index) {
+        if (rng->getUnsignedInt() % 2 == 0) {
             bits[index] = true;
-        }
-        else
-        {
+        } else {
             bits[index] = false;
         }
     }
@@ -46,20 +40,20 @@ Chromosome getRandomChromosome(int length, DataGenerator* rng)
     return Chromosome(bits);
 }
 
-template < typename Fitness
-         , typename Selection
-         , typename Survival
-         , typename Mutation
-         , typename Recombination
-         >
+typedef std::function<float(const Chromosome&)> FitnessFunction;
+typedef std::function<Population(const Population&)> SelectionFunction;
+typedef std::function<Population(const Population&, const Population&)> SurvivalFunction;
+typedef std::function<Chromosome(const Chromosome&)> MutationFunction;
+typedef std::function<Pair<Chromosome>(const Chromosome&, const Chromosome&)> RecombinationFunction;
+
 class GeneticAlgorithm
 {
   public:
-    GeneticAlgorithm( const Fitness& f
-                    , const Selection& se
-                    , const Survival& su
-                    , const Mutation& m
-                    , const Recombination& r
+    GeneticAlgorithm( const FitnessFunction& f
+                    , const SelectionFunction& se
+                    , const SurvivalFunction& su
+                    , const MutationFunction& m
+                    , const RecombinationFunction& r
                     )
     {
         // this seeds the rng from /dev/urandom
@@ -86,12 +80,11 @@ class GeneticAlgorithm
     Population get() const { return population; }
 
   protected:
-    //std::function<int(const Chromosome&)> fitness;
-    Fitness fitness;                //return: int,                    param: none
-    Selection selection;            //return: population,             param: population
-    Survival survival;              //return: population,             param: population, population
-    Mutation mutation;              //return: chromosome,             param: chromosome
-    Recombination recombination;    //return: chromosome, chromosome  param: pair<chromosome>
+    FitnessFunction fitness;
+    SelectionFunction selection;
+    SurvivalFunction survival;
+    MutationFunction mutation;
+    RecombinationFunction recombination;
 
     unsigned int generationNumber;
 
@@ -107,6 +100,7 @@ class GeneticAlgorithm
     DataGenerator* rng;
 };
 
+/*
 template < typename Fitness
          , typename Selection
          , typename Survival
@@ -522,5 +516,6 @@ auto generationalSurvival = [] (Population population, Population children) {
         return children;
     };
 
+*/
 #endif
 
