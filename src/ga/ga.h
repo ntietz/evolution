@@ -284,44 +284,24 @@ RecombinationFunction KPointCrossover( int points
     };
 }
 
-/*
-class UniformCrossover
-{
-public:
-    UniformCrossover()
-    {
-    }
-
-    UniformCrossover(DataGenerator* rng)
-        : random(rng)
-    {
-    }
-
-    Pair<Chromosome> operator()( const Chromosome& first
-                               , const Chromosome& second
-                               )
-    {
+RecombinationFunction UniformCrossover(DataGenerator random) {
+    return [=] (const Chromosome& first, const Chromosome& second) mutable -> Pair<Chromosome> {
         Pair<Chromosome> result;
         result.first = first;
         result.second = second;
 
-        for (int loc = 0; loc < first.size(); loc++)
-        {
-            double value = random->getDouble();
+        for (int loc = 0; loc < first.size(); ++loc) {
+            double value = random.getDouble();
 
-            if (value < 0.5)
-            {
+            if (value < 0.5) {
                 result.first.set(loc, second[loc]);
                 result.second.set(loc, first[loc]);
             }
         }
 
         return result;
-    }
+    };
+}
 
-private:
-    DataGenerator* random;
-};
-*/
 #endif
 
