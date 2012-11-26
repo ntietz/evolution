@@ -132,8 +132,8 @@ void GeneticAlgorithm::step() {
     population = survival(population, children);
 }
 
-SelectionFunction KTournamentSelection( const int& tournamentSize
-                                      , const int& childrenPopulationSize
+SelectionFunction KTournamentSelection( int tournamentSize
+                                      , int childrenPopulationSize
                                       , DataGenerator random
                                       , FitnessFunction fitness
                                       ) {
@@ -171,44 +171,26 @@ SelectionFunction KTournamentSelection( const int& tournamentSize
     };
 }
 
-/*
-template < typename ReturnType
-         , typename Fitness
-         > 
-class RouletteWheelSelection {
-public:
-    RouletteWheelSelection() { }
-    RouletteWheelSelection( int cpSize
-                          , DataGenerator* rng
-                          , Fitness fit
-                          )
-        : childrenPopulationSize(cpSize)
-        , random(rng)
-        , fitness(fit)
-    {
-    }
-
-    Population operator()(const Population& parentPopulation) const
-    {
+SelectionFunction RouletteWheelSelection( int childrenPopulationSize
+                                        , DataGenerator random
+                                        , FitnessFunction fitness
+                                        ) {
+    return [=] (const Population& parentPopulation) mutable -> Population {
         int size = parentPopulation.size();
-        ReturnType* scores = new int[size];
+        float* scores = new float[size];
 
-        ReturnType total = 0;
-        for (int index = 0; index < size; ++index)
-        {
+        float total = 0.0;
+        for (int index = 0; index < size; ++index) {
             total += fitness(parentPopulation.at(index));
             scores[index] = total;
         }
 
         Population parents;
-
-        while (parents.size() < childrenPopulationSize)
-        {
-            double score = random->getDouble() * total;
+        while (parents.size() < childrenPopulationSize) {
+            float score = random.getDouble() * total;
 
             int index = 0;
-            while (scores[index] < score)
-            {
+            while (scores[index] < score) {
                 ++index;
             }
 
@@ -217,14 +199,10 @@ public:
 
         delete [] scores;
         return parents;
-    }
+    };
+}
 
-private:
-    int childrenPopulationSize;
-    DataGenerator* random;
-    Fitness fitness;
-};
-
+/*
 class BitFlipMutate
 {
 public:
