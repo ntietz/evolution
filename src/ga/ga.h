@@ -202,48 +202,28 @@ SelectionFunction RouletteWheelSelection( int childrenPopulationSize
     };
 }
 
-/*
-class BitFlipMutate
-{
-public:
-    BitFlipMutate()
-    {
-        mutationRate = 0.01;
-        random = new DataGenerator();
-    }
-
-    BitFlipMutate( double rate
-                 , DataGenerator* rng
-                 )
-        : mutationRate(rate)
-        , random(rng)
-    {
-    }
-
-    Chromosome operator()(const Chromosome& actual) const
-    {
+MutationFunction BitFlipMutate( double mutationRate
+                              , DataGenerator random
+                              ) {
+    return [=] (const Chromosome& actual) mutable -> Chromosome {
         Chromosome result = actual;
+        int length = result.size();
 
-        for (int loc = 0; loc < result.size(); ++loc)
-        {
-            if (random->getDouble() < mutationRate)
-            {
-                result.set(loc, ! actual[loc]);
-            }
-            else
-            {
+        // TODO after making sure the operator= for chromosome works right, make this ONLY change the bits that are flipped,
+        // and make it use result.flip(loc);
+        for (int loc = 0; loc < length; ++loc) {
+            if (random.getDouble() < mutationRate) {
+                result.set(loc, !actual[loc]);
+            } else {
                 result.set(loc, actual[loc]);
             }
         }
 
         return result;
-    }
+    };
+}
 
-private:
-    double mutationRate;
-    DataGenerator* random;
-};
-
+/*
 class BitSwapMutate
 {
 public:
